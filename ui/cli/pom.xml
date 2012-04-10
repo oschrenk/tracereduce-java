@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.q2web.gis</groupId>
+		<artifactId>trajectory-ui</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>trajectory-ui-cli</artifactId>
+
+	<name>Trajectory Encoding, UI CLI</name>
+	<description>Command Line Interface</description>
+
+	<dependencies>
+
+		<!-- INTERNAL -->
+
+		<dependency>
+			<groupId>de.q2web.gis.alg</groupId>
+			<artifactId>trajectory-algorithms-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>de.q2web.gis</groupId>
+			<artifactId>trajectory-io-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>de.q2web.gis</groupId>
+			<artifactId>trajectory-core-jobs</artifactId>
+		</dependency>
+
+		<!-- COMMON -->
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+
+		<!-- UI -->
+
+		<dependency>
+			<groupId>com.beust</groupId>
+			<artifactId>jcommander</artifactId>
+		</dependency>
+
+	</dependencies>
+
+
+</project>
