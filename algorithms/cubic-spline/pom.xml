@@ -9,7 +9,12 @@
 	</parent>
 
 	<artifactId>cubic-splines</artifactId>
+	<packaging>pom</packaging>
 
 	<name>Trajectory Encoding, Algorithms, Cubic Splines</name>
+	
+	<modules>
+		<module>reference</module>
+	</modules>
 
 </project>

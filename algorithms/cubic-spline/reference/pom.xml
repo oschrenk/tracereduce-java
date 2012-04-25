@@ -4,17 +4,12 @@
 
 	<parent>
 		<groupId>de.q2web.gis.alg</groupId>
-		<artifactId>trajectory-algorithms</artifactId>
+		<artifactId>cubic-splines</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>douglas-peucker</artifactId>
-	<packaging>pom</packaging>
+	<artifactId>cubic-splines-reference</artifactId>
 
-	<name>Trajectory Encoding, Algorithms, Douglas Peucker</name>
-	
-	<modules>
-		<module>reference</module>
-	</modules>
+	<name>Trajectory Encoding, Algorithms, Cubic Splines, Reference Implementation</name>
 
 </project>

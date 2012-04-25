@@ -4,17 +4,18 @@
 
 	<parent>
 		<groupId>de.q2web.gis.alg</groupId>
-		<artifactId>trajectory-algorithms</artifactId>
+		<artifactId>linear-approximation</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>douglas-peucker</artifactId>
-	<packaging>pom</packaging>
+	<artifactId>linear-approximation-reference</artifactId>
 
-	<name>Trajectory Encoding, Algorithms, Douglas Peucker</name>
-	
-	<modules>
-		<module>reference</module>
-	</modules>
+	<name>Trajectory Encoding, Algorithms, Linear Approxmation, Reference Implementation</name>
+
+	<dependencies>
+		
+		<!-- EXTERNAL -->
+
+	</dependencies>
 
 </project>

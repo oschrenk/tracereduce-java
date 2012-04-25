@@ -4,17 +4,12 @@
 
 	<parent>
 		<groupId>de.q2web.gis.alg</groupId>
-		<artifactId>trajectory-algorithms</artifactId>
+		<artifactId>douglas-peucker</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>douglas-peucker</artifactId>
-	<packaging>pom</packaging>
+	<artifactId>douglas-peucker-reference</artifactId>
 
-	<name>Trajectory Encoding, Algorithms, Douglas Peucker</name>
-	
-	<modules>
-		<module>reference</module>
-	</modules>
+	<name>Trajectory Encoding, Algorithms, Douglas Peucker, Reference Implementation</name>
 
 </project>

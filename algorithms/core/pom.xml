@@ -30,12 +30,12 @@
 
 		<dependency>
 			<groupId>de.q2web.gis.alg</groupId>
-			<artifactId>cubic-splines</artifactId>
+			<artifactId>cubic-splines-reference</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>de.q2web.gis.alg</groupId>
-			<artifactId>douglas-peucker</artifactId>
+			<artifactId>douglas-peucker-reference</artifactId>
 		</dependency>
 
 		<dependency>
@@ -46,6 +46,11 @@
 		<dependency>
 			<groupId>de.q2web.gis.alg</groupId>
 			<artifactId>linear-approximation-jung</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>de.q2web.gis.alg</groupId>
+			<artifactId>linear-approximation-reference</artifactId>
 		</dependency>
 
 	</dependencies>

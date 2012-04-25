@@ -16,6 +16,7 @@
 	<modules>
 		<module>jgrapht</module>
 		<module>jung</module>
+		<module>reference</module>
 	</modules>
 
 </project>
