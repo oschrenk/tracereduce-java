@@ -3,31 +3,39 @@ package de.q2web.gis.alg.la.ref.dijkstra;
 /**
  * package de.vogella.algorithms.dijkstra.model;
  * 
- * @param <P>
+ * @param <T>
  */
-public class Edge<P extends Number> {
-	private final String id;
-	private final Vertex<P> source;
-	private final Vertex<P> destination;
+public class Edge<T> {
+
+	private static final int DEFAULT_WEIGHT = 1;
+
+	private final int id;
+	private final Vertex<T> source;
+	private final Vertex<T> destination;
 	private final int weight;
 
-	public Edge(final String id, final Vertex<P> source,
-			final Vertex<P> destination, final int weight) {
+	public Edge(final int id, final Vertex<T> source,
+			final Vertex<T> destination) {
+		this(id, source, destination, DEFAULT_WEIGHT);
+	}
+
+	public Edge(final int id, final Vertex<T> source,
+			final Vertex<T> destination, final int weight) {
 		this.id = id;
 		this.source = source;
 		this.destination = destination;
 		this.weight = weight;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public Vertex<P> getDestination() {
+	public Vertex<T> getDestination() {
 		return destination;
 	}
 
-	public Vertex<P> getSource() {
+	public Vertex<T> getSource() {
 		return source;
 	}
 

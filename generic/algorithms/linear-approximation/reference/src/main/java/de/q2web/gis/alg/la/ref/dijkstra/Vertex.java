@@ -1,37 +1,43 @@
 package de.q2web.gis.alg.la.ref.dijkstra;
 
-import de.q2web.gis.trajectory.core.api.Point;
-
 /**
  * from: package de.vogella.algorithms.dijkstra.model;
  * 
- * @param <P>
+ * @param <T>
  */
-public class Vertex<P extends Number> {
-	final private String id;
-	final private Point<P> coordinates;
+public class Vertex<T> {
+	final private int id;
+	final private T value;
 
-	public Vertex(final String id, final Point<P> coordinates) {
+	public Vertex(final int id, final T value) {
 		this.id = id;
-		this.coordinates = coordinates;
+		this.value = value;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public Point<P> getCoordinates() {
-		return coordinates;
+	public T getValue() {
+		return value;
 	}
 
+	/*
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		result = prime * result + this.id;
 		return result;
 	}
 
+	/*
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
@@ -43,21 +49,26 @@ public class Vertex<P extends Number> {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		@SuppressWarnings("rawtypes")
 		final Vertex other = (Vertex) obj;
-		if (id == null) {
-			if (other.id != null) {
+		if (value == null) {
+			if (other.value != null) {
 				return false;
 			}
-		} else if (!id.equals(other.id)) {
+		} else if (!value.equals(other.value)) {
+			return false;
+		}
+		if (this.id != other.id) {
 			return false;
 		}
 		return true;
 	}
 
+	/*
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return id;
+		return "Vertex [id=" + this.id + ", value=" + value + "]";
 	}
 
 }

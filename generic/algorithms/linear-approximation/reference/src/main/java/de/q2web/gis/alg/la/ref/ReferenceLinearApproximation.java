@@ -4,21 +4,22 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import util.Geometry;
-
 import de.q2web.gis.alg.la.ref.dijkstra.DijkstraAlgorithm;
 import de.q2web.gis.alg.la.ref.dijkstra.Edge;
 import de.q2web.gis.alg.la.ref.dijkstra.Graph;
 import de.q2web.gis.alg.la.ref.dijkstra.Vertex;
 import de.q2web.gis.trajectory.core.api.Algorithm;
+import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.trajectory.core.api.Point;
 
 public class ReferenceLinearApproximation<P extends Number> implements
 Algorithm<P> {
 
 	/** The geometry. */
+	@SuppressWarnings("rawtypes")
 	private final Geometry geometry;
 
+	@SuppressWarnings("rawtypes")
 	public ReferenceLinearApproximation(final Geometry geometry) {
 		this.geometry = geometry;
 	}
@@ -28,21 +29,41 @@ Algorithm<P> {
 	 * java.lang.Number)
 	 */
 	@Override
-	public List<Point<P>> run(final List<Point<P>> points, final P epsilon) {
+	public List<Point<P>> run(final List<Point<P>> trace, final P epsilon) {
 
-		// TODO Algorithm<P>.run()
-		return null;
+		final LinkedList<Vertex<Point<P>>> polylineSimplification = getPolylineSimplification(
+				trace, epsilon);
+
+		final List<Point<P>> simplifiedTrace = new LinkedList<Point<P>>();
+		for (final Vertex<Point<P>> vertex : polylineSimplification) {
+			simplifiedTrace.add(vertex.getValue());
+		}
+
+		return simplifiedTrace;
 	}
 
-	public LinkedList<Vertex> getPolylineSimplification() {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public LinkedList<Vertex<Point<P>>> getPolylineSimplification(
+			final List<Point<P>> trace, final P epsilon) {
+
+		// create the nodes
+		int vertexId = 1;
+		final List<Vertex<Point<P>>> vertices = new ArrayList<Vertex<Point<P>>>(
+				trace.size());
+		for (final Point<P> point : trace) {
+			vertices.add(new Vertex<Point<P>>(vertexId++, point));
+		}
+
 		// create the edges
-		edges = setupEdgesBruteForce();
+		final List<Edge<Point<P>>> edges = setupEdgesBruteForce(vertices,
+				epsilon);
 
 		// create shortest path through the trace
-		final Graph graph = new Graph(nodes, edges);
-		final DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
-		dijkstra.execute(nodes.get(0));
-		return dijkstra.getPath(nodes.get(nodes.size() - 1));
+		final Graph graph = new Graph(trace, edges);
+		final DijkstraAlgorithm<Point<P>> dijkstra = new DijkstraAlgorithm<Point<P>>(
+				graph);
+		dijkstra.execute(vertices.get(0));
+		return dijkstra.getPath(vertices.get(vertices.size() - 1));
 	}
 
 	/**
@@ -53,39 +74,44 @@ Algorithm<P> {
 	 * 
 	 * @return
 	 */
-	private ArrayList<Edge> setupEdgesBruteForce() {
-		final ArrayList<Edge> edgeList = new ArrayList<Edge>();
+	@SuppressWarnings({ "unchecked" })
+	private List<Edge<Point<P>>> setupEdgesBruteForce(
+			final List<Vertex<Point<P>>> nodes, final P epsilon) {
+
+		int edgeId = 0;
+		final List<Edge<Point<P>>> edgeList = new ArrayList<Edge<Point<P>>>();
 		final int numberOfNodes = nodes.size();
 
 		// connect each two successive nodes by an edge:
 		for (int from = 0; from < numberOfNodes - 1; from++) {
-			edgeList.add(new Edge("" + edgeList.size(), nodes.get(from), nodes
-					.get(from + 1), 1));
+			final Vertex<Point<P>> vertexFrom = nodes.get(from);
+			final Vertex<Point<P>> vertexTo = nodes.get(from + 1);
+			edgeList.add(new Edge<Point<P>>(edgeId++, vertexFrom, vertexTo));
 		}
 
-		// the pointer 'from' and 'to' create a virtual edge and
-		// the pointer 'inter' checks for every point interpolated
+		// the pointer 'lineStartIndex' and 'lineEndIndex' create a virtual edge
+		// and
+		// the pointer 'intermediatePointIndex' checks for every point
+		// interpolated
 		// by this edge (i.e. inter \in ]from;to[ ), whether the
 		// interpolation error bound (epsilon) is violated by the
 		// interpolation distance (delta).
-		for (int from = 0; from < numberOfNodes - 2; from++) {
-			for (int to = from + 2; to < numberOfNodes - 1; to++) {
-				double maxDelta = 0.0;
-				for (int inter = from + 1; inter < to; inter++) {
-					final double delta = Geometry.distToInterpolated(nodes,
-							from, to, inter);
-					if (delta > maxDelta) {
+		for (int lineStartIndex = 0; lineStartIndex < numberOfNodes - 2; lineStartIndex++) {
+			for (int lineEndIndex = lineStartIndex + 2; lineEndIndex < numberOfNodes - 1; lineEndIndex++) {
+				Number maxDelta = 0.0;
+				for (int intermediatePointIndex = lineStartIndex + 1; intermediatePointIndex < lineEndIndex; intermediatePointIndex++) {
+					final Number delta = geometry.distance(
+							nodes.get(intermediatePointIndex).getValue(), nodes
+							.get(lineStartIndex).getValue(),
+							nodes.get(lineEndIndex).getValue());
+
+					if (geometry.compare(delta, maxDelta) > 0) {
 						maxDelta = delta;
-						// System.out.println("   inter: " +
-						// this.nodes.get(inter) + "\t delta: " + delta);
 					}
 				}
-				if (maxDelta <= epsilon) {
-					edgeList.add(new Edge("" + edgeList.size(),
-							nodes.get(from), nodes.get(to), 1));
-					// System.out.println("from: " + this.nodes.get(from) +
-					// "\t to: " + this.nodes.get(to) + "\t maxDelta: " +
-					// maxDelta);
+				if (geometry.compare(maxDelta, epsilon) <= 0) {
+					edgeList.add(new Edge<Point<P>>(edgeList.size(), nodes
+							.get(lineStartIndex), nodes.get(lineEndIndex)));
 				}
 			}
 		}

@@ -6,23 +6,24 @@ import java.util.List;
 import de.q2web.gis.trajectory.core.api.Algorithm;
 import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.trajectory.core.api.Point;
+
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 
 public class JungLinearAppoximationAlgorithm<P extends Number> implements
-		Algorithm<P> {
+Algorithm<P> {
 
 	private final Geometry<P> geometry;
 
 	private Graph<Point<P>, IntegerWeightEdge> graph;
 
-	public JungLinearAppoximationAlgorithm(Geometry<P> geometry) {
+	public JungLinearAppoximationAlgorithm(final Geometry<P> geometry) {
 		super();
 		this.geometry = geometry;
 	}
 
 	@Override
-	public List<Point<P>> run(List<Point<P>> points, P epsilon) {
+	public List<Point<P>> run(final List<Point<P>> points, final P epsilon) {
 		if (points.size() < 3) {
 			return points;
 		}
@@ -36,7 +37,7 @@ public class JungLinearAppoximationAlgorithm<P extends Number> implements
 		return getLongestPath(graph, start, end);
 	}
 
-	private void addPossibleEdges(List<Point<P>> points, P epsilon) {
+	private void addPossibleEdges(final List<Point<P>> points, final P epsilon) {
 		final int numberOfPoints = points.size();
 
 		for (int i = 0; i < numberOfPoints; i++) {
@@ -47,7 +48,8 @@ public class JungLinearAppoximationAlgorithm<P extends Number> implements
 
 	}
 
-	private void addPossibleEdge(List<Point<P>> points, int i, int j, P epsilon) {
+	private void addPossibleEdge(final List<Point<P>> points, final int i,
+			final int j, final P epsilon) {
 		final Point<P> iPoint = points.get(i);
 		final Point<P> jPoint = points.get(i);
 
@@ -63,19 +65,20 @@ public class JungLinearAppoximationAlgorithm<P extends Number> implements
 	}
 
 	private Graph<Point<P>, IntegerWeightEdge> getVerticesOnlyGraph(
-			List<Point<P>> points) {
+			final List<Point<P>> points) {
 		final Graph<Point<P>, IntegerWeightEdge> graph = new DirectedSparseGraph<Point<P>, IntegerWeightEdge>();
 
-		for (Point<P> point : points) {
+		for (final Point<P> point : points) {
 			graph.addVertex(point);
 		}
 
 		return graph;
 	}
 
+	@SuppressWarnings("unused")
 	private List<Point<P>> getLongestPath(
-			Graph<Point<P>, IntegerWeightEdge> graph, Point<P> start,
-			Point<P> end) {
+			final Graph<Point<P>, IntegerWeightEdge> graph,
+			final Point<P> start, final Point<P> end) {
 		// TODO getLongestPath
 		return Collections.emptyList();
 	}

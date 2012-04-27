@@ -13,37 +13,37 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class DijkstraAlgorithm<P extends Number> {
+public class DijkstraAlgorithm<T> {
 
-	private final List<Edge<P>> edges;
-	private Set<Vertex<P>> settledNodes;
-	private Set<Vertex<P>> unSettledNodes;
-	private Map<Vertex<P>, Vertex<P>> predecessors;
-	private Map<Vertex<P>, Integer> distance;
+	private final List<Edge<T>> edges;
+	private Set<Vertex<T>> settledNodes;
+	private Set<Vertex<T>> unSettledNodes;
+	private Map<Vertex<T>, Vertex<T>> predecessors;
+	private Map<Vertex<T>, Integer> distance;
 
-	public DijkstraAlgorithm(final Graph<P> graph) {
+	public DijkstraAlgorithm(final Graph<T> graph) {
 		// Create a copy of the array so that we can operate on this array
-		edges = new ArrayList<Edge<P>>(graph.getEdges());
+		edges = new ArrayList<Edge<T>>(graph.getEdges());
 	}
 
-	public void execute(final Vertex<P> source) {
-		settledNodes = new HashSet<Vertex<P>>();
-		unSettledNodes = new HashSet<Vertex<P>>();
-		distance = new HashMap<Vertex<P>, Integer>();
-		predecessors = new HashMap<Vertex<P>, Vertex<P>>();
+	public void execute(final Vertex<T> source) {
+		settledNodes = new HashSet<Vertex<T>>();
+		unSettledNodes = new HashSet<Vertex<T>>();
+		distance = new HashMap<Vertex<T>, Integer>();
+		predecessors = new HashMap<Vertex<T>, Vertex<T>>();
 		distance.put(source, 0);
 		unSettledNodes.add(source);
 		while (unSettledNodes.size() > 0) {
-			final Vertex<P> node = getMinimum(unSettledNodes);
+			final Vertex<T> node = getMinimum(unSettledNodes);
 			settledNodes.add(node);
 			unSettledNodes.remove(node);
 			findMinimalDistances(node);
 		}
 	}
 
-	private void findMinimalDistances(final Vertex<P> node) {
-		final List<Vertex<P>> adjacentNodes = getNeighbors(node);
-		for (final Vertex<P> target : adjacentNodes) {
+	private void findMinimalDistances(final Vertex<T> node) {
+		final List<Vertex<T>> adjacentNodes = getNeighbors(node);
+		for (final Vertex<T> target : adjacentNodes) {
 			if (getShortestDistance(target) > getShortestDistance(node)
 					+ getDistance(node, target)) {
 				distance.put(target,
@@ -55,8 +55,8 @@ public class DijkstraAlgorithm<P extends Number> {
 
 	}
 
-	private int getDistance(final Vertex<P> node, final Vertex<P> target) {
-		for (final Edge<P> edge : edges) {
+	private int getDistance(final Vertex<T> node, final Vertex<T> target) {
+		for (final Edge<T> edge : edges) {
 			if (edge.getSource().equals(node)
 					&& edge.getDestination().equals(target)) {
 				return edge.getWeight();
@@ -65,9 +65,9 @@ public class DijkstraAlgorithm<P extends Number> {
 		throw new RuntimeException("Should not happen");
 	}
 
-	private List<Vertex<P>> getNeighbors(final Vertex<P> node) {
-		final List<Vertex<P>> neighbors = new ArrayList<Vertex<P>>();
-		for (final Edge<P> edge : edges) {
+	private List<Vertex<T>> getNeighbors(final Vertex<T> node) {
+		final List<Vertex<T>> neighbors = new ArrayList<Vertex<T>>();
+		for (final Edge<T> edge : edges) {
 			if (edge.getSource().equals(node)
 					&& !isSettled(edge.getDestination())) {
 				neighbors.add(edge.getDestination());
@@ -76,9 +76,9 @@ public class DijkstraAlgorithm<P extends Number> {
 		return neighbors;
 	}
 
-	private Vertex<P> getMinimum(final Set<Vertex<P>> vertexes) {
-		Vertex<P> minimum = null;
-		for (final Vertex<P> vertex : vertexes) {
+	private Vertex<T> getMinimum(final Set<Vertex<T>> vertexes) {
+		Vertex<T> minimum = null;
+		for (final Vertex<T> vertex : vertexes) {
 			if (minimum == null) {
 				minimum = vertex;
 			} else {
@@ -90,11 +90,11 @@ public class DijkstraAlgorithm<P extends Number> {
 		return minimum;
 	}
 
-	private boolean isSettled(final Vertex<P> vertex) {
+	private boolean isSettled(final Vertex<T> vertex) {
 		return settledNodes.contains(vertex);
 	}
 
-	private int getShortestDistance(final Vertex<P> destination) {
+	private int getShortestDistance(final Vertex<T> destination) {
 		final Integer d = distance.get(destination);
 		if (d == null) {
 			return Integer.MAX_VALUE;
@@ -107,9 +107,9 @@ public class DijkstraAlgorithm<P extends Number> {
 	 * This method returns the path from the source to the selected target and
 	 * NULL if no path exists
 	 */
-	public LinkedList<Vertex<P>> getPath(final Vertex<P> target) {
-		final LinkedList<Vertex<P>> path = new LinkedList<Vertex<P>>();
-		Vertex<P> step = target;
+	public LinkedList<Vertex<T>> getPath(final Vertex<T> target) {
+		final LinkedList<Vertex<T>> path = new LinkedList<Vertex<T>>();
+		Vertex<T> step = target;
 		// Check if a path exists
 		if (predecessors.get(step) == null) {
 			return null;

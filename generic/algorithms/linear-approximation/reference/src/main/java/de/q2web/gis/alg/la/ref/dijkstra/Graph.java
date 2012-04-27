@@ -5,16 +5,16 @@ import java.util.List;
 /**
  * The Class Graph.
  * 
- * @param <P>
+ * @param <T>
  *            the generic type
  */
-public class Graph<P extends Number> {
+public class Graph<T> {
 
 	/** The vertexes. */
-	private final List<Vertex<P>> vertexes;
+	private final List<Vertex<T>> vertexes;
 
 	/** The edges. */
-	private final List<Edge<P>> edges;
+	private final List<Edge<T>> edges;
 
 	/**
 	 * Instantiates a new graph.
@@ -24,7 +24,7 @@ public class Graph<P extends Number> {
 	 * @param edges
 	 *            the edges
 	 */
-	public Graph(final List<Vertex<P>> vertexes, final List<Edge<P>> edges) {
+	public Graph(final List<Vertex<T>> vertexes, final List<Edge<T>> edges) {
 		this.vertexes = vertexes;
 		this.edges = edges;
 	}
@@ -34,7 +34,7 @@ public class Graph<P extends Number> {
 	 * 
 	 * @return the vertexes
 	 */
-	public List<Vertex<P>> getVertexes() {
+	public List<Vertex<T>> getVertexes() {
 		return vertexes;
 	}
 
@@ -43,7 +43,7 @@ public class Graph<P extends Number> {
 	 * 
 	 * @return the edges
 	 */
-	public List<Edge<P>> getEdges() {
+	public List<Edge<T>> getEdges() {
 		return edges;
 	}
 
