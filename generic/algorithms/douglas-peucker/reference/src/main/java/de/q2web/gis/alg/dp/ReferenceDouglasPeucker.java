@@ -1,27 +1,3 @@
-/*
- *******************************************************************************
- * DouglasPeuckerAlgorithm.java
- * $Id: $
- *
- *******************************************************************************
- *
- * Copyright:   Q2WEB GmbH
- *              quality to the web
- *
- *              Tel  : +49 (0) 211 / 159694-00	Kronprinzenstr. 82-84
- *              Fax  : +49 (0) 211 / 159694-09	40217 Düsseldorf
- *              eMail: info@q2web.de						http://www.q2web.de
- *
- *
- * Author:      University
- *
- * Created:     08.04.2012
- *
- * Copyright (c) 2009 Q2WEB GmbH.
- * All rights reserved.
- *
- *******************************************************************************
- */
 package de.q2web.gis.alg.dp;
 
 import java.util.ArrayList;
@@ -38,7 +14,7 @@ import de.q2web.gis.trajectory.core.api.Point;
  *            the generic type
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class DouglasPeuckerAlgorithm<P extends Number> implements Algorithm<P> {
+public class ReferenceDouglasPeucker<P extends Number> implements Algorithm<P> {
 
 	/** The epsilon. */
 	private P epsilon;
@@ -52,7 +28,7 @@ public class DouglasPeuckerAlgorithm<P extends Number> implements Algorithm<P> {
 	 * @param geometry
 	 *            the geometry
 	 */
-	public DouglasPeuckerAlgorithm(final Geometry<P> geometry) {
+	public ReferenceDouglasPeucker(final Geometry<P> geometry) {
 		super();
 		this.geometry = geometry;
 	}
@@ -83,7 +59,7 @@ public class DouglasPeuckerAlgorithm<P extends Number> implements Algorithm<P> {
 
 		for (int i = 1; i < traceLength - 1; i++) {
 			final P distance = geometry.distance(trace.get(i), trace.get(0),
-					trace.get(traceLength-1));
+					trace.get(traceLength - 1));
 			if (geometry.compare(distance, maximumDistance) > 0) {
 				maximumDistance = distance;
 				maxIndex = i;

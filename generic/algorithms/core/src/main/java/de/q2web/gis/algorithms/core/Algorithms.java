@@ -1,6 +1,6 @@
 package de.q2web.gis.algorithms.core;
 
-import de.q2web.gis.alg.dp.DouglasPeuckerAlgorithm;
+import de.q2web.gis.alg.dp.ReferenceDouglasPeucker;
 import de.q2web.gis.alg.la.jgrapht.JGraphTLinearAppoximationAlgorithm;
 import de.q2web.gis.alg.la.jung.JungLinearAppoximationAlgorithm;
 import de.q2web.gis.geometry.Geometries;
@@ -40,7 +40,7 @@ public class Algorithms {
 
 		switch (algorithmTemplate.getType()) {
 		case DOUGLAS_PEUCKER:
-			return new DouglasPeuckerAlgorithm<Double>(geometry);
+			return new ReferenceDouglasPeucker<Double>(geometry);
 		case CUBIC_SPLINES:
 			// TODO not yet implemented
 			throw new IllegalArgumentException("Not yet implemented");
@@ -63,7 +63,7 @@ public class Algorithms {
 
 		switch (algorithmTemplate.getType()) {
 		case DOUGLAS_PEUCKER:
-			return new DouglasPeuckerAlgorithm<Float>(geometry);
+			return new ReferenceDouglasPeucker<Float>(geometry);
 		case CUBIC_SPLINES:
 			// TODO not yet implemented
 			throw new IllegalArgumentException("Not yet implemented");
