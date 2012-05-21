@@ -30,7 +30,9 @@ import com.beust.jcommander.JCommander;
 
 import de.q2web.gis.algorithms.core.Algorithms;
 import de.q2web.gis.io.api.TraceReader;
+import de.q2web.gis.io.api.TraceWriter;
 import de.q2web.gis.io.core.TraceReaders;
+import de.q2web.gis.io.core.TraceWriters;
 import de.q2web.gis.trajectory.core.api.Algorithm;
 import de.q2web.gis.trajectory.core.api.AlgorithmTemplate;
 import de.q2web.gis.ui.cli.util.EpsilonFactory;
@@ -57,10 +59,12 @@ public class CommandLine {
 		final int dimensions = startupArguments.getDimensions();
 
 		final TraceReader traceReader = TraceReaders.build(dimensions);
+		final TraceWriter traceWriter = TraceWriters.build(dimensions,
+				startupArguments.getWriter());
 		final Algorithm algorithm = Algorithms.build(algorithmTemplate);
 
 		try {
-			new Trajectory(traceReader, algorithm).run(input, epsilon);
+			new Trajectory(traceReader, algorithm, startupArguments.isTimed(), traceWriter).run(input, epsilon);
 		} catch (final WorkUnitException e) {
 			System.err.println(e);
 		}

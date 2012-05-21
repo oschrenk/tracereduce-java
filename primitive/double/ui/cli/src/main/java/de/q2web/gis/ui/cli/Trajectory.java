@@ -4,8 +4,10 @@ import java.io.File;
 import java.util.List;
 
 import de.q2web.gis.io.api.TraceReader;
+import de.q2web.gis.io.api.TraceWriter;
 import de.q2web.gis.jobs.AlgorithmTimedWorkUnit;
 import de.q2web.gis.jobs.TraceReaderTimedWorkUnit;
+import de.q2web.gis.jobs.TraceWriterTimedWorkUnit;
 import de.q2web.gis.trajectory.core.api.Algorithm;
 import de.q2web.gis.trajectory.core.api.AlgorithmInput;
 import de.q2web.gis.trajectory.core.api.Point;
@@ -26,6 +28,12 @@ public class Trajectory {
 	/** The algorithm. */
 	private final Algorithm algorithm;
 
+	/** The is timed. */
+	private final boolean isTimed;
+
+	/** The trace writer. */
+	private final TraceWriter traceWriter;
+
 	/**
 	 * Instantiates a new trajectory.
 	 * 
@@ -33,10 +41,17 @@ public class Trajectory {
 	 *            the trace reader
 	 * @param algorithm
 	 *            the algorithm
+	 * @param isTimed
+	 *            the is timed
+	 * @param traceWriter
+	 *            the trace writer
 	 */
-	public Trajectory(final TraceReader traceReader, final Algorithm algorithm) {
+	public Trajectory(final TraceReader traceReader, final Algorithm algorithm,
+			final boolean isTimed, final TraceWriter traceWriter) {
 		this.traceReader = traceReader;
 		this.algorithm = algorithm;
+		this.isTimed = isTimed;
+		this.traceWriter = traceWriter;
 	}
 
 	/**
@@ -52,24 +67,35 @@ public class Trajectory {
 	public void run(final File input, final double epsilon)
 			throws WorkUnitException {
 
+		// read the file
 		final TimedWorkUnit<File, List<Point>> traceReaderWorkUnit = new TraceReaderTimedWorkUnit(
 				traceReader);
 		final List<Point> trace = traceReaderWorkUnit.run(input);
 		final long traceReaderDuration = traceReaderWorkUnit.getElapsedNanos();
 
+		// do the logic
 		final TimedWorkUnit<AlgorithmInput, List<Point>> algorithmWorkUnit = new AlgorithmTimedWorkUnit(
 				algorithm);
 		final List<Point> trajectory = algorithmWorkUnit
 				.run(new AlgorithmInput(trace, epsilon));
 		final long algorithmDuration = algorithmWorkUnit.getElapsedNanos();
 
-		System.out.println(String.format("Input read in %s",
-				Duration.of(traceReaderDuration)));
+		// write output
+		final TimedWorkUnit<List<Point>, Void> traceWriterWorkUnit = new TraceWriterTimedWorkUnit(
+				traceWriter);
+		traceWriterWorkUnit.run(trajectory);
+		final long traceWriterDuration = traceWriterWorkUnit.getElapsedNanos();
 
-		System.out.println(String.format("Algorithm took %s",
-				Duration.of(algorithmDuration)));
+		if (isTimed) {
+			System.out.println(String.format("Input read in %s",
+					Duration.of(traceReaderDuration)));
 
-		System.out.println(String.format("Resulting trace: %s", trajectory));
+			System.out.println(String.format("Algorithm took %s",
+					Duration.of(algorithmDuration)));
+
+			System.out.println(String.format("Output written in %s",
+					Duration.of(traceWriterDuration)));
+		}
 
 	}
 }
