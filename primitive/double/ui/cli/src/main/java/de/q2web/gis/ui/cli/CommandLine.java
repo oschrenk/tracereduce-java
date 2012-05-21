@@ -64,7 +64,7 @@ public class CommandLine {
 		final Algorithm algorithm = Algorithms.build(algorithmTemplate);
 
 		try {
-			new Trajectory(traceReader, algorithm, startupArguments.isTimed(), traceWriter).run(input, epsilon);
+			new TrajectorySimplification(traceReader, algorithm, startupArguments.isTimed(), traceWriter).run(input, epsilon);
 		} catch (final WorkUnitException e) {
 			System.err.println(e);
 		}
