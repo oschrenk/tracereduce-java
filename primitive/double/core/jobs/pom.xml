@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.q2web.gis</groupId>
+		<artifactId>trajectory-core</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>trajectory-core-jobs</artifactId>
+
+	<name>Trajectory Encoding, Jobs</name>
+	<description>Jobs</description>
+
+	<dependencies>
+
+		<!-- INTERNAL -->
+
+		<dependency>
+			<groupId>de.q2web.gis</groupId>
+			<artifactId>trajectory-core-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>de.q2web.gis</groupId>
+			<artifactId>trajectory-io-api</artifactId>
+		</dependency>
+
+		<!-- LOCAL -->
+
+		<dependency>
+			<groupId>de.q2web.util</groupId>
+			<artifactId>timer-api</artifactId>
+		</dependency>
+
+	</dependencies>
+
+</project>
