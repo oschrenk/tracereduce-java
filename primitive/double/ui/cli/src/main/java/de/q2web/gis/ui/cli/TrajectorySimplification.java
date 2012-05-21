@@ -20,7 +20,7 @@ import de.q2web.util.timer.WorkUnitException;
  * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class Trajectory {
+public class TrajectorySimplification {
 
 	/** The trace reader. */
 	private final TraceReader traceReader;
@@ -46,7 +46,7 @@ public class Trajectory {
 	 * @param traceWriter
 	 *            the trace writer
 	 */
-	public Trajectory(final TraceReader traceReader, final Algorithm algorithm,
+	public TrajectorySimplification(final TraceReader traceReader, final Algorithm algorithm,
 			final boolean isTimed, final TraceWriter traceWriter) {
 		this.traceReader = traceReader;
 		this.algorithm = algorithm;
