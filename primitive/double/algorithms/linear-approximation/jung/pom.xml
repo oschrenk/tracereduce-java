@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.q2web.gis.alg</groupId>
+		<artifactId>linear-approximation</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>linear-approximation-jung</artifactId>
+
+	<name>Trajectory Encoding, Algorithms, Linear Approxmation, Jung Implementation</name>
+
+	<dependencies>
+		
+		<!-- EXTERNAL -->
+	
+		<dependency>
+			<groupId>net.sf.jung</groupId>
+			<artifactId>jung2</artifactId>
+			<type>pom</type>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jung</groupId>
+			<artifactId>jung-graph-impl</artifactId>
+		</dependency>
+	</dependencies>
+
+</project>
