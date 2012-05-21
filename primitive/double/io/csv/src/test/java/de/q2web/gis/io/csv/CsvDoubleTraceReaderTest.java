@@ -17,7 +17,7 @@ import de.q2web.gis.trajectory.core.api.Point;
  * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class CsvFloatTraceReaderTest {
+public class CsvDoubleTraceReaderTest {
 
 	/** The Constant DIMENSIONS. */
 	private static final int DIMENSIONS = 3;
@@ -34,7 +34,7 @@ public class CsvFloatTraceReaderTest {
 	@Before
 	public void setUp() throws Exception {
 		traceFile = new File(this.getClass().getResource(PATH).getFile());
-		traceReader = new CsvFloatPointReader(DIMENSIONS);
+		traceReader = new CsvDoublePointReader(DIMENSIONS);
 	}
 
 	@Test

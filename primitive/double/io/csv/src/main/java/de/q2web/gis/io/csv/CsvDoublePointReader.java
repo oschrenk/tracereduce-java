@@ -15,7 +15,7 @@ import de.q2web.gis.trajectory.core.api.Point;
 /**
  * The Class CsvFloatReader.
  */
-public class CsvFloatPointReader implements TraceReader {
+public class CsvDoublePointReader implements TraceReader {
 
 	/** The dimensions. */
 	private final int dimensions;
@@ -34,7 +34,7 @@ public class CsvFloatPointReader implements TraceReader {
 
 	private final int ignorableColumns;
 
-	public CsvFloatPointReader(final int dimensions) {
+	public CsvDoublePointReader(final int dimensions) {
 		this(dimensions, new ArrayList<Point>());
 	}
 
@@ -46,7 +46,7 @@ public class CsvFloatPointReader implements TraceReader {
 	 * @param points
 	 *            the points
 	 */
-	public CsvFloatPointReader(final int dimensions, final List<Point> points) {
+	public CsvDoublePointReader(final int dimensions, final List<Point> points) {
 		this(dimensions, points, Defaults.QUOTE_CHARACTER, Defaults.SEPARATOR,
 				Defaults.NUMBER_OF_HEADER_LINES,
 				Defaults.NUMBER_IGNORABLE_COLUMNS);
@@ -68,7 +68,7 @@ public class CsvFloatPointReader implements TraceReader {
 	 * @param ignorableColumns
 	 *            the ignorable columns
 	 */
-	public CsvFloatPointReader(final int dimensions, final List<Point> points,
+	public CsvDoublePointReader(final int dimensions, final List<Point> points,
 			final char quoteCharacter, final char separator,
 			final int numberOfHeaderLines, final int ignorableColumns) {
 		this.dimensions = dimensions;

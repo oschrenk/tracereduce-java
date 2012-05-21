@@ -10,6 +10,7 @@ import de.q2web.gis.trajectory.core.api.Algorithm;
 import de.q2web.gis.trajectory.core.api.AlgorithmInput;
 import de.q2web.gis.trajectory.core.api.Point;
 import de.q2web.gis.ui.cli.util.Duration;
+import de.q2web.util.timer.TimedWorkUnit;
 import de.q2web.util.timer.WorkUnitException;
 
 /**
@@ -51,12 +52,12 @@ public class Trajectory {
 	public void run(final File input, final double epsilon)
 			throws WorkUnitException {
 
-		final TraceReaderTimedWorkUnit traceReaderWorkUnit = new TraceReaderTimedWorkUnit(
+		final TimedWorkUnit<File, List<Point>> traceReaderWorkUnit = new TraceReaderTimedWorkUnit(
 				traceReader);
 		final List<Point> trace = traceReaderWorkUnit.run(input);
 		final long traceReaderDuration = traceReaderWorkUnit.getElapsedNanos();
 
-		final AlgorithmTimedWorkUnit algorithmWorkUnit = new AlgorithmTimedWorkUnit(
+		final TimedWorkUnit<AlgorithmInput, List<Point>> algorithmWorkUnit = new AlgorithmTimedWorkUnit(
 				algorithm);
 		final List<Point> trajectory = algorithmWorkUnit
 				.run(new AlgorithmInput(trace, epsilon));
