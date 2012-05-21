@@ -20,5 +20,6 @@ public class TraceReaders {
 	 */
 	public static TraceReader build(final int dimensions) {
 		return new CsvDoublePointReader(dimensions);
+
 	}
 }

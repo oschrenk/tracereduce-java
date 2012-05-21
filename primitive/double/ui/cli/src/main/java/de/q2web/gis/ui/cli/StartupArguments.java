@@ -79,5 +79,4 @@ public class StartupArguments {
 	public Writer getWriter() {
 		return outputWriter;
 	}
-
 }
