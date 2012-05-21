@@ -1,4 +1,4 @@
-package de.q2web.gis.jobs;
+package de.q2web.gis.ui.cli.jobs;
 
 import java.io.IOException;
 import java.util.List;

@@ -28,8 +28,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>de.q2web.gis</groupId>
-			<artifactId>trajectory-core-jobs</artifactId>
+			<groupId>de.q2web.util</groupId>
+			<artifactId>timer-api</artifactId>
 		</dependency>
 
 		<!-- COMMON -->

@@ -11,7 +11,7 @@ public class Geometries {
 	@SuppressWarnings({})
 	public static Geometry build() {
 		// TODO more geometries
-		return new EuclideanFloatGeometry();
+		return new EuclideanGeometry();
 	}
 
 }

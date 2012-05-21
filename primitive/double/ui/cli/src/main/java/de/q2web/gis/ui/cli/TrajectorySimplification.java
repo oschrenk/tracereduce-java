@@ -5,12 +5,12 @@ import java.util.List;
 
 import de.q2web.gis.io.api.TraceReader;
 import de.q2web.gis.io.api.TraceWriter;
-import de.q2web.gis.jobs.AlgorithmTimedWorkUnit;
-import de.q2web.gis.jobs.TraceReaderTimedWorkUnit;
-import de.q2web.gis.jobs.TraceWriterTimedWorkUnit;
 import de.q2web.gis.trajectory.core.api.Algorithm;
 import de.q2web.gis.trajectory.core.api.AlgorithmInput;
 import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.ui.cli.jobs.AlgorithmTimedWorkUnit;
+import de.q2web.gis.ui.cli.jobs.TraceReaderTimedWorkUnit;
+import de.q2web.gis.ui.cli.jobs.TraceWriterTimedWorkUnit;
 import de.q2web.gis.ui.cli.util.Duration;
 import de.q2web.util.timer.TimedWorkUnit;
 import de.q2web.util.timer.WorkUnitException;
