@@ -59,6 +59,7 @@ public class CommandLine {
 		final int dimensions = startupArguments.getDimensions();
 
 		final TraceReader traceReader = TraceReaders.build(dimensions);
+
 		final TraceWriter traceWriter = TraceWriters.build(dimensions,
 				startupArguments.getWriter());
 		final Algorithm algorithm = Algorithms.build(algorithmTemplate);
