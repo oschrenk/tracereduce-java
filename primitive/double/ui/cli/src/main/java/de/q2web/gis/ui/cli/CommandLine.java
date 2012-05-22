@@ -36,6 +36,8 @@ import de.q2web.gis.io.core.TraceWriters;
 import de.q2web.gis.trajectory.core.api.Algorithm;
 import de.q2web.gis.trajectory.core.api.AlgorithmTemplate;
 import de.q2web.gis.ui.cli.util.EpsilonFactory;
+import de.q2web.gis.ui.cli.util.ExitCodes;
+import de.q2web.gis.ui.cli.util.ExitException;
 import de.q2web.util.timer.WorkUnitException;
 
 /**
@@ -44,32 +46,52 @@ import de.q2web.util.timer.WorkUnitException;
  */
 public class CommandLine {
 
+	/** The Constant ZERO. Everything went fine. */
+	private static final int ZERO = 0;
+
 	public static void main(final String[] args) {
+		new CommandLine().run(args);
+	}
 
-		// 1. read startup arguments
-		final StartupArguments startupArguments = new StartupArguments();
-		final JCommander jCommander = new JCommander(startupArguments);
-		jCommander.parse(args);
+	protected void run(final String[] args) {
 
-		// 2. build object tree from arguments
-		final File input = startupArguments.getInput();
-		final double epsilon = EpsilonFactory.build(startupArguments
-				.getEpsilon());
-		final AlgorithmTemplate algorithmTemplate = startupArguments
-				.getAlgorithmTemplate();
-		final int dimensions = startupArguments.getDimensions();
-		final TraceReader traceReader = TraceReaders.build(dimensions);
-		final TraceWriter traceWriter = TraceWriters.build(dimensions,
-				startupArguments.getWriter());
-		final Algorithm algorithm = Algorithms.build(algorithmTemplate);
+		int exitCode = ZERO;
 
-		// 3. run the simplification process
 		try {
-			new TrajectorySimplification(traceReader, algorithm,
-					startupArguments.isTimed(), traceWriter)
-			.run(input, epsilon);
-		} catch (final WorkUnitException e) {
-			System.err.println(e);
+			// 1. read startup arguments
+			final StartupArguments startupArguments = new StartupArguments();
+			final JCommander jCommander = new JCommander(startupArguments);
+			jCommander.parse(args);
+
+			// 2. build object tree from arguments
+			final File input = startupArguments.getInput();
+			final double epsilon = EpsilonFactory.build(startupArguments
+					.getEpsilon());
+			final AlgorithmTemplate algorithmTemplate = startupArguments
+					.getAlgorithmTemplate();
+			final int dimensions = startupArguments.getDimensions();
+			final TraceReader traceReader = TraceReaders.build(dimensions);
+			final TraceWriter traceWriter = TraceWriters.build(dimensions,
+					startupArguments.getWriter());
+			final Algorithm algorithm = Algorithms.build(algorithmTemplate);
+
+			// 3. run the simplification process
+			try {
+				new TrajectorySimplification(traceReader, algorithm,
+						startupArguments.isTimed(), traceWriter).run(input,
+								epsilon);
+			} catch (final WorkUnitException e) {
+				throw new ExitException("A work unit failed.", e,
+						ExitCodes.EX_SOFTWARE);
+			}
+		} catch (final ExitException e) {
+			e.printStackTrace(System.err);
+			exitCode = e.getExitCode();
+		} catch (final Exception e) {
+			e.printStackTrace(System.err);
+			exitCode = ExitCodes.EX_SOFTWARE;
+		} finally {
+			System.exit(exitCode);
 		}
 
 	}
