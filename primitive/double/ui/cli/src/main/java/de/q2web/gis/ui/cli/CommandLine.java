@@ -46,24 +46,24 @@ public class CommandLine {
 
 	public static void main(final String[] args) {
 
+		// 1. read startup arguments
 		final StartupArguments startupArguments = new StartupArguments();
 		final JCommander jCommander = new JCommander(startupArguments);
 		jCommander.parse(args);
 
+		// 2. build object tree from arguments
 		final File input = startupArguments.getInput();
 		final double epsilon = EpsilonFactory.build(startupArguments
 				.getEpsilon());
 		final AlgorithmTemplate algorithmTemplate = startupArguments
 				.getAlgorithmTemplate();
-
 		final int dimensions = startupArguments.getDimensions();
-
 		final TraceReader traceReader = TraceReaders.build(dimensions);
-
 		final TraceWriter traceWriter = TraceWriters.build(dimensions,
 				startupArguments.getWriter());
 		final Algorithm algorithm = Algorithms.build(algorithmTemplate);
 
+		// 3. run the simplification process
 		try {
 			new TrajectorySimplification(traceReader, algorithm,
 					startupArguments.isTimed(), traceWriter)
