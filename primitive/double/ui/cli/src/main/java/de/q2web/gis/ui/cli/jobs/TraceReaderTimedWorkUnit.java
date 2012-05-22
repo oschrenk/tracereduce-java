@@ -22,7 +22,7 @@
  *
  *******************************************************************************
  */
-package de.q2web.gis.jobs;
+package de.q2web.gis.ui.cli.jobs;
 
 import java.io.File;
 import java.io.IOException;

@@ -13,13 +13,13 @@ import de.q2web.gis.trajectory.core.api.Point;
  * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class EuclideanFloatGeometryTest {
+public class EuclideanGeometryTest {
 
 	private Geometry geometry;
 
 	@Before
 	public void setUp() {
-		geometry = new EuclideanFloatGeometry();
+		geometry = new EuclideanGeometry();
 	}
 
 	@Test

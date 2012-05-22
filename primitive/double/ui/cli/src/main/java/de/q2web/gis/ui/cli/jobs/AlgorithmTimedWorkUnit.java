@@ -1,4 +1,4 @@
-package de.q2web.gis.jobs;
+package de.q2web.gis.ui.cli.jobs;
 
 import java.util.List;
 
@@ -13,8 +13,7 @@ import de.q2web.util.timer.WorkUnitException;
  * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class AlgorithmTimedWorkUnit extends
-TimedWorkUnit<AlgorithmInput, List<Point>> {
+public class AlgorithmTimedWorkUnit extends TimedWorkUnit<AlgorithmInput, List<Point>> {
 
 	/** The algorithm. */
 	private final Algorithm algorithm;

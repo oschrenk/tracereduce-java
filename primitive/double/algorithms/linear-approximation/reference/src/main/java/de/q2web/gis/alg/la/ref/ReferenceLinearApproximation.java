@@ -23,7 +23,7 @@ public class ReferenceLinearApproximation implements Algorithm {
 
 	/*
 	 * @see de.q2web.gis.trajectory.core.api.Algorithm#run(java.util.List,
-	 * java.lang.Number)
+	 * double)
 	 */
 	@Override
 	public List<Point> run(final List<Point> trace, final double epsilon) {

@@ -28,13 +28,12 @@ import de.q2web.gis.trajectory.core.api.DoublePoint;
 import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.trajectory.core.api.Point;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class EuclideanFloatGeometry.
+ * 
  * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class EuclideanFloatGeometry implements Geometry {
+public class EuclideanGeometry implements Geometry {
 
 	@Override
 	public double distance(final Point from, final Point to) {
@@ -75,7 +74,7 @@ public class EuclideanFloatGeometry implements Geometry {
 	 *            the line end
 	 * @return the float
 	 */
-	private static final float distance3d(final Point point,
+	private static final double distance3d(final Point point,
 			final Point lineStart, final Point lineEnd) {
 		final Point lineVector = distanceVector(lineEnd, lineStart);
 		return length(cross(distanceVector(point, lineStart), lineVector))
@@ -157,13 +156,13 @@ public class EuclideanFloatGeometry implements Geometry {
 	 *            the p
 	 * @return the float
 	 */
-	private static final float length(final Point p) {
+	private static final double length(final Point p) {
 		final int dimensions = p.getDimensions();
 		double sumSquared = 0;
 		for (int i = 0; i < dimensions; i++) {
 			sumSquared = sumSquared + square(p.get(i));
 		}
-		return (float) Math.sqrt(sumSquared);
+		return Math.sqrt(sumSquared);
 	}
 
 }

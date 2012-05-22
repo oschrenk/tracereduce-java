@@ -1,5 +1,5 @@
-.PHONY: algorithms bom core io timer ui
-all: timer bom io core algorithms  ui
+.PHONY: algorithms bom core io timer ui clean
+all: timer bom core io algorithms  ui
 skipTests: algorithmsSkipTests coreSkipTests ioSkipTests timerSkipTests uiSkipTests
 
 bom:
@@ -24,3 +24,5 @@ ui:
 	cd ui && mvn clean package
 uiSkipTests: bom
 	cd ui && mvn clean package -DskipTests
+clean:
+	rm -rf `find . -type d -name target`
