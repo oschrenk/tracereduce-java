@@ -27,7 +27,7 @@ package de.q2web.gis.ui.cli.util;
 import java.util.Collection;
 import java.util.Set;
 
-import com.beust.jcommander.IParameterValidator;
+import com.beust.jcommander.IValueValidator;
 import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.internal.Maps;
 import com.google.common.base.Supplier;
@@ -44,16 +44,21 @@ import de.q2web.gis.trajectory.core.api.AlgorithmTemplate.Variant;
  * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class AlgorithmTemplateValidator implements IParameterValidator {
+public class AlgorithmTemplateValidator implements
+		IValueValidator<AlgorithmTemplate> {
+
+	// FIXME wait for fix of JCommander for
+	// https://github.com/cbeust/jcommander/issues/74
+	private static final String DEFAULT = "Algorithm [type=DOUGLAS_PEUCKER, variant=DEFAULT]";
 
 	private static final SetMultimap<Type, Variant> allowedVariantsMap = Multimaps
 			.newSetMultimap(Maps.<Type, Collection<Variant>> newHashMap(),
 					new Supplier<Set<Variant>>() {
-				@Override
-				public Set<Variant> get() {
-					return Sets.newHashSet();
-				}
-			});
+						@Override
+						public Set<Variant> get() {
+							return Sets.newHashSet();
+						}
+					});
 
 	static {
 		allowedVariantsMap.put(Type.DOUGLAS_PEUCKER, Variant.DEFAULT);
@@ -61,22 +66,37 @@ public class AlgorithmTemplateValidator implements IParameterValidator {
 		allowedVariantsMap.put(Type.CUBIC_SPLINES, Variant.DEFAULT);
 	}
 
-	/*
-	 * @see com.beust.jcommander.IParameterValidator#validate(java.lang.String,
-	 * java.lang.String)
-	 */
-	@Override
 	public void validate(final String name, final String value)
 			throws ParameterException {
-		final AlgorithmTemplate algorithm = AlgorithmTemplates.build(value);
-		final Type type = algorithm.getType();
-		final Variant variant = algorithm.getVariant();
+
+		if (value.equals(DEFAULT)) {
+			return;
+		}
+
+		final AlgorithmTemplate algorithmTemplate = AlgorithmTemplates
+				.build(value);
+		final Type type = algorithmTemplate.getType();
+		final Variant variant = algorithmTemplate.getVariant();
 
 		if (!allowedVariantsMap.get(type).contains(variant)) {
 			throw new ParameterException(String.format(
 					"Variant %s not allowed for algorithm %s.", variant, type));
 		}
 
+	}
+
+	/*
+	 * @see com.beust.jcommander.IValueValidator#validate(java.lang.String,
+	 * java.lang.Object)
+	 */
+	@Override
+	public void validate(final String name, final AlgorithmTemplate value)
+			throws ParameterException {
+
+		if (value == null) {
+			throw new ParameterException(
+					"No valid algorithm and/or variant found.");
+		}
 	}
 
 }
