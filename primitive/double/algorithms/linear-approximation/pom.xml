@@ -15,7 +15,6 @@
 	
 	<modules>
 		<module>jgrapht</module>
-		<module>jung</module>
 		<module>reference</module>
 		<module>linear-approximation-opencl</module>
 	</modules>
