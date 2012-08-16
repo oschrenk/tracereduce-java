@@ -11,7 +11,4 @@ public class Defaults {
 	/** The Constant NUMBER_OF_HEADER_LINES. */
 	protected static final int NUMBER_OF_HEADER_LINES = 1;
 
-	/** The Constant NUMBER_IGNORABLE_COLUMNS. */
-	protected static final int NUMBER_IGNORABLE_COLUMNS = 1;
-
 }

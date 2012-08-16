@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.q2web.gis.trajectory.core.api.DoublePoint;
+import de.q2web.gis.trajectory.core.api.Point;
 import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.trajectory.core.api.Point;
 
@@ -24,8 +24,8 @@ public class EuclideanGeometryTest {
 
 	@Test
 	public void distanceOfPoints() {
-		final Point from = new DoublePoint(new double[] { 0, 0 });
-		final Point to = new DoublePoint(new double[] { 3, 4 });
+		final Point from = new Point(new double[] { 0, 0 });
+		final Point to = new Point(new double[] { 3, 4 });
 		final double distance = geometry.distance(from, to);
 
 		assertEquals(5d, distance, 0.0);
@@ -33,9 +33,9 @@ public class EuclideanGeometryTest {
 
 	@Test
 	public void distanceOfPointToLine3d() {
-		final Point point = new DoublePoint(new double[] { 10, 5, 7 });
-		final Point lineStart = new DoublePoint(new double[] { -2, 1, 7 });
-		final Point lineEnd = new DoublePoint(new double[] { 2, 2, 4 });
+		final Point point = new Point(new double[] { 10, 5, 7 });
+		final Point lineStart = new Point(new double[] { -2, 1, 7 });
+		final Point lineEnd = new Point(new double[] { 2, 2, 4 });
 		final double distance = EuclideanGeometry.distance3d(point, lineStart,
 				lineEnd);
 
@@ -47,9 +47,9 @@ public class EuclideanGeometryTest {
 	 */
 	@Test
 	public void distanceOfPointToLine2d() {
-		final Point point = new DoublePoint(new double[] { 2, 0 });
-		final Point lineStart = new DoublePoint(new double[] { 0, 0 });
-		final Point lineEnd = new DoublePoint(new double[] { 2, 2 });
+		final Point point = new Point(new double[] { 2, 0 });
+		final Point lineStart = new Point(new double[] { 0, 0 });
+		final Point lineEnd = new Point(new double[] { 2, 2 });
 		final double distance = EuclideanGeometry.distance2d(point, lineStart,
 				lineEnd);
 

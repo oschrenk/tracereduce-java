@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.Test;
 
 import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.DoublePoint;
+import de.q2web.gis.trajectory.core.api.Point;
 import de.q2web.gis.trajectory.core.api.Point;
 import de.q2web.jocl.util.Arrays;
 
@@ -20,13 +20,13 @@ public class CubicSplinesRawOpenClAlgorithmTest {
 	private static List<Point> TRACE = new ArrayList<Point>();
 
 	static {
-		TRACE.add(new DoublePoint(new double[] { 0, 30 }));
-		TRACE.add(new DoublePoint(new double[] { 10, 130 }));
-		TRACE.add(new DoublePoint(new double[] { 30, 150 }));
-		TRACE.add(new DoublePoint(new double[] { 50, 150 }));
-		TRACE.add(new DoublePoint(new double[] { 70, 170 }));
-		TRACE.add(new DoublePoint(new double[] { 90, 220 }));
-		TRACE.add(new DoublePoint(new double[] { 100, 230 }));
+		TRACE.add(new Point(new double[] { 0, 30 }));
+		TRACE.add(new Point(new double[] { 10, 130 }));
+		TRACE.add(new Point(new double[] { 30, 150 }));
+		TRACE.add(new Point(new double[] { 50, 150 }));
+		TRACE.add(new Point(new double[] { 70, 170 }));
+		TRACE.add(new Point(new double[] { 90, 220 }));
+		TRACE.add(new Point(new double[] { 100, 230 }));
 	}
 
 	private static final double EPSILON = 5;

@@ -1,10 +1,9 @@
 package de.q2web.gis.geometry;
 
-import de.q2web.gis.trajectory.core.api.DoublePoint;
 import de.q2web.gis.trajectory.core.api.Point;
 
 /**
- * 
+ *
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class SpheroidalGeometry extends AbstractGeometry {
@@ -15,7 +14,7 @@ public class SpheroidalGeometry extends AbstractGeometry {
 	/**
 	 * @param semiMajorAxis
 	 * @param semiMinorAxis
-	 * 
+	 *
 	 */
 	public SpheroidalGeometry(final double semiMajorAxis,
 			final double semiMinorAxis) {
@@ -48,7 +47,7 @@ public class SpheroidalGeometry extends AbstractGeometry {
 
 	/**
 	 * lat lng height.
-	 * 
+	 *
 	 * @param p
 	 *            the p
 	 * @return the point
@@ -60,7 +59,7 @@ public class SpheroidalGeometry extends AbstractGeometry {
 		newP[1] = Math.cos(Math.toRadians(p.get(0)))
 				* Math.sin(Math.toRadians(p.get(1)));
 		newP[2] = Math.sin(Math.toRadians(p.get(0)));
-		return new DoublePoint(newP);
+		return new Point(p.getTime(), newP);
 	}
 
 	private final double distance2d(final Point point, final Point lineStart,
@@ -86,7 +85,7 @@ public class SpheroidalGeometry extends AbstractGeometry {
 		newP[0] = (normalDistance + height);
 		newP[1] = (normalDistance + height);
 		newP[2] = (normalDistance * (1 - eccentricitySquared) + height);
-		final Point radius = new DoublePoint(newP);
+		final Point radius = new Point(-1, newP);
 
 		return Vector.length(radius) * phi;
 	}

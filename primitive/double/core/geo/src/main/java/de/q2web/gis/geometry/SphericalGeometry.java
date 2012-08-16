@@ -1,10 +1,9 @@
 package de.q2web.gis.geometry;
 
-import de.q2web.gis.trajectory.core.api.DoublePoint;
 import de.q2web.gis.trajectory.core.api.Point;
 
 /**
- * 
+ *
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class SphericalGeometry extends AbstractGeometry {
@@ -60,7 +59,7 @@ public class SphericalGeometry extends AbstractGeometry {
 
 	/**
 	 * Calculates the distance from the point X to the geodesic line AB
-	 * 
+	 *
 	 * Using longitude ($\theta$) and latitude ($\phi$), let $A=(\theta_A,
 	 * \phi_A)$, $B=(\theta_B, \phi_B)$, and $X=(\theta_X, \phi_X)$. The
 	 * direction vectors for these points are $$\hat A = (\cos \phi_A \cos
@@ -68,20 +67,20 @@ public class SphericalGeometry extends AbstractGeometry {
 	 * \phi_B \cos \theta_B, \cos \phi_B \sin \theta_B, \sin \phi_B), $$ $$\hat
 	 * X = (\cos \phi_X \cos \theta_X, \cos \phi_X \sin \theta_X, \sin
 	 * \phi_X).$$
-	 * 
+	 *
 	 * Let $\Phi$ be the distance on the unit sphere between $\hat X$ and the
 	 * geodesic line passing through $\hat A$ and $\hat B$. Imagine the plane
 	 * $\mathcal{P}$ passing through $\hat A$, $\hat B$, and the origin, which
 	 * cuts the unit sphere in half. Then the Euclidean distance of $\hat X$
 	 * from plane $\mathcal{P}$ is $\sin \Phi$. Now let $\hat n$ be a unit
 	 * normal vector for $\mathcal{P}$, and we have
-	 * 
+	 *
 	 * $$\hat n = \hat A \times \hat B$$ $$\sin \Phi = | \hat n \cdot \hat X |$$
-	 * 
+	 *
 	 * So, if the radius of the original sphere is $R$, then the surface
 	 * distance from the point $X$ to the geodesic line
 	 * $\overleftrightarrow{AB}$ is $R \Phi$.
-	 * 
+	 *
 	 * @see <a href="http://math.stackexchange.com/posts/23612/">How to find the
 	 *      distance between a point and line joining two points on a
 	 *      sphere?</a>
@@ -100,7 +99,7 @@ public class SphericalGeometry extends AbstractGeometry {
 
 	/**
 	 * * Lat-Lng[-Height] in spherical coordinates
-	 * 
+	 *
 	 * @param p
 	 *            the p
 	 * @return the point
@@ -112,7 +111,7 @@ public class SphericalGeometry extends AbstractGeometry {
 				Math.cos(Math.toRadians(p.get(0)))*Math.sin(Math.toRadians(p.get(1))),
 				Math.sin(Math.toRadians(p.get(0)))
 		};
-		return new DoublePoint(c);
+		return new Point(p.getTime(), c);
 	}
 
 }

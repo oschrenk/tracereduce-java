@@ -3,7 +3,7 @@ package de.q2web.gis.io.core;
 import java.io.Writer;
 
 import de.q2web.gis.io.api.TraceWriter;
-import de.q2web.gis.io.csv.CsvDoublePointWriter;
+import de.q2web.gis.io.csv.CsvTraceWriter;
 
 /**
  * 
@@ -12,7 +12,7 @@ import de.q2web.gis.io.csv.CsvDoublePointWriter;
 public class TraceWriters {
 
 	public static TraceWriter build(final int dimensions, final Writer writer) {
-		return new CsvDoublePointWriter(dimensions, writer);
+		return new CsvTraceWriter(dimensions, writer);
 	}
 
 }

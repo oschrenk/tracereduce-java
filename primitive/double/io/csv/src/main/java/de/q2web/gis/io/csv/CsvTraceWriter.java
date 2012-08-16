@@ -5,16 +5,15 @@ import java.io.Writer;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
-
 import de.q2web.gis.io.api.TraceWriter;
 import de.q2web.gis.trajectory.core.api.Point;
 
 /**
  * The Class CsvDoublePointWriter.
- * 
+ *
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class CsvDoublePointWriter implements TraceWriter {
+public class CsvTraceWriter implements TraceWriter {
 
 	/** The dimensions. */
 	private final int dimensions;
@@ -30,18 +29,18 @@ public class CsvDoublePointWriter implements TraceWriter {
 
 	/**
 	 * Instantiates a new csv double point writer.
-	 * 
+	 *
 	 * @param dimensions
 	 *            the dimensions
 	 * @param writer
 	 *            the writer
 	 */
-	public CsvDoublePointWriter(final int dimensions, final Writer writer) {
+	public CsvTraceWriter(final int dimensions, final Writer writer) {
 		this(dimensions, writer, Defaults.QUOTE_CHARACTER, Defaults.SEPARATOR);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimensions
 	 *            the dimensions
 	 * @param writer
@@ -51,7 +50,7 @@ public class CsvDoublePointWriter implements TraceWriter {
 	 * @param separator
 	 *            the separator
 	 */
-	public CsvDoublePointWriter(final int dimensions, final Writer writer,
+	public CsvTraceWriter(final int dimensions, final Writer writer,
 			final char quoteCharacter, final char separator) {
 		this.dimensions = dimensions;
 		this.writer = writer;
@@ -67,9 +66,10 @@ public class CsvDoublePointWriter implements TraceWriter {
 		final CSVWriter csvWriter = new CSVWriter(writer, separator,
 				quoteCharacter);
 		for (final Point point : trace) {
-			final String[] line = new String[dimensions];
+			final String[] line = new String[dimensions + 1];
+			line[0] = Integer.toString(point.getTime());
 			for (int i = 0; i < dimensions; i++) {
-				line[i] = Double.toString(point.get(i));
+				line[i + 1] = Double.toString(point.get(i));
 				csvWriter.writeNext(line);
 			}
 		}

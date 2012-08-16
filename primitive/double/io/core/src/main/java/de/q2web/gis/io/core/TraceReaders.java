@@ -1,7 +1,7 @@
 package de.q2web.gis.io.core;
 
 import de.q2web.gis.io.api.TraceReader;
-import de.q2web.gis.io.csv.CsvDoublePointReader;
+import de.q2web.gis.io.csv.CsvTraceReader;
 
 /**
  * The Class TraceReaders.
@@ -19,7 +19,7 @@ public class TraceReaders {
 	 * @return the trace reader
 	 */
 	public static TraceReader build(final int dimensions) {
-		return new CsvDoublePointReader(dimensions);
+		return new CsvTraceReader(dimensions);
 
 	}
 }

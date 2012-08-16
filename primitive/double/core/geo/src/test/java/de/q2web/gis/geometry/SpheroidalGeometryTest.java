@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import de.q2web.gis.trajectory.core.api.DoublePoint;
+import de.q2web.gis.trajectory.core.api.Point;
 import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.trajectory.core.api.Point;
 
@@ -29,9 +29,9 @@ public class SpheroidalGeometryTest {
 		final Geometry geometry = new SpheroidalGeometry(semiMajorAxis,
 				semiMinorAxis);
 
-		final Point a = new DoublePoint(new double[] { 0d, 0d });
-		final Point b = new DoublePoint(new double[] { 0d, 180d });
-		final Point p = new DoublePoint(new double[] { 0d, 90d });
+		final Point a = new Point(new double[] { 0d, 0d });
+		final Point b = new Point(new double[] { 0d, 180d });
+		final Point p = new Point(new double[] { 0d, 90d });
 
 		final double distance = geometry.distance(p, a, b);
 
@@ -47,9 +47,9 @@ public class SpheroidalGeometryTest {
 		final Geometry geometry = new SpheroidalGeometry(semiMajorAxis,
 				semiMinorAxis);
 
-		final Point a = new DoublePoint(new double[] { 0d, 0d });
-		final Point b = new DoublePoint(new double[] { 0d, 90d });
-		final Point p = new DoublePoint(new double[] { 90d, 90d });
+		final Point a = new Point(new double[] { 0d, 0d });
+		final Point b = new Point(new double[] { 0d, 90d });
+		final Point p = new Point(new double[] { 90d, 90d });
 
 		final double distance = geometry.distance(p, a, b);
 
@@ -64,9 +64,9 @@ public class SpheroidalGeometryTest {
 		final double semiMinorAxis = 2;
 		final Geometry geometry = new SpheroidalGeometry(semiMajorAxis,
 				semiMinorAxis);
-		final Point a = new DoublePoint(new double[] { 0d, 0d });
-		final Point b = new DoublePoint(new double[] { 0d, 90d });
-		final Point p = new DoublePoint(new double[] { 90d, 90d });
+		final Point a = new Point(new double[] { 0d, 0d });
+		final Point b = new Point(new double[] { 0d, 90d });
+		final Point p = new Point(new double[] { 90d, 90d });
 
 		final double distance = geometry.distance(p, a, b);
 
