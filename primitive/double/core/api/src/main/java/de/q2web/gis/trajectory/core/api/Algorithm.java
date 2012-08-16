@@ -11,12 +11,12 @@ public interface Algorithm {
 	/**
 	 * Run.
 	 * 
-	 * @param points
-	 *            the points
+	 * @param trace
+	 *            the trace
 	 * @param epsilon
 	 *            the epsilon
 	 * @return the list
 	 */
-	List<Point> run(List<Point> points, double epsilon);
+	List<Point> run(List<Point> trace, double epsilon);
 
 }

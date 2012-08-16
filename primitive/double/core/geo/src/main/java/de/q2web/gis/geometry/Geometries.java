@@ -8,7 +8,6 @@ import de.q2web.gis.trajectory.core.api.Geometry;
  */
 public class Geometries {
 
-	@SuppressWarnings({})
 	public static Geometry build() {
 		// TODO more geometries
 		return new EuclideanGeometry();

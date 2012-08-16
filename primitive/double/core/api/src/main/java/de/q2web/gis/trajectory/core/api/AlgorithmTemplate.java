@@ -166,7 +166,7 @@ public class AlgorithmTemplate {
 	 */
 	public static enum Variant {
 
-		DEFAULT("default"), MARKUS("markus"), JGRAPHT("jgrapht"), JUNG("jung");
+		DEFAULT("default"), REFERENCE("reference"), JGRAPHT("jgrapht"), JUNG("jung");
 		private final String id;
 
 		private Variant(final String id) {
@@ -187,8 +187,8 @@ public class AlgorithmTemplate {
 			if (DEFAULT.getId().equals(lowerCase)) {
 				return DEFAULT;
 			}
-			if (MARKUS.getId().equals(lowerCase)) {
-				return MARKUS;
+			if (REFERENCE.getId().equals(lowerCase)) {
+				return REFERENCE;
 			}
 			if (JGRAPHT.getId().equals(lowerCase)) {
 				return JGRAPHT;
