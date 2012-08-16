@@ -18,7 +18,8 @@ import de.q2web.gis.trajectory.core.api.AlgorithmTemplate;
  * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class AlgorithmTemplateConverter implements IStringConverter<AlgorithmTemplate> {
+public class AlgorithmTemplateConverter implements
+		IStringConverter<AlgorithmTemplate> {
 	@Override
 	public AlgorithmTemplate convert(final String value) {
 		return AlgorithmTemplates.build(value);
