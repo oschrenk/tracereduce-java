@@ -15,6 +15,7 @@
 	
 	<modules>
 		<module>reference</module>
+		<module>douglas-peucker-opencl</module>
 	</modules>
 
 </project>
