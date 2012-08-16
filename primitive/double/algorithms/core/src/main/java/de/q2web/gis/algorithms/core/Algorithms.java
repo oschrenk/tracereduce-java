@@ -9,7 +9,7 @@ import de.q2web.gis.trajectory.core.api.AlgorithmTemplate;
 import de.q2web.gis.trajectory.core.api.Geometry;
 
 /**
- * 
+ *
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class Algorithms {
@@ -18,7 +18,6 @@ public class Algorithms {
 
 		// for now we always use default geometry
 		final Geometry geometry = Geometries.build();
-
 		return buildDouble(algorithmTemplate, geometry);
 	}
 
