@@ -4,7 +4,7 @@ import com.google.common.annotations.VisibleForTesting;
 
 /**
  * The Class ExitException.
- * 
+ *
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  * @version $Id: $
  */
@@ -18,7 +18,7 @@ public class ExitException extends SecurityException {
 
 	/**
 	 * Instantiates a new exit exception.
-	 * 
+	 *
 	 * @param message
 	 *            the message
 	 * @param e
@@ -34,7 +34,7 @@ public class ExitException extends SecurityException {
 
 	/**
 	 * Instantiates a new exit exception.
-	 * 
+	 *
 	 * @param status
 	 *            the status
 	 */
@@ -45,7 +45,7 @@ public class ExitException extends SecurityException {
 
 	/**
 	 * Gets the status.
-	 * 
+	 *
 	 * @return the status
 	 * @category getter
 	 */

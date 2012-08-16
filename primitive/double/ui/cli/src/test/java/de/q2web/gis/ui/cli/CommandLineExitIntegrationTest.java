@@ -9,7 +9,7 @@ import de.q2web.gis.ui.cli.util.NoExitSecurityManager;
 
 /**
  * The Class CommandLineExitTest.
- * 
+ *
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class CommandLineExitIntegrationTest {
@@ -20,7 +20,7 @@ public class CommandLineExitIntegrationTest {
 	/**
 	 * Replace the security manager with a mock version that captures the exit
 	 * code
-	 * 
+	 *
 	 * @throws Exception
 	 *             the exception
 	 */
@@ -44,7 +44,7 @@ public class CommandLineExitIntegrationTest {
 
 	/**
 	 * We have to restore the original Security Manager
-	 * 
+	 *
 	 * @throws Exception
 	 *             the exception
 	 */

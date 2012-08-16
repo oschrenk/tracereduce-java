@@ -221,13 +221,21 @@
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-core</artifactId>
+<<<<<<< HEAD
 				<version>1.0.6</version>
+=======
+				<version>1.0.3</version>
+>>>>>>> 85fca10b11df6c7f267ecb2e95ad15f464ca73f5
 			</dependency>
 
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
+<<<<<<< HEAD
 				<version>1.0.6</version>
+=======
+				<version>1.0.3</version>
+>>>>>>> 85fca10b11df6c7f267ecb2e95ad15f464ca73f5
 			</dependency>
 
 			<dependency>
