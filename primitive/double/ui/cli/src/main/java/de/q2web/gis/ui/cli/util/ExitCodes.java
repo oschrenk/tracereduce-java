@@ -2,7 +2,7 @@ package de.q2web.gis.ui.cli.util;
 
 /**
  * Unix Exit Codes, taken from FreeBSD Man Pages
- * 
+ *
  * @see <a
  *      href="http://www.freebsd.org/cgi/man.cgi?query=sysexits&sektion=3">FreeBSD
  *      Man Pages</a>
