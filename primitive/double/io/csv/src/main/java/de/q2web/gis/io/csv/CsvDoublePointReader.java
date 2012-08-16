@@ -86,15 +86,24 @@ public class CsvDoublePointReader implements TraceReader {
 	public List<Point> read(final File path) throws IOException {
 		final CSVReader reader = new CSVReader(new FileReader(path), separator,
 				quoteCharacter, numberOfHeaderLines);
-		String[] nextLine;
-		while ((nextLine = reader.readNext()) != null) {
-			final double[] point = new double[dimensions];
-			for (int i = 0; i < dimensions; i++) {
-				point[i] = Double.parseDouble(nextLine[i + ignorableColumns]);
+		try {
+			String[] nextLine;
+			while ((nextLine = reader.readNext()) != null) {
+				final double[] point = new double[dimensions];
+				for (int i = 0; i < dimensions; i++) {
+					point[i] = Double
+							.parseDouble(nextLine[i + ignorableColumns]);
+				}
+				points.add(new DoublePoint(point));
 			}
-			points.add(new DoublePoint(point));
+			return points;
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+
 		}
-		return points;
+
 	}
 
 }
