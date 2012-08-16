@@ -176,7 +176,7 @@
 			<dependency>
 				<groupId>net.sf.jgrapht</groupId>
 				<artifactId>jgrapht</artifactId>
-				<version>0.8.2</version>
+				<version>0.8.3</version>
 			</dependency>
 
 			<dependency>
@@ -197,7 +197,7 @@
 			<dependency>
 				<groupId>com.beust</groupId>
 				<artifactId>jcommander</artifactId>
-				<version>1.23</version>
+				<version>1.29</version>
 			</dependency>
 
 			<!-- COMMON -->
@@ -205,7 +205,7 @@
 			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
-				<version>12.0</version>
+				<version>13.0</version>
 			</dependency>
 
 			<!-- IO -->
