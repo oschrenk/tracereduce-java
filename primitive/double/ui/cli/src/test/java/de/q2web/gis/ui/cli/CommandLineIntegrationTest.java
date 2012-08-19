@@ -6,8 +6,10 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.beust.jcommander.ParameterException;
+
 /**
- * 
+ *
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class CommandLineIntegrationTest {
@@ -25,10 +27,25 @@ public class CommandLineIntegrationTest {
 
 	@Test
 	public void test() throws IOException {
-
 		final String[] args = new String[] { "-i",
-				traceFile.getCanonicalPath(), "-e", "10", "-a", "dp", "-d", "3" };
+				traceFile.getCanonicalPath(), "-e", "10", "-a",
+				"douglas-peucker#reference", "-d", "3" };
 		CommandLine.main(args);
+	}
 
+	@Test(expected = ParameterException.class)
+	public void testWrongGeometry() throws IOException {
+		final String[] args = new String[] { "-i",
+				traceFile.getCanonicalPath(), "-e", "10", "-a",
+				"douglas-peucker#reference", "-g", "FOO", "-d", "3" };
+		CommandLine.main(args);
+	}
+
+	@Test
+	public void testEuclideanGeometry() throws IOException {
+		final String[] args = new String[] { "-i",
+				traceFile.getCanonicalPath(), "-e", "10", "-a",
+				"douglas-peucker#reference", "-g", "euclidean", "-d", "3" };
+		CommandLine.main(args);
 	}
 }

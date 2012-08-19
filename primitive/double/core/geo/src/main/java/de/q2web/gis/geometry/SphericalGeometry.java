@@ -3,13 +3,31 @@ package de.q2web.gis.geometry;
 import de.q2web.gis.trajectory.core.api.Point;
 
 /**
+ * The Class SphericalGeometry.
  *
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class SphericalGeometry extends AbstractGeometry {
 
+	/** The Constant EARTH_VOLUMETRIC_MEAN_RADIUS. */
+	public static final int EARTH_VOLUMETRIC_MEAN_RADIUS = 6371000;
+
+	/** The radius. */
 	private final double radius;
 
+	/**
+	 * Instantiates a new spherical geometry with EARTH_VOLUMETRIC_MEAN_RADIUS
+	 */
+	public SphericalGeometry() {
+		this(EARTH_VOLUMETRIC_MEAN_RADIUS);
+	}
+
+	/**
+	 * Instantiates a new spherical geometry.
+	 *
+	 * @param radius
+	 *            the radius
+	 */
 	public SphericalGeometry(final double radius) {
 		this.radius = radius;
 	}
@@ -20,7 +38,13 @@ public class SphericalGeometry extends AbstractGeometry {
 	 * .core.api.Point, de.q2web.gis.trajectory.core.api.Point)
 	 */
 	/**
-	 * Lat-Lng[-Height] in spherical coordinates
+	 * Lat-Lng[-Height] in spherical coordinates.
+	 *
+	 * @param from
+	 *            the from
+	 * @param to
+	 *            the to
+	 * @return the double
 	 */
 	@Override
 	public double distance(final Point from, final Point to) {
@@ -28,11 +52,27 @@ public class SphericalGeometry extends AbstractGeometry {
 				to.get(1));
 	}
 
+	/**
+	 * Gets the distance2d.
+	 *
+	 * @param radius
+	 *            the radius
+	 * @param latitudeFrom
+	 *            the latitude from
+	 * @param longitudeFrom
+	 *            the longitude from
+	 * @param latitudeTo
+	 *            the latitude to
+	 * @param longitudeTo
+	 *            the longitude to
+	 * @return the distance2d
+	 */
 	protected static final double getDistance2d(final double radius,
-			final double latitudeFrom, final double longitudeFrom, final double latitudeTo,
-			final double longitudeTo) {
+			final double latitudeFrom, final double longitudeFrom,
+			final double latitudeTo, final double longitudeTo) {
 		final double deltaLatitude = Math.toRadians(latitudeFrom - latitudeTo);
-		final double deltaLongitude = Math.toRadians((longitudeFrom - longitudeTo));
+		final double deltaLongitude = Math
+				.toRadians((longitudeFrom - longitudeTo));
 
 		final double sinusHalfDeltaLatitude = Math.sin(deltaLatitude / 2);
 		final double sinusHalfDeltaLongitude = Math.sin(deltaLongitude / 2);
@@ -52,8 +92,17 @@ public class SphericalGeometry extends AbstractGeometry {
 	 * .core.api.Point, de.q2web.gis.trajectory.core.api.Point,
 	 * de.q2web.gis.trajectory.core.api.Point)
 	 */
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * de.q2web.gis.trajectory.core.api.Geometry#distance(de.q2web.gis.trajectory
+	 * .core.api.Point, de.q2web.gis.trajectory.core.api.Point,
+	 * de.q2web.gis.trajectory.core.api.Point)
+	 */
 	@Override
-	public double distance(final Point point, final Point lineStart, final Point lineEnd) {
+	public double distance(final Point point, final Point lineStart,
+			final Point lineEnd) {
 		return distance2d(radius, point, lineStart, lineEnd);
 	}
 
@@ -81,12 +130,21 @@ public class SphericalGeometry extends AbstractGeometry {
 	 * distance from the point $X$ to the geodesic line
 	 * $\overleftrightarrow{AB}$ is $R \Phi$.
 	 *
+	 * @param radius
+	 *            the radius
+	 * @param point
+	 *            the point
+	 * @param lineStart
+	 *            the line start
+	 * @param lineEnd
+	 *            the line end
+	 * @return the double
 	 * @see <a href="http://math.stackexchange.com/posts/23612/">How to find the
 	 *      distance between a point and line joining two points on a
 	 *      sphere?</a>
 	 */
-	private static final double distance2d(final double radius, final Point point,
-			final Point lineStart, final Point lineEnd) {
+	private static final double distance2d(final double radius,
+			final Point point, final Point lineStart, final Point lineEnd) {
 		final Point aPrime = SphericalGeometry.toCartesian3d(lineStart);
 		final Point bPrime = SphericalGeometry.toCartesian3d(lineEnd);
 		final Point pPrime = SphericalGeometry.toCartesian3d(point);
@@ -96,9 +154,8 @@ public class SphericalGeometry extends AbstractGeometry {
 		return radius * phi;
 	}
 
-
 	/**
-	 * * Lat-Lng[-Height] in spherical coordinates
+	 * * Lat-Lng[-Height] in spherical coordinates.
 	 *
 	 * @param p
 	 *            the p
@@ -106,11 +163,12 @@ public class SphericalGeometry extends AbstractGeometry {
 	 */
 
 	private static final Point toCartesian3d(final Point p) {
-		final double[] c= {
-				Math.cos(Math.toRadians(p.get(0)))*Math.cos(Math.toRadians(p.get(1))),
-				Math.cos(Math.toRadians(p.get(0)))*Math.sin(Math.toRadians(p.get(1))),
-				Math.sin(Math.toRadians(p.get(0)))
-		};
+		final double[] c = {
+				Math.cos(Math.toRadians(p.get(0)))
+						* Math.cos(Math.toRadians(p.get(1))),
+				Math.cos(Math.toRadians(p.get(0)))
+						* Math.sin(Math.toRadians(p.get(1))),
+				Math.sin(Math.toRadians(p.get(0))) };
 		return new Point(p.getTime(), c);
 	}
 

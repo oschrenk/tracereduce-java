@@ -12,12 +12,12 @@ import de.q2web.gis.trajectory.core.api.Algorithm;
 import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.trajectory.core.api.Point;
 
-public class ReferenceLinearApproximation implements Algorithm {
+public class LinearApproximationReferenceAlgorithm implements Algorithm {
 
 	/** The geometry. */
 	private final Geometry geometry;
 
-	public ReferenceLinearApproximation(final Geometry geometry) {
+	public LinearApproximationReferenceAlgorithm(final Geometry geometry) {
 		this.geometry = geometry;
 	}
 
@@ -67,7 +67,7 @@ public class ReferenceLinearApproximation implements Algorithm {
 	 * there exist edges between each two successive nodes. Additional edges are
 	 * created between two nodes 'from' and 'to', if all nodes \in ]from; to[
 	 * can be interpolated without an interpolation error exceeding epsilon
-	 * 
+	 *
 	 * @return
 	 */
 	private List<Edge<Point>> setupEdgesBruteForce(
@@ -97,7 +97,7 @@ public class ReferenceLinearApproximation implements Algorithm {
 				for (int intermediatePointIndex = lineStartIndex + 1; intermediatePointIndex < lineEndIndex; intermediatePointIndex++) {
 					final double delta = geometry.distance(
 							nodes.get(intermediatePointIndex).getValue(), nodes
-							.get(lineStartIndex).getValue(),
+									.get(lineStartIndex).getValue(),
 							nodes.get(lineEndIndex).getValue());
 
 					if (geometry.compare(delta, maxDelta) > 0) {

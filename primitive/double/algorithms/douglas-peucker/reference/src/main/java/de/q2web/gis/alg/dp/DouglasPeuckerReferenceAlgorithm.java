@@ -9,10 +9,10 @@ import de.q2web.gis.trajectory.core.api.Point;
 
 /**
  * The Class DouglasPeuckerAlgorithm.
- * 
+ *
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class ReferenceDouglasPeucker implements Algorithm {
+public class DouglasPeuckerReferenceAlgorithm implements Algorithm {
 
 	/** The epsilon. */
 	private double epsilon;
@@ -22,11 +22,11 @@ public class ReferenceDouglasPeucker implements Algorithm {
 
 	/**
 	 * Instantiates a new douglas peucker algorithm.
-	 * 
+	 *
 	 * @param geometry
 	 *            the geometry
 	 */
-	public ReferenceDouglasPeucker(final Geometry geometry) {
+	public DouglasPeuckerReferenceAlgorithm(final Geometry geometry) {
 		super();
 		this.geometry = geometry;
 	}
@@ -43,7 +43,7 @@ public class ReferenceDouglasPeucker implements Algorithm {
 
 	/**
 	 * Run.
-	 * 
+	 *
 	 * @param trace
 	 *            the trace
 	 * @return the list

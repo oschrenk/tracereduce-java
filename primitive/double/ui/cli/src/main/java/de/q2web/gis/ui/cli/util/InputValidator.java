@@ -30,8 +30,8 @@ import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;
 
 /**
- * 
- * @author Oliver Schrenk <oliver.schrenk@q2web.de
+ *
+ * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class InputValidator implements IParameterValidator {
 
@@ -44,13 +44,13 @@ public class InputValidator implements IParameterValidator {
 			throws ParameterException {
 		final File path = new File(value);
 		if (!path.exists()) {
-			throw new ParameterException("Input file does'n not exist.");
+			throw new ParameterException("Input file does not exist.");
 		}
 		if (!path.isFile()) {
-			throw new ParameterException("Input musrt be a file.");
+			throw new ParameterException("Input must be a file.");
 		}
 		if (!path.canRead()) {
-			throw new ParameterException("Can't read the input.");
+			throw new ParameterException("Can't read input file.");
 		}
 	}
 

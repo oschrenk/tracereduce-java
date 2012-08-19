@@ -40,7 +40,7 @@ import de.q2web.jocl.util.Resources;
 
 /**
  * The Class DouglasPeuckerAlgorithm.
- * 
+ *
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class DouglasPeuckerRawOpenClAlgorithm implements Algorithm {
@@ -64,7 +64,7 @@ public class DouglasPeuckerRawOpenClAlgorithm implements Algorithm {
 
 	/**
 	 * Instantiates a new douglas peucker algorithm.
-	 * 
+	 *
 	 */
 	public DouglasPeuckerRawOpenClAlgorithm() {
 	}
@@ -76,29 +76,29 @@ public class DouglasPeuckerRawOpenClAlgorithm implements Algorithm {
 	@Override
 	public List<Point> run(final List<Point> trace, final double epsilon) {
 
-		int length = trace.size();
-		float[] srcArrayX = new float[length];
-		float[] srcArrayY = new float[length];
+		final int length = trace.size();
+		final float[] srcArrayX = new float[length];
+		final float[] srcArrayY = new float[length];
 
 		for (int i = 0; i < trace.size(); i++) {
-			Point point = trace.get(i);
+			final Point point = trace.get(i);
 			srcArrayX[i] = (float) point.get(0);
 			srcArrayY[i] = (float) point.get(1);
 		}
 
-		List<Integer> knots = run(srcArrayX, srcArrayY, (float) epsilon);
+		final List<Integer> knots = run(srcArrayX, srcArrayY, (float) epsilon);
 
-		List<Point> result = new ArrayList<Point>();
+		final List<Point> result = new ArrayList<Point>();
 
-		for (Integer index : knots) {
+		for (final Integer index : knots) {
 			result.add(trace.get(index));
 		}
 
 		return result;
 	}
 
-	public List<Integer> run(float xCoordinates[], float yCoordinates[],
-			float epsilon) {
+	public List<Integer> run(final float xCoordinates[],
+			final float yCoordinates[], final float epsilon) {
 		this.epsilon = epsilon;
 
 		if (xCoordinates.length != yCoordinates.length) {
@@ -106,22 +106,22 @@ public class DouglasPeuckerRawOpenClAlgorithm implements Algorithm {
 					"Source arrays must be same length");
 		}
 
-		int length = xCoordinates.length;
+		final int length = xCoordinates.length;
 
 		distances = new float[xCoordinates.length];
 
-		Pointer xCoordinatesPointer = Pointer.to(xCoordinates);
-		Pointer yCoordinatesPointer = Pointer.to(yCoordinates);
-		Pointer distancesPointer = Pointer.to(distances);
+		final Pointer xCoordinatesPointer = Pointer.to(xCoordinates);
+		final Pointer yCoordinatesPointer = Pointer.to(yCoordinates);
+		final Pointer distancesPointer = Pointer.to(distances);
 
 		// OpenCl Preamble
-		cl_platform_id platformId = Platforms.getPlatforms().get(0);
-		cl_device_id deviceId = Devices.getDevices(platformId,
+		final cl_platform_id platformId = Platforms.getPlatforms().get(0);
+		final cl_device_id deviceId = Devices.getDevices(platformId,
 				CL_DEVICE_TYPE_GPU).get(0);
-		cl_context context = Contexts.create(platformId, deviceId);
-		cl_command_queue queue = CommandQueues.create(context, deviceId);
-		cl_program program = Programs.createFromSource(context, SOURCE);
-		cl_kernel kernel = Kernels.create(program,
+		final cl_context context = Contexts.create(platformId, deviceId);
+		final cl_command_queue queue = CommandQueues.create(context, deviceId);
+		final cl_program program = Programs.createFromSource(context, SOURCE);
+		final cl_kernel kernel = Kernels.create(program,
 				KERNEL_DISTANCE_EUCLIDEAN_POINT_TO_LINE);
 
 		memObject = new cl_mem[3];
@@ -147,11 +147,11 @@ public class DouglasPeuckerRawOpenClAlgorithm implements Algorithm {
 		knots.add(0);
 		float fromX = xCoordinates[0];
 		float fromY = yCoordinates[0];
-		float toX = xCoordinates[length - 1];
-		float toY = yCoordinates[length - 1];
+		final float toX = xCoordinates[length - 1];
+		final float toY = yCoordinates[length - 1];
 
 		for (int i = 1; i <= length - 1; i++) {
-			int knot = run(queue, kernel, xCoordinates, yCoordinates,
+			final int knot = run(queue, kernel, xCoordinates, yCoordinates,
 					distancesPointer, fromX, fromY, toX, toY);
 			if (knot >= 1) {
 				knots.add(knot);
@@ -176,19 +176,20 @@ public class DouglasPeuckerRawOpenClAlgorithm implements Algorithm {
 		return knots;
 	}
 
-	private int run(cl_command_queue queue, cl_kernel kernel,
-			float srcArrayX[], float srcArrayY[], Pointer dst, float fromX,
-			float fromY, float toX, float toY) {
+	private int run(final cl_command_queue queue, final cl_kernel kernel,
+			final float srcArrayX[], final float srcArrayY[],
+			final Pointer dst, final float fromX, final float fromY,
+			final float toX, final float toY) {
 
 		// boundary points that form the line
 		clSetKernelArg(kernel, 3, Sizeof.cl_float,
-				Pointer.to(new float[] { (Float) fromX }));
+				Pointer.to(new float[] { fromX }));
 		clSetKernelArg(kernel, 4, Sizeof.cl_float,
-				Pointer.to(new float[] { (Float) fromY }));
+				Pointer.to(new float[] { fromY }));
 		clSetKernelArg(kernel, 5, Sizeof.cl_float,
-				Pointer.to(new float[] { (Float) toX }));
+				Pointer.to(new float[] { toX }));
 		clSetKernelArg(kernel, 6, Sizeof.cl_float,
-				Pointer.to(new float[] { (Float) toY }));
+				Pointer.to(new float[] { toY }));
 
 		// execute the kernel
 		clEnqueueNDRangeKernel(queue, kernel, 1, null, global_work_size,
@@ -200,10 +201,10 @@ public class DouglasPeuckerRawOpenClAlgorithm implements Algorithm {
 		return positionOfFirstKnotWithError(distances);
 	}
 
-	private int positionOfFirstKnotWithError(float[] dstArray) {
+	private int positionOfFirstKnotWithError(final float[] dstArray) {
 
 		for (int i = 0; i < dstArray.length; i++) {
-			float f = dstArray[i];
+			final float f = dstArray[i];
 			if (Math.abs(f) > epsilon) {
 				return i;
 			}

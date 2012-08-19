@@ -8,13 +8,34 @@ import de.q2web.gis.trajectory.core.api.Point;
  */
 public class SpheroidalGeometry extends AbstractGeometry {
 
-	private final double semiMinorAxis;
+	/** The Earth equatorial radius as defined in WGS 84. */
+	public static double WGS_84_EQUATORIAL_RADIUS = 6378137.0;
+
+	/** The Earth polar as defined in WGS 84. */
+	public static double WGS_84_POLAR_RADIUS = 6356752.3142;
+
 	private final double semiMajorAxis;
+	private final double semiMinorAxis;
 
 	/**
-	 * @param semiMajorAxis
-	 * @param semiMinorAxis
+	 * Instantiates a new spheroidal geometry with
 	 *
+	 * <ul>
+	 * <li>semiMajorAxis = WGS_84_EQUATORIAL_RADIUS</li>
+	 * <li>semiMinorAxis = WGS_84_POLAR_RADIUS</li>
+	 * </ul>
+	 */
+	public SpheroidalGeometry() {
+		this(WGS_84_EQUATORIAL_RADIUS, WGS_84_POLAR_RADIUS);
+	}
+
+	/**
+	 * Instantiates a new spheroidal geometry.
+	 *
+	 * @param semiMajorAxis
+	 *            the semi major axis
+	 * @param semiMinorAxis
+	 *            the semi minor axis
 	 */
 	public SpheroidalGeometry(final double semiMajorAxis,
 			final double semiMinorAxis) {
@@ -90,7 +111,7 @@ public class SpheroidalGeometry extends AbstractGeometry {
 		return Vector.length(radius) * phi;
 	}
 
-	public static double eccentricitySquared(final double semiMajorAxis,
+	private static double eccentricitySquared(final double semiMajorAxis,
 			final double semiMinorAxis) {
 		return 1 - semiMinorAxis * semiMinorAxis / semiMajorAxis
 				/ semiMajorAxis;

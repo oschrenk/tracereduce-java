@@ -11,11 +11,11 @@ import de.q2web.gis.trajectory.core.api.Algorithm;
 import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.trajectory.core.api.Point;
 
-public class JGraphTLinearAppoximationAlgorithm implements Algorithm {
+public class LinearAppoximationJGraphTAlgorithm implements Algorithm {
 
 	private final Geometry geometry;
 
-	public JGraphTLinearAppoximationAlgorithm(final Geometry geometry) {
+	public LinearAppoximationJGraphTAlgorithm(final Geometry geometry) {
 		super();
 		this.geometry = geometry;
 	}

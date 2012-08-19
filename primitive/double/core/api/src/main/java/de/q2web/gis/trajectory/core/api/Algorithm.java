@@ -4,13 +4,13 @@ import java.util.List;
 
 /**
  * The Interface Algorithm.
- * 
+ *
  */
 public interface Algorithm {
 
 	/**
 	 * Run.
-	 * 
+	 *
 	 * @param trace
 	 *            the trace
 	 * @param epsilon

@@ -7,25 +7,22 @@ import java.io.Writer;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.converters.FileConverter;
 
-import de.q2web.gis.algorithms.core.AlgorithmTemplates;
-import de.q2web.gis.trajectory.core.api.AlgorithmTemplate;
-import de.q2web.gis.ui.cli.util.AlgorithmTemplateConverter;
-import de.q2web.gis.ui.cli.util.AlgorithmTemplateValidator;
+import de.q2web.gis.geometry.EuclideanGeometry;
+import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.ui.cli.util.EpsilonConverter;
+import de.q2web.gis.ui.cli.util.GeometryConverter;
+import de.q2web.gis.ui.cli.util.GeometryValidator;
 import de.q2web.gis.ui.cli.util.InputValidator;
 import de.q2web.gis.ui.cli.util.TraceWriterConverter;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class StartupArguments.
  */
 public class StartupArguments {
 
-	/** The Constant DOUGLAS_PEUCKER. */
-	private static final String DOUGLAS_PEUCKER = "dp";
+	/** The Constant DEFAULT_GEOMETRY. */
+	private static final Geometry DEFAULT_GEOMETRY = new EuclideanGeometry();
 
-	/** The Constant DEFAULT_ALGORITHM. */
-	private static final String DEFAULT_ALGORITHM = DOUGLAS_PEUCKER;
 	// TODO epxplain unit
 	/** The Constant DEFAULT_EPSILON. */
 	private static final double DEFAULT_EPSILON = 10;
@@ -57,9 +54,12 @@ public class StartupArguments {
 	private final boolean timed = DEFAULT_TIMED;
 
 	/** The algorithm. */
-	@Parameter(names = { "-a", "--algorithm" }, description = "Algorithm for minimizing trajectory", validateValueWith = AlgorithmTemplateValidator.class, converter = AlgorithmTemplateConverter.class)
-	private final AlgorithmTemplate algorithm = AlgorithmTemplates
-			.build(DEFAULT_ALGORITHM);
+	@Parameter(names = { "-a", "--algorithm" }, description = "Algorithm for minimizing trajectory")
+	private final String algorithm = null;
+
+	/** The geometry. */
+	@Parameter(names = { "-g", "--geometry" }, description = "Geometry for metrics", validateWith = GeometryValidator.class, converter = GeometryConverter.class)
+	private final Geometry geometry = DEFAULT_GEOMETRY;
 
 	/** The dimensions. */
 	@Parameter(names = { "-d", "--dimensions" }, description = "Number of dimensions")
@@ -67,7 +67,7 @@ public class StartupArguments {
 
 	/**
 	 * Gets the input.
-	 * 
+	 *
 	 * @return the input
 	 */
 	public File getInput() {
@@ -76,7 +76,7 @@ public class StartupArguments {
 
 	/**
 	 * Gets the epsilon.
-	 * 
+	 *
 	 * @return the epsilon
 	 */
 	public Number getEpsilon() {
@@ -84,17 +84,26 @@ public class StartupArguments {
 	}
 
 	/**
-	 * Gets the algorithm template.
-	 * 
+	 * Gets the algorithm.
+	 *
 	 * @return the algorithm
 	 */
-	public AlgorithmTemplate getAlgorithmTemplate() {
+	public String getAlgorithm() {
 		return algorithm;
 	}
 
 	/**
+	 * Gets the geometry.
+	 *
+	 * @return the geometry
+	 */
+	public Geometry getGeometry() {
+		return geometry;
+	}
+
+	/**
 	 * Gets the dimensions.
-	 * 
+	 *
 	 * @return the dimensions
 	 */
 	public int getDimensions() {
@@ -103,7 +112,7 @@ public class StartupArguments {
 
 	/**
 	 * Checks if is timed.
-	 * 
+	 *
 	 * @return true, if is timed
 	 */
 	public boolean isTimed() {
@@ -112,7 +121,7 @@ public class StartupArguments {
 
 	/**
 	 * Gets the output.
-	 * 
+	 *
 	 * @return the output
 	 */
 	public Writer getWriter() {

@@ -9,7 +9,7 @@ import de.q2web.jocl.util.Arrays;
 
 /**
  * The Class ReferenceCubicSplinesAlgorithm.
- * 
+ *
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class ConstrainedCubicSplinesRawOpenClAlgorithm implements Algorithm {
@@ -21,18 +21,18 @@ public class ConstrainedCubicSplinesRawOpenClAlgorithm implements Algorithm {
 	@Override
 	public List<Point> run(final List<Point> trace, final double epsilon) {
 
-		int length = trace.size();
-		float[] srcArrayX = new float[length];
-		float[] srcArrayY = new float[length];
+		final int length = trace.size();
+		final float[] srcArrayX = new float[length];
+		final float[] srcArrayY = new float[length];
 
 		for (int i = 0; i < trace.size(); i++) {
-			Point point = trace.get(i);
+			final Point point = trace.get(i);
 			srcArrayX[i] = (float) point.get(0);
 			srcArrayY[i] = (float) point.get(1);
 		}
 
 		float distances[];
-		boolean excludes[] = Arrays.prefilled(length, false);
+		final boolean excludes[] = Arrays.prefilled(length, false);
 		int positionOfMinimum;
 		do {
 			distances = Arrays.prefilled(length - 2, Float.MAX_VALUE);
@@ -46,7 +46,8 @@ public class ConstrainedCubicSplinesRawOpenClAlgorithm implements Algorithm {
 			// distances is length - 2 big
 			positionOfMinimum = Arrays.positionOfMinimum(distances);
 			// TODO this check is feels weird, try to remove it
-			if (positionOfMinimum >= 0 && distances[positionOfMinimum] < epsilon) {
+			if (positionOfMinimum >= 0
+					&& distances[positionOfMinimum] < epsilon) {
 				// positions are counted from knot 2, as first and last knot are
 				// always included
 				excludes[positionOfMinimum + 1] = true;
@@ -54,7 +55,7 @@ public class ConstrainedCubicSplinesRawOpenClAlgorithm implements Algorithm {
 		} while (positionOfMinimum >= 0);
 
 		int i = 0;
-		Iterator<Point> iterator = trace.iterator();
+		final Iterator<Point> iterator = trace.iterator();
 		while (iterator.hasNext()) {
 			iterator.next();
 			if (excludes[i]) {
@@ -66,7 +67,7 @@ public class ConstrainedCubicSplinesRawOpenClAlgorithm implements Algorithm {
 		return trace;
 	}
 
-	static void algorithm(float[] x, float[] y, int length) {
+	static void algorithm(final float[] x, final float[] y, final int length) {
 
 		// starts at 0
 		// int gid = get_global_id(0);
@@ -101,14 +102,14 @@ public class ConstrainedCubicSplinesRawOpenClAlgorithm implements Algorithm {
 		float fPrimeRight;
 		float fDoublePrimeLeft;
 		float fDoublePrimeRight;
-		float d[] = new float[length]; // d[0] is left empty for better
-										// readibility
-		float c[] = new float[length]; // c[0] is left empty for better
-										// readibility
-		float b[] = new float[length]; // b[0] is left empty for better
-										// readibility
-		float a[] = new float[length]; // a[0] is left empty for better
-										// readibility
+		final float d[] = new float[length]; // d[0] is left empty for better
+		// readibility
+		final float c[] = new float[length]; // c[0] is left empty for better
+		// readibility
+		final float b[] = new float[length]; // b[0] is left empty for better
+		// readibility
+		final float a[] = new float[length]; // a[0] is left empty for better
+		// readibility
 
 		// f(xx) = yy
 		// yy = a[i] + b[i] * xx + c[i] + xx*xx + d[i] + xx*xx*xx;
@@ -153,7 +154,7 @@ public class ConstrainedCubicSplinesRawOpenClAlgorithm implements Algorithm {
 
 	/**
 	 * Algorithm with excludes.
-	 * 
+	 *
 	 * @param x
 	 *            the x
 	 * @param y
@@ -167,8 +168,9 @@ public class ConstrainedCubicSplinesRawOpenClAlgorithm implements Algorithm {
 	 * @param idToExclude
 	 *            the id to exclude
 	 */
-	static void algorithmWithExcludes(float[] x, float[] y, float[] distances,
-			boolean[] excludes, int length, int idToExclude) {
+	static void algorithmWithExcludes(final float[] x, final float[] y,
+			final float[] distances, final boolean[] excludes,
+			final int length, final int idToExclude) {
 		if (idToExclude <= 0) {
 			throw new IllegalArgumentException("idToExclude must be > 0");
 		}
@@ -282,13 +284,13 @@ public class ConstrainedCubicSplinesRawOpenClAlgorithm implements Algorithm {
 		float fDoublePrimeLeft;
 		float fDoublePrimeRight;
 		// TODO remove d[0], 4 float per entry adds up
-		float d[] = new float[length]; // d[0] is left empty for better
+		final float d[] = new float[length]; // d[0] is left empty for better
 										// readibility
-		float c[] = new float[length]; // c[0] is left empty for better
+		final float c[] = new float[length]; // c[0] is left empty for better
 										// readibility
-		float b[] = new float[length]; // b[0] is left empty for better
+		final float b[] = new float[length]; // b[0] is left empty for better
 										// readibility
-		float a[] = new float[length]; // a[0] is left empty for better
+		final float a[] = new float[length]; // a[0] is left empty for better
 										// readibility
 
 		// TODO remove excludes[0. excludes[n], these are only two floats
@@ -378,7 +380,7 @@ public class ConstrainedCubicSplinesRawOpenClAlgorithm implements Algorithm {
 		// compute the interpolation error
 		// f(xx) = yy
 		// yy = a[i] + b[i] * xx + c[i] + xx*xx + d[i] + xx*xx*xx;
-		float yy = a[idToExclude] + b[idToExclude] * x[idToExclude]
+		final float yy = a[idToExclude] + b[idToExclude] * x[idToExclude]
 				+ c[idToExclude] * x[idToExclude] * x[idToExclude]
 				+ d[idToExclude] * x[idToExclude] * x[idToExclude]
 				* x[idToExclude];

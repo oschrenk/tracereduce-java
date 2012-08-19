@@ -28,20 +28,20 @@ import java.io.File;
 
 import com.beust.jcommander.JCommander;
 
-import de.q2web.gis.algorithms.core.Algorithms;
 import de.q2web.gis.io.api.TraceReader;
 import de.q2web.gis.io.api.TraceWriter;
 import de.q2web.gis.io.core.TraceReaders;
 import de.q2web.gis.io.core.TraceWriters;
 import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.AlgorithmTemplate;
+import de.q2web.gis.trajectory.core.api.Geometry;
+import de.q2web.gis.ui.cli.util.AlgorithmFactory;
 import de.q2web.gis.ui.cli.util.EpsilonFactory;
 import de.q2web.gis.ui.cli.util.ExitCodes;
 import de.q2web.gis.ui.cli.util.ExitException;
 import de.q2web.util.timer.WorkUnitException;
 
 /**
- * 
+ *
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class CommandLine {
@@ -67,19 +67,21 @@ public class CommandLine {
 			final File input = startupArguments.getInput();
 			final double epsilon = EpsilonFactory.build(startupArguments
 					.getEpsilon());
-			final AlgorithmTemplate algorithmTemplate = startupArguments
-					.getAlgorithmTemplate();
+			final String algorithmName = startupArguments.getAlgorithm();
+			final Geometry geometry = startupArguments.getGeometry();
+
 			final int dimensions = startupArguments.getDimensions();
 			final TraceReader traceReader = TraceReaders.build(dimensions);
 			final TraceWriter traceWriter = TraceWriters.build(dimensions,
 					startupArguments.getWriter());
-			final Algorithm algorithm = Algorithms.build(algorithmTemplate);
+			final Algorithm algorithm = AlgorithmFactory.build(algorithmName,
+					geometry);
 
 			// 3. run the simplification process
 			try {
-				new TrajectorySimplification(traceReader, algorithm,
+				new TraceReduce(traceReader, algorithm,
 						startupArguments.isTimed(), traceWriter).run(input,
-								epsilon);
+						epsilon);
 			} catch (final WorkUnitException e) {
 				throw new ExitException("A work unit failed.", e,
 						ExitCodes.EX_SOFTWARE);
