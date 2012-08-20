@@ -12,11 +12,10 @@
 	<packaging>pom</packaging>
 
 	<name>Trajectory Encoding, Algorithms, Linear Approximation</name>
-	
+
 	<modules>
-		<module>jgrapht</module>
 		<module>reference</module>
-		<module>linear-approximation-opencl</module>
+		<module>opencl</module>
 	</modules>
 
 </project>
