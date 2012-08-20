@@ -36,6 +36,20 @@
 			<version>${version.jocl-utils}</version>
 		</dependency>
 
+		<!--TESTING -->
+		<dependency>
+			<groupId>de.q2web.gis.alg</groupId>
+			<artifactId>douglas-peucker-reference</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>de.q2web.gis</groupId>
+			<artifactId>trajectory-core-geo</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
 	</dependencies>
 
 
