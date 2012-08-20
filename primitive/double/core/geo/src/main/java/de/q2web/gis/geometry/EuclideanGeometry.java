@@ -52,7 +52,7 @@ public class EuclideanGeometry implements Geometry {
 
 		final int dimensions = lineStart.getDimensions();
 		if (dimensions == 2) {
-			// TODO 2 dimensions
+			return distance2d(point, lineStart, lineEnd);
 		}
 
 		if (dimensions == 3) {
@@ -60,6 +60,32 @@ public class EuclideanGeometry implements Geometry {
 		}
 
 		throw new IllegalArgumentException("Invalid dimensions");
+	}
+
+	/**
+	 * is again given by projecting r onto v, giving
+	 *
+	 * denom = (sqrt((x_2-x_1)^2+(y_2-y_1)^2))
+	 * distance=(|(x_2-x_1)(y_1-y_0)-(x_1-x_0)(y_2-y_1)|)/
+	 *
+	 *
+	 * @return
+	 */
+	private static final double distance2d(final Point point,
+			final Point lineStart, final Point lineEnd) {
+		final double x_0 = point.get(0);
+		final double y_0 = point.get(1);
+		final double x_1 = lineStart.get(0);
+		final double y_1 = lineStart.get(1);
+		final double x_2 = lineEnd.get(0);
+		final double y_2 = lineEnd.get(1);
+
+		final double nom = Math.abs((x_2 - x_1) * (y_1 - y_0) - (x_1 - x_0)
+				* (y_2 - y_1));
+		final double denom = Math.sqrt((x_2 - x_1) * (x_2 - x_1) + (y_2 - y_1)
+				* (y_2 - y_1));
+
+		return nom / denom;
 	}
 
 	/**

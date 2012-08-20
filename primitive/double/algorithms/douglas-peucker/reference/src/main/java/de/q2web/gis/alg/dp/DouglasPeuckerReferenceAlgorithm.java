@@ -51,7 +51,7 @@ public class DouglasPeuckerReferenceAlgorithm implements Algorithm {
 	public List<Point> run(final List<Point> trace) {
 		final int traceLength = trace.size();
 
-		// determine the node at which the trace will be seperated
+		// determine the node at which the trace will be separated
 		double maximumDistance = Double.NaN;
 		int maxIndex = -1;
 
@@ -66,7 +66,7 @@ public class DouglasPeuckerReferenceAlgorithm implements Algorithm {
 
 		final List<Point> resultList;
 
-		// if no seperation needed, just return start and end
+		// if no separation needed, just return start and end
 		if (maxIndex == -1 || geometry.compare(maximumDistance, epsilon) <= 0) {
 			resultList = new ArrayList<Point>(2);
 			resultList.add(trace.get(0));

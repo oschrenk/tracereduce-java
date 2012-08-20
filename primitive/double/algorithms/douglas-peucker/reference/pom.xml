@@ -12,4 +12,20 @@
 
 	<name>Trajectory Encoding, Algorithms, Douglas Peucker, Reference Implementation</name>
 
+	<dependencies>
+
+		<!-- INTERNAL -->
+		<dependency>
+			<groupId>de.q2web.gis</groupId>
+			<artifactId>trajectory-core-geo</artifactId>
+		</dependency>
+
+		<!--TESTING -->
+		<dependency>
+			<groupId>com.vividsolutions</groupId>
+			<artifactId>jts</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
 </project>
