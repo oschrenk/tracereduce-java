@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>de.q2web.gis.alg</groupId>
+		<artifactId>douglas-peucker</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>douglas-peucker-opencl</artifactId>
+
+	<properties>
+		<version.jocl>0.1.7</version.jocl>
+		<version.jocl-commons>1.0-SNAPSHOT</version.jocl-commons>
+		<version.jocl-utils>1.0</version.jocl-utils>
+	</properties>
+
+	<dependencies>
+
+		<!-- OPENCL -->
+
+		<dependency>
+			<groupId>org.jocl</groupId>
+			<artifactId>jocl</artifactId>
+			<version>${version.jocl}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>de.q2web</groupId>
+			<artifactId>jocl-commons</artifactId>
+			<version>${version.jocl-commons}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jocl</groupId>
+			<artifactId>jocl-utils</artifactId>
+			<version>${version.jocl-utils}</version>
+		</dependency>
+
+		<!--TESTING -->
+		<dependency>
+			<groupId>de.q2web.gis.alg</groupId>
+			<artifactId>douglas-peucker-reference</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>de.q2web.gis</groupId>
+			<artifactId>tracereduce-core-geo</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+	</dependencies>
+
+
+</project>

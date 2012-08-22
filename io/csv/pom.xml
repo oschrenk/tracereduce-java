@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>tracereduce-io</artifactId>
+		<groupId>de.q2web.gis</groupId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>tracereduce-io-csv</artifactId>
+
+	<name>TraceReduce, I/O CSV Module</name>
+	<description>CSV Module</description>
+
+	<dependencies>
+
+		<!-- INTERNAL -->
+
+		<dependency>
+			<groupId>de.q2web.gis</groupId>
+			<artifactId>tracereduce-core-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>de.q2web.gis</groupId>
+			<artifactId>tracereduce-io-api</artifactId>
+		</dependency>
+
+		<!-- IO -->
+
+		<dependency>
+			<groupId>net.sf.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+		</dependency>
+
+	</dependencies>
+
+</project>
