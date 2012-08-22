@@ -13,8 +13,21 @@
 	<name>Trajectory Encoding, Algorithms, Linear Approxmation, Reference Implementation</name>
 
 	<dependencies>
-		
-		<!-- EXTERNAL -->
+
+		<!-- TESTING -->
+		<dependency>
+			<groupId>de.q2web.gis</groupId>
+			<artifactId>trajectory-core-geo</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
 
 	</dependencies>
 
