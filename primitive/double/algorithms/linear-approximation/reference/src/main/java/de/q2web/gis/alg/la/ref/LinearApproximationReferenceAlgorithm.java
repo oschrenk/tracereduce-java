@@ -12,16 +12,27 @@ import de.q2web.gis.trajectory.core.api.Algorithm;
 import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.trajectory.core.api.Point;
 
+/**
+ * The Class LinearApproximationReferenceAlgorithm.
+ */
 public class LinearApproximationReferenceAlgorithm implements Algorithm {
 
 	/** The geometry. */
 	private final Geometry geometry;
 
+	/**
+	 * Instantiates a new linear approximation reference algorithm.
+	 *
+	 * @param geometry
+	 *            the geometry
+	 */
 	public LinearApproximationReferenceAlgorithm(final Geometry geometry) {
 		this.geometry = geometry;
 	}
 
 	/*
+	 * (non-Javadoc)
+	 *
 	 * @see de.q2web.gis.trajectory.core.api.Algorithm#run(java.util.List,
 	 * double)
 	 */
@@ -39,6 +50,15 @@ public class LinearApproximationReferenceAlgorithm implements Algorithm {
 		return simplifiedTrace;
 	}
 
+	/**
+	 * Gets the polyline simplification.
+	 *
+	 * @param trace
+	 *            the trace
+	 * @param epsilon
+	 *            the epsilon
+	 * @return the polyline simplification
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public LinkedList<Vertex<Point>> getPolylineSimplification(
 			final List<Point> trace, final double epsilon) {
@@ -68,7 +88,11 @@ public class LinearApproximationReferenceAlgorithm implements Algorithm {
 	 * created between two nodes 'from' and 'to', if all nodes \in ]from; to[
 	 * can be interpolated without an interpolation error exceeding epsilon
 	 *
-	 * @return
+	 * @param nodes
+	 *            the nodes
+	 * @param epsilon
+	 *            the epsilon
+	 * @return the list
 	 */
 	private List<Edge<Point>> setupEdgesBruteForce(
 			final List<Vertex<Point>> nodes, final double epsilon) {

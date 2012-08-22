@@ -2,7 +2,7 @@ package de.q2web.gis.alg.la.ref.dijkstra;
 
 /**
  * package de.vogella.algorithms.dijkstra.model;
- * 
+ *
  * @param <T>
  */
 public class Edge<T> {
