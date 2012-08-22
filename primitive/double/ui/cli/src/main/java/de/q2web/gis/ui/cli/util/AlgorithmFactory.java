@@ -6,7 +6,7 @@ import java.util.List;
 import de.q2web.gis.alg.cs.opencl.CubicSplinesOpenClAlgorithm;
 import de.q2web.gis.alg.cs.ref.CubicSplinesReferenceAlgorithm;
 import de.q2web.gis.alg.dp.DouglasPeuckerReferenceAlgorithm;
-import de.q2web.gis.alg.dp.opencl.DouglasPeuckerRawOpenClAlgorithm;
+import de.q2web.gis.alg.dp.opencl.DouglasPeuckerOpenClAlgorithm;
 import de.q2web.gis.alg.la.opencl.LinearApproximationOpenClAlgorithm;
 import de.q2web.gis.alg.la.ref.LinearApproximationReferenceAlgorithm;
 import de.q2web.gis.trajectory.core.api.Algorithm;
@@ -69,7 +69,7 @@ public class AlgorithmFactory {
 		if (variant.equals("reference")) {
 			return new DouglasPeuckerReferenceAlgorithm(geometry);
 		} else if (variant.equals("raw-opencl")) {
-			return new DouglasPeuckerRawOpenClAlgorithm();
+			return new DouglasPeuckerOpenClAlgorithm();
 		}
 
 		throw new IllegalArgumentException("Not a valid variant.");
