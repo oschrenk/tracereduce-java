@@ -18,6 +18,7 @@
 		<dependency>
 			<groupId>de.q2web.gis</groupId>
 			<artifactId>trajectory-core-geo</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<!--TESTING -->
