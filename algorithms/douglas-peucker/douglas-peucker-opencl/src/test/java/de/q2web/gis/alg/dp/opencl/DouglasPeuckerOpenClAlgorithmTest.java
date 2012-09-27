@@ -5,7 +5,9 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jocl.CL;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.q2web.gis.alg.dp.DouglasPeuckerReferenceAlgorithm;
@@ -20,6 +22,12 @@ public class DouglasPeuckerOpenClAlgorithmTest {
 	private List<Point> trace;
 
 	private double epsilon;
+
+	@BeforeClass
+	public static void setUp() {
+		// Enable exceptions and subsequently omit error checks in this sample
+		CL.setExceptionsEnabled(true);
+	}
 
 	@Before
 	public void setup() {
