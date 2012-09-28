@@ -17,7 +17,7 @@ public class Point {
 
 	/**
 	 * Gets the time.
-	 *
+	 * 
 	 * @return the time
 	 */
 	public int getTime() {
@@ -26,7 +26,7 @@ public class Point {
 
 	/**
 	 * Instantiates a new point with <code>-1</code> as time
-	 *
+	 * 
 	 * @param point
 	 *            the point
 	 */
@@ -36,7 +36,7 @@ public class Point {
 
 	/**
 	 * Instantiates a new point.
-	 *
+	 * 
 	 * @param time
 	 *            the time
 	 * @param point
@@ -49,7 +49,7 @@ public class Point {
 
 	/**
 	 * Gets the number of dimensions.
-	 *
+	 * 
 	 * @return the number of dimensions
 	 */
 	public int getDimensions() {
@@ -59,7 +59,7 @@ public class Point {
 	/**
 	 * Gets the coordinate for the given dimension (starting with dimension
 	 * <code>0</code>)
-	 *
+	 * 
 	 * @param dimension
 	 *            the dimension
 	 * @return the double
@@ -70,7 +70,7 @@ public class Point {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -83,7 +83,7 @@ public class Point {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -106,11 +106,15 @@ public class Point {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
+		if (time == -1) {
+			return "Point " + Arrays.toString(point);
+		}
+
 		return "Point [time=" + time + ", coordinates="
 				+ Arrays.toString(point) + "]";
 	}

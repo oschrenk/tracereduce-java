@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.q2web.gis.geometry.EuclideanGeometry;
@@ -45,8 +44,6 @@ public class LinearApproximationReferenceAlgorithmTest {
 		epsilon = 1;
 	}
 
-	// TODO FIXME wrong weights
-	@Ignore
 	@Test
 	public void test() {
 		final Geometry geometry = new EuclideanGeometry();

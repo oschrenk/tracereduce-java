@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.q2web.gis.alg.la.ref.dijkstra.DijkstraAlgorithm;
 import de.q2web.gis.alg.la.ref.dijkstra.Edge;
 import de.q2web.gis.alg.la.ref.dijkstra.Graph;
@@ -17,12 +20,17 @@ import de.q2web.gis.trajectory.core.api.Point;
  */
 public class LinearApproximationReferenceAlgorithm implements Algorithm {
 
+	private static Logger LOGGER = LoggerFactory
+			.getLogger(LinearApproximationReferenceAlgorithm.class);
+
+	private static final int DEFAULT_WEIGHT = 1;
+
 	/** The geometry. */
 	private final Geometry geometry;
 
 	/**
 	 * Instantiates a new linear approximation reference algorithm.
-	 *
+	 * 
 	 * @param geometry
 	 *            the geometry
 	 */
@@ -32,7 +40,7 @@ public class LinearApproximationReferenceAlgorithm implements Algorithm {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see de.q2web.gis.trajectory.core.api.Algorithm#run(java.util.List,
 	 * double)
 	 */
@@ -43,6 +51,7 @@ public class LinearApproximationReferenceAlgorithm implements Algorithm {
 				trace, epsilon);
 
 		final List<Point> simplifiedTrace = new LinkedList<Point>();
+
 		for (final Vertex<Point> vertex : polylineSimplification) {
 			simplifiedTrace.add(vertex.getValue());
 		}
@@ -52,7 +61,7 @@ public class LinearApproximationReferenceAlgorithm implements Algorithm {
 
 	/**
 	 * Gets the polyline simplification.
-	 *
+	 * 
 	 * @param trace
 	 *            the trace
 	 * @param epsilon
@@ -60,7 +69,7 @@ public class LinearApproximationReferenceAlgorithm implements Algorithm {
 	 * @return the polyline simplification
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public LinkedList<Vertex<Point>> getPolylineSimplification(
+	private LinkedList<Vertex<Point>> getPolylineSimplification(
 			final List<Point> trace, final double epsilon) {
 
 		// create the nodes
@@ -72,13 +81,14 @@ public class LinearApproximationReferenceAlgorithm implements Algorithm {
 		}
 
 		// create the edges
-		final List<Edge<Point>> edges = setupEdgesBruteForce(vertices, epsilon);
+		final List<Edge<Point>> edges = setupEdges(vertices, epsilon);
 
 		// create shortest path through the trace
 		final Graph graph = new Graph(trace, edges);
 		final DijkstraAlgorithm<Point> dijkstra = new DijkstraAlgorithm<Point>(
 				graph);
 		dijkstra.execute(vertices.get(0));
+
 		return dijkstra.getPath(vertices.get(vertices.size() - 1));
 	}
 
@@ -87,15 +97,15 @@ public class LinearApproximationReferenceAlgorithm implements Algorithm {
 	 * there exist edges between each two successive nodes. Additional edges are
 	 * created between two nodes 'from' and 'to', if all nodes \in ]from; to[
 	 * can be interpolated without an interpolation error exceeding epsilon
-	 *
+	 * 
 	 * @param nodes
 	 *            the nodes
 	 * @param epsilon
 	 *            the epsilon
 	 * @return the list
 	 */
-	private List<Edge<Point>> setupEdgesBruteForce(
-			final List<Vertex<Point>> nodes, final double epsilon) {
+	private List<Edge<Point>> setupEdges(final List<Vertex<Point>> nodes,
+			final double epsilon) {
 
 		int edgeId = 0;
 		final List<Edge<Point>> edgeList = new ArrayList<Edge<Point>>();
@@ -105,32 +115,39 @@ public class LinearApproximationReferenceAlgorithm implements Algorithm {
 		for (int from = 0; from < numberOfNodes - 1; from++) {
 			final Vertex<Point> vertexFrom = nodes.get(from);
 			final Vertex<Point> vertexTo = nodes.get(from + 1);
-			edgeList.add(new Edge<Point>(edgeId++, vertexFrom, vertexTo));
+			edgeList.add(new Edge<Point>(edgeId++, vertexFrom, vertexTo,
+					DEFAULT_WEIGHT));
 		}
 
-		// the pointer 'lineStartIndex' and 'lineEndIndex' create a virtual edge
-		// and
-		// the pointer 'intermediatePointIndex' checks for every point
-		// interpolated
-		// by this edge (i.e. inter \in ]from;to[ ), whether the
-		// interpolation error bound (epsilon) is violated by the
-		// interpolation distance (delta).
+		// 'lineStartIndex' and 'lineEndIndex' create virtual edge
+		// calculate distance from intermediatePointIndex to this edge
 		for (int lineStartIndex = 0; lineStartIndex < numberOfNodes - 2; lineStartIndex++) {
-			for (int lineEndIndex = lineStartIndex + 2; lineEndIndex < numberOfNodes - 1; lineEndIndex++) {
+			for (int lineEndIndex = lineStartIndex + 2; lineEndIndex < numberOfNodes; lineEndIndex++) {
 				double maxDelta = 0.0;
 				for (int intermediatePointIndex = lineStartIndex + 1; intermediatePointIndex < lineEndIndex; intermediatePointIndex++) {
-					final double delta = geometry.distance(
-							nodes.get(intermediatePointIndex).getValue(), nodes
-									.get(lineStartIndex).getValue(),
-							nodes.get(lineEndIndex).getValue());
+					Point point = nodes.get(intermediatePointIndex).getValue();
+					Point lineStart = nodes.get(lineStartIndex).getValue();
+					Point lineEnd = nodes.get(lineEndIndex).getValue();
 
+					final double delta = geometry.distance(point, lineStart,
+							lineEnd);
+					LOGGER.trace("Distance from {} to{},{}, is {}", point,
+							lineStart, lineEnd, delta);
 					if (geometry.compare(delta, maxDelta) > 0) {
 						maxDelta = delta;
 					}
 				}
+				LOGGER.trace("Found maximum delta of {}", maxDelta);
 				if (geometry.compare(maxDelta, epsilon) <= 0) {
-					edgeList.add(new Edge<Point>(edgeList.size(), nodes
-							.get(lineStartIndex), nodes.get(lineEndIndex)));
+					// final int weight = lineEndIndex - lineStartIndex - 1;
+					final int weight = DEFAULT_WEIGHT;
+					final Vertex<Point> start = nodes.get(lineStartIndex);
+					final Vertex<Point> end = nodes.get(lineEndIndex);
+
+					LOGGER.trace("Connecting {} with {}, weight {}", start,
+							end, weight);
+					edgeList.add(new Edge<Point>(edgeList.size(), start, end,
+							weight));
 				}
 			}
 		}

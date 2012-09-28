@@ -12,7 +12,7 @@ import de.q2web.jocl.util.Arrays;
  *
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class ConstrainedCubicSplinesRawOpenClAlgorithm implements Algorithm {
+public class ConstrainedCubicSplinesReferenceAlgorithm implements Algorithm {
 
 	/*
 	 * @see de.q2web.gis.trajectory.core.api.Algorithm#run(java.util.List,

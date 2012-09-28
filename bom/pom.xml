@@ -34,6 +34,15 @@
 	</scm>
 
 	<properties>
+
+		<version.guava>13.0.1</version.guava>
+		<version.jcommander>1.29</version.jcommander>
+		<version.jts>1.12</version.jts>
+		<version.junit>4.10</version.junit>
+		<version.logback>1.0.7</version.logback>
+		<version.opencsv>2.3</version.opencsv>
+		<version.slf4j>1.7.1</version.slf4j>
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
@@ -58,19 +67,19 @@
 			<dependency>
 				<groupId>de.q2web.gis</groupId>
 				<artifactId>tracereduce-core-api</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>de.q2web.gis</groupId>
 				<artifactId>tracereduce-core-geo</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>de.q2web.gis</groupId>
 				<artifactId>tracereduce-core-jobs</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<!-- ALGORITHMS -->
@@ -78,49 +87,49 @@
 			<dependency>
 				<groupId>de.q2web.gis.alg</groupId>
 				<artifactId>tracereduce-algorithms-core</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>de.q2web.gis.alg</groupId>
 				<artifactId>douglas-peucker-reference</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>de.q2web.gis.alg</groupId>
 				<artifactId>douglas-peucker-opencl</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>de.q2web.gis.alg</groupId>
 				<artifactId>linear-approximation-reference</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>de.q2web.gis.alg</groupId>
 				<artifactId>linear-approximation-jgrapht</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>de.q2web.gis.alg</groupId>
 				<artifactId>linear-approximation-opencl</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>de.q2web.gis.alg</groupId>
 				<artifactId>cubic-splines-reference</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>de.q2web.gis.alg</groupId>
 				<artifactId>cubic-splines-opencl</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<!-- IO -->
@@ -128,20 +137,20 @@
 			<dependency>
 				<groupId>de.q2web.gis</groupId>
 				<artifactId>tracereduce-io-api</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>de.q2web.gis</groupId>
 				<artifactId>tracereduce-io-core</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 
 			<dependency>
 				<groupId>de.q2web.gis</groupId>
 				<artifactId>tracereduce-io-csv</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<!-- LOCAL -->
@@ -149,13 +158,13 @@
 			<dependency>
 				<groupId>de.q2web.util</groupId>
 				<artifactId>timer</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>de.q2web.util</groupId>
 				<artifactId>timer-api</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<!-- EXTERNAL -->
@@ -163,7 +172,7 @@
 			<dependency>
 				<groupId>com.vividsolutions</groupId>
 				<artifactId>jts</artifactId>
-				<version>1.12</version>
+				<version>${version.jts}</version>
 			</dependency>
 
 			<!-- UI -->
@@ -171,7 +180,7 @@
 			<dependency>
 				<groupId>com.beust</groupId>
 				<artifactId>jcommander</artifactId>
-				<version>1.29</version>
+				<version>${version.jcommander}</version>
 			</dependency>
 
 			<!-- COMMON -->
@@ -179,7 +188,7 @@
 			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
-				<version>13.0</version>
+				<version>${version.guava}</version>
 			</dependency>
 
 			<!-- IO -->
@@ -187,7 +196,7 @@
 			<dependency>
 				<groupId>net.sf.opencsv</groupId>
 				<artifactId>opencsv</artifactId>
-				<version>2.3</version>
+				<version>${version.opencsv}</version>
 			</dependency>
 
 			<!-- LOGGING -->
@@ -195,19 +204,19 @@
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-core</artifactId>
-				<version>1.0.6</version>
+				<version>${version.logback}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
-				<version>1.0.6</version>
+				<version>${version.logback}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.6.6</version>
+				<version>${version.slf4j}</version>
 			</dependency>
 
 			<!-- TEST -->
@@ -215,7 +224,7 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.10</version>
+				<version>${version.junit}</version>
 				<scope>test</scope>
 			</dependency>
 

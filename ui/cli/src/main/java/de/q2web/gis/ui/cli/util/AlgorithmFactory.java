@@ -14,26 +14,26 @@ import de.q2web.gis.trajectory.core.api.Geometry;
 
 /**
  * A factory for creating algorithms.
- *
+ * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class AlgorithmFactory {
 
 	private static final List<String> validAlgorithmTypes = new ArrayList<String>();
 
-	private static final String CUBIC_SPLINE = "cubic-spline";
-	private static final String LINEAR_APPROXIMATION = "linear-approximation";
+	private static final String SPLINE = "spline";
+	private static final String IMAI = "imai";
 	private static final String DOUGLAS_PEUCKER = "douglas-peucker";
 
 	static {
 		validAlgorithmTypes.add(DOUGLAS_PEUCKER);
-		validAlgorithmTypes.add(LINEAR_APPROXIMATION);
-		validAlgorithmTypes.add(CUBIC_SPLINE);
+		validAlgorithmTypes.add(IMAI);
+		validAlgorithmTypes.add(SPLINE);
 	}
 
 	/**
 	 * Builds the.
-	 *
+	 * 
 	 * @param value
 	 *            the value
 	 * @return the algorithm template
@@ -53,9 +53,9 @@ public class AlgorithmFactory {
 
 		if (type.equals(DOUGLAS_PEUCKER)) {
 			return getDouglasPeuckerAlgorithm(variant, geometry);
-		} else if (type.equals(LINEAR_APPROXIMATION)) {
-			return getLinearApproximationAlgorithm(variant, geometry);
-		} else if (type.equals(CUBIC_SPLINE)) {
+		} else if (type.equals(IMAI)) {
+			return getImaiAlgorithm(variant, geometry);
+		} else if (type.equals(SPLINE)) {
 			return getCubicSplineAlgorithm(variant, geometry);
 		}
 
@@ -68,15 +68,15 @@ public class AlgorithmFactory {
 
 		if (variant.equals("reference")) {
 			return new DouglasPeuckerReferenceAlgorithm(geometry);
-		} else if (variant.equals("raw-opencl")) {
+		} else if (variant.equals("opencl")) {
 			return new DouglasPeuckerOpenClAlgorithm();
 		}
 
 		throw new IllegalArgumentException("Not a valid variant.");
 	}
 
-	private static Algorithm getLinearApproximationAlgorithm(
-			final String variant, final Geometry geometry) {
+	private static Algorithm getImaiAlgorithm(final String variant,
+			final Geometry geometry) {
 		if (variant.equals("reference")) {
 			return new LinearApproximationReferenceAlgorithm(geometry);
 		} else if (variant.equals("opencl")) {

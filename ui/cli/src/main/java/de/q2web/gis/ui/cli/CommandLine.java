@@ -41,7 +41,7 @@ import de.q2web.gis.ui.cli.util.ExitException;
 import de.q2web.util.timer.WorkUnitException;
 
 /**
- *
+ * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class CommandLine {
@@ -49,13 +49,20 @@ public class CommandLine {
 	/** The Constant ZERO. Everything went fine. */
 	private static final int ZERO = 0;
 
+	private static boolean DEFAULT_BATCH = false;
+
 	public static void main(final String[] args) {
-		new CommandLine().run(args);
+		new CommandLine().run(args, DEFAULT_BATCH);
 	}
 
-	protected void run(final String[] args) {
+	protected static void main(final String[] args, final boolean batchMode) {
+		new CommandLine().run(args, batchMode);
+	}
+
+	protected void run(final String[] args, final boolean batchMode) {
 
 		int exitCode = ZERO;
+		File input = null;
 
 		try {
 			// 1. read startup arguments
@@ -64,7 +71,7 @@ public class CommandLine {
 			jCommander.parse(args);
 
 			// 2. build object tree from arguments
-			final File input = startupArguments.getInput();
+			input = startupArguments.getInput();
 			final double epsilon = EpsilonFactory.build(startupArguments
 					.getEpsilon());
 			final String algorithmName = startupArguments.getAlgorithm();
@@ -93,7 +100,14 @@ public class CommandLine {
 			e.printStackTrace(System.err);
 			exitCode = ExitCodes.EX_SOFTWARE;
 		} finally {
-			System.exit(exitCode);
+			if (!batchMode) {
+				System.exit(exitCode);
+			} else {
+				if (exitCode != ZERO) {
+					System.out.println(String.format("Error in file %s",
+							input.getAbsolutePath()));
+				}
+			}
 		}
 
 	}
