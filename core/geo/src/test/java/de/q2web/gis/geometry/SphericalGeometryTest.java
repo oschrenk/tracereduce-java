@@ -1,10 +1,9 @@
 package de.q2web.gis.geometry;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import de.q2web.gis.trajectory.core.api.Point;
 import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.trajectory.core.api.Point;
 

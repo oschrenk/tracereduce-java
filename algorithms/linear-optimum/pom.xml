@@ -8,7 +8,7 @@
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>linear-approximation</artifactId>
+	<artifactId>linear-optimum</artifactId>
 	<packaging>pom</packaging>
 
 	<name>TraceReduce, Algorithms, Linear Approximation</name>

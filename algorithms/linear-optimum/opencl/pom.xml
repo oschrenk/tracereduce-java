@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.q2web.gis.alg</groupId>
-		<artifactId>linear-approximation</artifactId>
+		<artifactId>linear-optimum</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>linear-approximation-opencl</artifactId>
+	<artifactId>linear-optimum-opencl</artifactId>
 
 	<properties>
 		<version.jocl>0.1.7</version.jocl>

@@ -156,12 +156,12 @@
 
 		<dependency>
 			<groupId>de.q2web.gis.alg</groupId>
-			<artifactId>linear-approximation-reference</artifactId>
+			<artifactId>linear-optimum-reference</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>de.q2web.gis.alg</groupId>
-			<artifactId>linear-approximation-opencl</artifactId>
+			<artifactId>linear-optimum-opencl</artifactId>
 		</dependency>
 
 		<dependency>

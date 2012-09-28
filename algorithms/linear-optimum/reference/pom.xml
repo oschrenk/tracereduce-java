@@ -4,13 +4,13 @@
 
 	<parent>
 		<groupId>de.q2web.gis.alg</groupId>
-		<artifactId>linear-approximation</artifactId>
+		<artifactId>linear-optimum</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>linear-approximation-reference</artifactId>
+	<artifactId>linear-optimum-reference</artifactId>
 
-	<name>TraceReduce, Algorithms, Linear Approxmation, Reference Implementation</name>
+	<name>TraceReduce, Algorithms, Linear Optimum, Reference Implementation</name>
 
 	<dependencies>
 

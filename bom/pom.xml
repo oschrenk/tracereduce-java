@@ -104,19 +104,13 @@
 
 			<dependency>
 				<groupId>de.q2web.gis.alg</groupId>
-				<artifactId>linear-approximation-reference</artifactId>
+				<artifactId>linear-optimum-reference</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>de.q2web.gis.alg</groupId>
-				<artifactId>linear-approximation-jgrapht</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>de.q2web.gis.alg</groupId>
-				<artifactId>linear-approximation-opencl</artifactId>
+				<artifactId>linear-optimum-opencl</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

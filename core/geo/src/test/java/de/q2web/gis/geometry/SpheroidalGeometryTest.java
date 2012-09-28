@@ -5,21 +5,20 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import de.q2web.gis.trajectory.core.api.Point;
 import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.trajectory.core.api.Point;
 
 /**
- *
+ * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class SpheroidalGeometryTest {
 
 	/**
-	 *
+	 * 
 	 * Solution does not work correctly on antipodal points as the plane through
 	 * A, B and the center is not completely defined,
-	 *
+	 * 
 	 */
 	@Test
 	public void testAntiPodal() {

@@ -127,7 +127,7 @@
 	<modules>
 		<module>cubic-spline</module>
 		<module>douglas-peucker</module>
-		<module>linear-approximation</module>
+		<module>linear-optimum</module>
 	</modules>
 
 </project>
