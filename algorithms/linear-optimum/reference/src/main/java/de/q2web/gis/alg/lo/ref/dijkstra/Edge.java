@@ -1,4 +1,4 @@
-package de.q2web.gis.alg.la.ref.dijkstra;
+package de.q2web.gis.alg.lo.ref.dijkstra;
 
 /**
  * package de.vogella.algorithms.dijkstra.model;

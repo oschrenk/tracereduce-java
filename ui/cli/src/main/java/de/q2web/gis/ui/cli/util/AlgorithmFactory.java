@@ -7,8 +7,8 @@ import de.q2web.gis.alg.cs.opencl.CubicSplinesOpenClAlgorithm;
 import de.q2web.gis.alg.cs.ref.CubicSplinesReferenceAlgorithm;
 import de.q2web.gis.alg.dp.DouglasPeuckerReferenceAlgorithm;
 import de.q2web.gis.alg.dp.opencl.DouglasPeuckerOpenClAlgorithm;
-import de.q2web.gis.alg.la.opencl.LinearApproximationOpenClAlgorithm;
-import de.q2web.gis.alg.la.ref.LinearApproximationReferenceAlgorithm;
+import de.q2web.gis.alg.lo.opencl.LinearOptimumOpenClAlgorithm;
+import de.q2web.gis.alg.lo.ref.LinearOptimumReferenceAlgorithm;
 import de.q2web.gis.trajectory.core.api.Algorithm;
 import de.q2web.gis.trajectory.core.api.Geometry;
 
@@ -78,9 +78,9 @@ public class AlgorithmFactory {
 	private static Algorithm getImaiAlgorithm(final String variant,
 			final Geometry geometry) {
 		if (variant.equals("reference")) {
-			return new LinearApproximationReferenceAlgorithm(geometry);
+			return new LinearOptimumReferenceAlgorithm(geometry);
 		} else if (variant.equals("opencl")) {
-			return new LinearApproximationOpenClAlgorithm();
+			return new LinearOptimumOpenClAlgorithm();
 		}
 
 		throw new IllegalArgumentException("Not a valid variant.");

@@ -24,6 +24,14 @@ Finally
 	$ cd tracereduce-java
 	$ make
 
+The integration tests, test that basically run all algorithms, require a lot of resources.
+
+Because of this the `maven-failsafe-plugin` invokes a new JVM with the following properties
+
+	-Xmx1024M -Xms1024M -XX:PermSize=2048m -XX:MaxPermSize=2048m
+
+Make sure that your system supports the given amount of RAM.
+
 ### Eclipse ###
 
 - [m2eclipse](http://www.sonatype.org/m2eclipse) needed

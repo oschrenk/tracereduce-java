@@ -1,4 +1,4 @@
-package de.q2web.gis.alg.la.ref.dijkstra;
+package de.q2web.gis.alg.lo.ref.dijkstra;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -10,6 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
+
+import de.q2web.gis.alg.lo.ref.dijkstra.DijkstraAlgorithm;
+import de.q2web.gis.alg.lo.ref.dijkstra.Edge;
+import de.q2web.gis.alg.lo.ref.dijkstra.Graph;
+import de.q2web.gis.alg.lo.ref.dijkstra.Vertex;
 
 public class DijkstraAlgorithmTest {
 

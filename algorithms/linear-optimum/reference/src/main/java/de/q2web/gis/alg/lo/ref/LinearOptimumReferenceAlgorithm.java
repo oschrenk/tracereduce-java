@@ -1,4 +1,4 @@
-package de.q2web.gis.alg.la.ref;
+package de.q2web.gis.alg.lo.ref;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -7,21 +7,21 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.q2web.gis.alg.la.ref.dijkstra.DijkstraAlgorithm;
-import de.q2web.gis.alg.la.ref.dijkstra.Edge;
-import de.q2web.gis.alg.la.ref.dijkstra.Graph;
-import de.q2web.gis.alg.la.ref.dijkstra.Vertex;
+import de.q2web.gis.alg.lo.ref.dijkstra.DijkstraAlgorithm;
+import de.q2web.gis.alg.lo.ref.dijkstra.Edge;
+import de.q2web.gis.alg.lo.ref.dijkstra.Graph;
+import de.q2web.gis.alg.lo.ref.dijkstra.Vertex;
 import de.q2web.gis.trajectory.core.api.Algorithm;
 import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.trajectory.core.api.Point;
 
 /**
- * The Class LinearApproximationReferenceAlgorithm.
+ * The Class LinearOptimumReferenceAlgorithm.
  */
-public class LinearApproximationReferenceAlgorithm implements Algorithm {
+public class LinearOptimumReferenceAlgorithm implements Algorithm {
 
 	private static Logger LOGGER = LoggerFactory
-			.getLogger(LinearApproximationReferenceAlgorithm.class);
+			.getLogger(LinearOptimumReferenceAlgorithm.class);
 
 	private static final int DEFAULT_WEIGHT = 1;
 
@@ -29,12 +29,12 @@ public class LinearApproximationReferenceAlgorithm implements Algorithm {
 	private final Geometry geometry;
 
 	/**
-	 * Instantiates a new linear approximation reference algorithm.
+	 * Instantiates a new linear optimum reference algorithm.
 	 * 
 	 * @param geometry
 	 *            the geometry
 	 */
-	public LinearApproximationReferenceAlgorithm(final Geometry geometry) {
+	public LinearOptimumReferenceAlgorithm(final Geometry geometry) {
 		this.geometry = geometry;
 	}
 

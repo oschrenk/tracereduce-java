@@ -3,16 +3,22 @@ package de.q2web.gis.alg.dp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.q2web.gis.trajectory.core.api.Algorithm;
 import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.trajectory.core.api.Point;
 
 /**
  * The Class DouglasPeuckerAlgorithm.
- *
+ * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class DouglasPeuckerReferenceAlgorithm implements Algorithm {
+
+	private static Logger LOGGER = LoggerFactory
+			.getLogger(DouglasPeuckerReferenceAlgorithm.class);
 
 	/** The epsilon. */
 	private double epsilon;
@@ -22,7 +28,7 @@ public class DouglasPeuckerReferenceAlgorithm implements Algorithm {
 
 	/**
 	 * Instantiates a new douglas peucker algorithm.
-	 *
+	 * 
 	 * @param geometry
 	 *            the geometry
 	 */
@@ -38,12 +44,17 @@ public class DouglasPeuckerReferenceAlgorithm implements Algorithm {
 	@Override
 	public List<Point> run(final List<Point> trace, final double epsilon) {
 		this.epsilon = epsilon;
+
+		final List<Point> simplified = run(trace);
+
+		LOGGER.trace("Trace: {}", simplified);
+
 		return run(trace);
 	}
 
 	/**
 	 * Run.
-	 *
+	 * 
 	 * @param trace
 	 *            the trace
 	 * @return the list

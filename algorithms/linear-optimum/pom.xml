@@ -11,7 +11,7 @@
 	<artifactId>linear-optimum</artifactId>
 	<packaging>pom</packaging>
 
-	<name>TraceReduce, Algorithms, Linear Approximation</name>
+	<name>TraceReduce, Algorithms, Linear Optimum</name>
 
 	<modules>
 		<module>reference</module>

@@ -3,6 +3,9 @@ package de.q2web.gis.ui.cli;
 import java.io.File;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.q2web.gis.io.api.TraceReader;
 import de.q2web.gis.io.api.TraceWriter;
 import de.q2web.gis.trajectory.core.api.Algorithm;
@@ -21,6 +24,8 @@ import de.q2web.util.timer.WorkUnitException;
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class TraceReduce {
+
+	private static Logger LOGGER = LoggerFactory.getLogger(TraceReduce.class);
 
 	/** The trace reader. */
 	private final TraceReader traceReader;
@@ -46,8 +51,9 @@ public class TraceReduce {
 	 * @param traceWriter
 	 *            the trace writer
 	 */
-	public TraceReduce(final TraceReader traceReader, final Algorithm algorithm,
-			final boolean isTimed, final TraceWriter traceWriter) {
+	public TraceReduce(final TraceReader traceReader,
+			final Algorithm algorithm, final boolean isTimed,
+			final TraceWriter traceWriter) {
 		this.traceReader = traceReader;
 		this.algorithm = algorithm;
 		this.isTimed = isTimed;
@@ -87,11 +93,15 @@ public class TraceReduce {
 		final long traceWriterDuration = traceWriterWorkUnit.getElapsedNanos();
 
 		if (isTimed) {
+			System.out.println(String.format("%s with %s points",
+					input.getAbsolutePath(), trace.size()));
 			System.out.println(String.format("Input read in %s",
 					Duration.of(traceReaderDuration)));
 
 			System.out.println(String.format("Algorithm took %s",
 					Duration.of(algorithmDuration)));
+
+			LOGGER.info(Long.toString(algorithmDuration));
 
 			System.out.println(String.format("Output written in %s",
 					Duration.of(traceWriterDuration)));

@@ -7,7 +7,7 @@ import java.io.Writer;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.converters.FileConverter;
 
-import de.q2web.gis.geometry.EuclideanGeometry;
+import de.q2web.gis.geometry.SphericalGeometry;
 import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.ui.cli.util.EpsilonConverter;
 import de.q2web.gis.ui.cli.util.GeometryConverter;
@@ -21,9 +21,9 @@ import de.q2web.gis.ui.cli.util.TraceWriterConverter;
 public class StartupArguments {
 
 	/** The Constant DEFAULT_GEOMETRY. */
-	private static final Geometry DEFAULT_GEOMETRY = new EuclideanGeometry();
+	private static final Geometry DEFAULT_GEOMETRY = new SphericalGeometry();
 
-	// TODO epxplain unit
+	// if spherical geometry it means meters
 	/** The Constant DEFAULT_EPSILON. */
 	private static final double DEFAULT_EPSILON = 10;
 
@@ -67,7 +67,7 @@ public class StartupArguments {
 
 	/**
 	 * Gets the input.
-	 *
+	 * 
 	 * @return the input
 	 */
 	public File getInput() {
@@ -76,7 +76,7 @@ public class StartupArguments {
 
 	/**
 	 * Gets the epsilon.
-	 *
+	 * 
 	 * @return the epsilon
 	 */
 	public Number getEpsilon() {
@@ -85,7 +85,7 @@ public class StartupArguments {
 
 	/**
 	 * Gets the algorithm.
-	 *
+	 * 
 	 * @return the algorithm
 	 */
 	public String getAlgorithm() {
@@ -94,7 +94,7 @@ public class StartupArguments {
 
 	/**
 	 * Gets the geometry.
-	 *
+	 * 
 	 * @return the geometry
 	 */
 	public Geometry getGeometry() {
@@ -103,7 +103,7 @@ public class StartupArguments {
 
 	/**
 	 * Gets the dimensions.
-	 *
+	 * 
 	 * @return the dimensions
 	 */
 	public int getDimensions() {
@@ -112,7 +112,7 @@ public class StartupArguments {
 
 	/**
 	 * Checks if is timed.
-	 *
+	 * 
 	 * @return true, if is timed
 	 */
 	public boolean isTimed() {
@@ -121,7 +121,7 @@ public class StartupArguments {
 
 	/**
 	 * Gets the output.
-	 *
+	 * 
 	 * @return the output
 	 */
 	public Writer getWriter() {

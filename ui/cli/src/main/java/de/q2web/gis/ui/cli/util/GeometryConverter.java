@@ -8,7 +8,7 @@ import de.q2web.gis.geometry.SpheroidalGeometry;
 import de.q2web.gis.trajectory.core.api.Geometry;
 
 /**
- *
+ * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class GeometryConverter implements IStringConverter<Geometry> {
@@ -29,6 +29,6 @@ public class GeometryConverter implements IStringConverter<Geometry> {
 			return new SpheroidalGeometry();
 		}
 
-		return null;
+		throw new IllegalArgumentException("No valid geoemtry given");
 	}
 }

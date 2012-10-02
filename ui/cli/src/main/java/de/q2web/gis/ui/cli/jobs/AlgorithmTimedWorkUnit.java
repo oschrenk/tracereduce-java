@@ -13,7 +13,8 @@ import de.q2web.util.timer.WorkUnitException;
  * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class AlgorithmTimedWorkUnit extends TimedWorkUnit<AlgorithmInput, List<Point>> {
+public class AlgorithmTimedWorkUnit extends
+		TimedWorkUnit<AlgorithmInput, List<Point>> {
 
 	/** The algorithm. */
 	private final Algorithm algorithm;
@@ -35,7 +36,9 @@ public class AlgorithmTimedWorkUnit extends TimedWorkUnit<AlgorithmInput, List<P
 	protected List<Point> work(final AlgorithmInput algorithmInput)
 			throws WorkUnitException {
 
-		return algorithm.run(algorithmInput.getTrace(),
+		final List<Point> trace = algorithm.run(algorithmInput.getTrace(),
 				algorithmInput.getEpsilon());
+
+		return trace;
 	}
 }

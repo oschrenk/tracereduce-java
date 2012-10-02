@@ -30,6 +30,16 @@ public class Point {
 	 * @param point
 	 *            the point
 	 */
+	public Point(final double x, final double y) {
+		this(NO_TIME, new double[] { x, y });
+	}
+
+	/**
+	 * Instantiates a new point with <code>-1</code> as time
+	 * 
+	 * @param point
+	 *            the point
+	 */
 	public Point(final double[] point) {
 		this(NO_TIME, point);
 	}

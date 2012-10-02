@@ -1,4 +1,4 @@
-package de.q2web.gis.alg.la.ref;
+package de.q2web.gis.alg.lo.ref;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -9,12 +9,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.q2web.gis.alg.lo.ref.LinearOptimumReferenceAlgorithm;
 import de.q2web.gis.geometry.EuclideanGeometry;
 import de.q2web.gis.trajectory.core.api.Algorithm;
 import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.trajectory.core.api.Point;
 
-public class LinearApproximationReferenceAlgorithmTest {
+public class LinearOptimumReferenceAlgorithmTest {
 
 	private Point start;
 	private Point end;
@@ -47,7 +48,7 @@ public class LinearApproximationReferenceAlgorithmTest {
 	@Test
 	public void test() {
 		final Geometry geometry = new EuclideanGeometry();
-		final Algorithm referenceAlgorithm = new LinearApproximationReferenceAlgorithm(
+		final Algorithm referenceAlgorithm = new LinearOptimumReferenceAlgorithm(
 				geometry);
 
 		final List<Point> reducedTrace = referenceAlgorithm.run(trace, epsilon);
