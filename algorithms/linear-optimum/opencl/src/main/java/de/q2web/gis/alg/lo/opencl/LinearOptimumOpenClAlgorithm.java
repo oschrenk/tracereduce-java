@@ -16,8 +16,8 @@ import static org.jocl.CL.clReleaseMemObject;
 import static org.jocl.CL.clReleaseProgram;
 import static org.jocl.CL.clSetKernelArg;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -48,6 +48,8 @@ import de.q2web.jocl.util.Resources;
 
 public class LinearOptimumOpenClAlgorithm implements Algorithm {
 
+	private static final int DEFAULT_SOURCE_ID = 0;
+
 	private static Logger LOGGER = LoggerFactory
 			.getLogger(LinearOptimumOpenClAlgorithm.class);
 
@@ -77,11 +79,11 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 	private float[] yCoordinates;
 	private int[] vertexArray;
 
-	private final List<Integer> knots = new LinkedList<Integer>();
-
 	private double epsilon;
 
 	private final String crossTrackMetric;
+
+	private List<Point> trace;
 
 	public LinearOptimumOpenClAlgorithm(final String crossTrackMetric) {
 		this.crossTrackMetric = crossTrackMetric;
@@ -96,6 +98,7 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 	@Override
 	public List<Point> run(final List<Point> trace, final double epsilon) {
 
+		this.trace = trace;
 		this.epsilon = epsilon;
 
 		// init arrays
@@ -110,19 +113,11 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 			yCoordinates[i] = (float) point.get(1);
 		}
 
-		// run and fill global knots array
-		run();
-
-		// map index to original trace
-		final List<Point> result = new ArrayList<Point>();
-		for (final Integer index : knots) {
-			result.add(trace.get(index));
-		}
-
-		return result;
+		// get results
+		return run();
 	}
 
-	private void run() {
+	private List<Point> run() {
 
 		if (xCoordinates.length != yCoordinates.length) {
 			throw new IllegalArgumentException(
@@ -151,12 +146,15 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 		final Pointer yCoordinatesPointer = Pointer.to(yCoordinates);
 
 		memObject = new cl_mem[3];
+		// x coordinates
 		memObject[0] = clCreateBuffer(context, CL_MEM_READ_ONLY
 				| CL_MEM_COPY_HOST_PTR, Sizeof.cl_float * length,
 				xCoordinatesPointer, null);
+		// y coordinates
 		memObject[1] = clCreateBuffer(context, CL_MEM_READ_ONLY
 				| CL_MEM_COPY_HOST_PTR, Sizeof.cl_float * length,
 				yCoordinatesPointer, null);
+		// distance
 		memObject[2] = clCreateBuffer(context, CL_MEM_READ_WRITE,
 				Sizeof.cl_float * length, null, null);
 
@@ -171,9 +169,6 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 		// maximumKernel
 		clSetKernelArg(maximumKernel, 0, Sizeof.cl_mem,
 				Pointer.to(memObject[2]));
-
-		// connect all neighbors
-		// TODO connect all neighbors
 
 		// setup edges
 		// 'lineStartIndex' and 'lineEndIndex' create virtual edge
@@ -195,8 +190,8 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 				final float toX = xCoordinates[lineEndIndex];
 				final float toY = yCoordinates[lineEndIndex];
 
-				final boolean addEdge = run(lineStartIndex, lineEndIndex,
-						fromX, fromY, toX, toY);
+				final boolean addEdge = isValidEdge(lineStartIndex,
+						lineEndIndex, fromX, fromY, toX, toY);
 
 				if (addEdge) {
 					edges.add(lineEndIndex);
@@ -214,25 +209,70 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 		LOGGER.trace("VertexArray {}", Arrays.toString(vertexArray));
 		LOGGER.trace("EdgeArray {}", Arrays.toString(edgeArray));
 
-		// FIXME what to do with last vertex?
-		vertexArray[length - 1] = -1;
+		// set last vertex array to 0,
+		// it would be a cyclic but as the last vertex is always the target
+		// there is no harm
+		vertexArray[length - 1] = 0;
 
-		// TODO run dijkstra
-		runDijkstra(0, vertexArray.length - 1, vertexArray.length,
+		// clean up after distance kernel
+		clReleaseMemObject(memObject[0]);
+		clReleaseMemObject(memObject[1]);
+		clReleaseMemObject(memObject[2]);
+		clReleaseKernel(distanceKernel);
+		clReleaseKernel(maximumKernel);
+
+		// *********************************
+		// RUN DIJKSTRA
+		// *********************************
+
+		int vertexCount = vertexArray.length;
+		final Pointer vertexArrayPointer = Pointer.to(vertexArray);
+		final Pointer edgeArrayPointer = Pointer.to(edgeArray);
+
+		memObject = new cl_mem[6];
+		// __global uint *vertexArray
+		memObject[0] = clCreateBuffer(context, CL_MEM_READ_ONLY
+				| CL_MEM_COPY_HOST_PTR, Sizeof.cl_uint * vertexArray.length,
+				vertexArrayPointer, null);
+		// __global uint *edgeArray
+		memObject[1] = clCreateBuffer(context, CL_MEM_READ_ONLY
+				| CL_MEM_COPY_HOST_PTR, Sizeof.cl_uint * edgeCount,
+				edgeArrayPointer, null);
+		// __global uint *maskArray
+		memObject[2] = clCreateBuffer(context, CL_MEM_READ_WRITE,
+				Sizeof.cl_uint * vertexCount, null, null);
+		// __global float *costArray,
+		memObject[3] = clCreateBuffer(context, CL_MEM_READ_WRITE,
+				Sizeof.cl_uint * vertexCount, null, null);
+		// __global float *updatingCostArray,
+		memObject[4] = clCreateBuffer(context, CL_MEM_READ_WRITE,
+				Sizeof.cl_uint * vertexCount, null, null);
+		// __global uint *parentVertexArray,
+		memObject[5] = clCreateBuffer(context, CL_MEM_READ_WRITE,
+				Sizeof.cl_uint * vertexCount, null, null);
+
+		List<Point> simplifiedTrace = runDijkstra(vertexArray.length,
 				edgeArray.length);
 
 		// Release kernel, program, and memory objects
 		clReleaseMemObject(memObject[0]);
 		clReleaseMemObject(memObject[1]);
 		clReleaseMemObject(memObject[2]);
-		clReleaseKernel(distanceKernel);
-		clReleaseKernel(maximumKernel);
+		clReleaseMemObject(memObject[3]);
+		clReleaseMemObject(memObject[4]);
+		clReleaseMemObject(memObject[5]);
+
+		clReleaseKernel(dijkstraInitializationKernel);
+		clReleaseKernel(sssp1Kernel);
+		clReleaseKernel(sssp2Kernel);
 		clReleaseProgram(program);
 		clReleaseCommandQueue(queue);
 		clReleaseContext(context);
+
+		return simplifiedTrace;
 	}
 
-	private boolean run(final int leftOffset, final int rightOffset,
+	private boolean isValidEdge(final int leftOffset, final int rightOffset,
 			final float fromX, final float fromY, final float toX,
 			final float toY) {
 
@@ -281,25 +321,25 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 		return (values[0] <= epsilon);
 	}
 
-	private void runDijkstra(final int sourceVertexId,
-			final int targetVertexId, final int vertexCount, final int edgeCount) {
+	private List<Point> runDijkstra(final int vertexCount, final int edgeCount) {
+
 		// Initialization
 		//
 		// __global int *maskArray,
 		clSetKernelArg(dijkstraInitializationKernel, 0, Sizeof.cl_mem,
-				Pointer.to(memObject[3]));
+				Pointer.to(memObject[2]));
 		// __global float *costArray,
 		clSetKernelArg(dijkstraInitializationKernel, 1, Sizeof.cl_mem,
-				Pointer.to(memObject[4]));
+				Pointer.to(memObject[3]));
 		// __global float *updatingCostArray,
 		clSetKernelArg(dijkstraInitializationKernel, 2, Sizeof.cl_mem,
+				Pointer.to(memObject[4]));
+		// __global uint *parentVertexArray,
+		clSetKernelArg(dijkstraInitializationKernel, 3, Sizeof.cl_mem,
 				Pointer.to(memObject[5]));
 		// int sourceVertexId
-		clSetKernelArg(dijkstraInitializationKernel, 3, Sizeof.cl_uint,
-				Pointer.to(new int[] { sourceVertexId }));
-		// int vertexCount
 		clSetKernelArg(dijkstraInitializationKernel, 4, Sizeof.cl_uint,
-				Pointer.to(new int[] { vertexCount }));
+				Pointer.to(new int[] { DEFAULT_SOURCE_ID }));
 
 		final long[] globalWorkSize = new long[] { vertexCount };
 		clEnqueueNDRangeKernel(queue, dijkstraInitializationKernel, 1, null,
@@ -316,16 +356,16 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 			// __global float *edgeArray,
 			clSetKernelArg(sssp1Kernel, 1, Sizeof.cl_mem,
 					Pointer.to(memObject[1]));
-			// __global float *weightArray,
+			// __global int *maskArray,
 			clSetKernelArg(sssp1Kernel, 2, Sizeof.cl_mem,
 					Pointer.to(memObject[2]));
-			// __global int *maskArray,
+			// __global float *costArray,
 			clSetKernelArg(sssp1Kernel, 3, Sizeof.cl_mem,
 					Pointer.to(memObject[3]));
-			// __global float *costArray,
+			// __global float *updatingCostArray,
 			clSetKernelArg(sssp1Kernel, 4, Sizeof.cl_mem,
 					Pointer.to(memObject[4]));
-			// __global float *updatingCostArray,
+			// __global uint *parentVertexArray,
 			clSetKernelArg(sssp1Kernel, 5, Sizeof.cl_mem,
 					Pointer.to(memObject[5]));
 			// int vertexCount
@@ -341,30 +381,48 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 			// Enqueue Kernel SSSP 2
 			// __global int *maskArray,
 			clSetKernelArg(sssp2Kernel, 0, Sizeof.cl_mem,
-					Pointer.to(memObject[3]));
+					Pointer.to(memObject[2]));
 			// __global float *costArray,
 			clSetKernelArg(sssp2Kernel, 1, Sizeof.cl_mem,
-					Pointer.to(memObject[4]));
+					Pointer.to(memObject[3]));
 			// __global float *updatingCostArray
 			clSetKernelArg(sssp2Kernel, 2, Sizeof.cl_mem,
-					Pointer.to(memObject[5]));
+					Pointer.to(memObject[4]));
 
 			clEnqueueNDRangeKernel(queue, sssp2Kernel, 1, null, globalWorkSize,
 					DEFAULT_LOCAL_WORKSIZE, 0, null, null);
 
 			// read mask array
-			clEnqueueReadBuffer(queue, memObject[3], CL_TRUE, 0, Sizeof.cl_uint
+			clEnqueueReadBuffer(queue, memObject[2], CL_TRUE, 0, Sizeof.cl_uint
 					* vertexCount, maskArrayPointer, 0, null, null);
 		} while (!isEmpty(maskArray));
 
-		// read cost array
-		final int[] costArray = new int[vertexCount];
-		final Pointer costArrayPointer = Pointer.to(costArray);
-		clEnqueueReadBuffer(queue, memObject[4], CL_TRUE, 0, Sizeof.cl_uint
-				* vertexCount, costArrayPointer, 0, null, null);
+		// read parent vertex array
+		final int[] parentVertexArray = new int[vertexCount];
+		final Pointer parentVertexArrayPointer = Pointer.to(parentVertexArray);
+		clEnqueueReadBuffer(queue, memObject[5], CL_TRUE, 0, Sizeof.cl_uint
+				* vertexCount, parentVertexArrayPointer, 0, null, null);
 
-		// return costArray[targetVertexId];
-		// TODO return path
+		return getPath(parentVertexArray);
+	}
+
+	private List<Point> getPath(final int[] parentVertexArray) {
+		List<Point> path = new LinkedList<Point>();
+
+		int currentParent = parentVertexArray.length - 1;
+
+		// add target
+		path.add(trace.get(currentParent));
+
+		// add chain
+		while ((currentParent = parentVertexArray[currentParent]) != 0) {
+			path.add(trace.get(currentParent));
+		}
+
+		// add source
+		path.add(trace.get(0));
+		Collections.reverse(path);
+		return path;
 	}
 
 	private boolean isEmpty(final int[] ints) {

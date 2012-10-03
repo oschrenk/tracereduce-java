@@ -161,31 +161,35 @@ __kernel void maximumWithPositionAndOffsetFloat(
  *
  * @author Dan Ginsburg <daniel.ginsburg@childrens.harvard.edu>
  *
+ * Modified to compute the path and not only the costs
+ *
+ * @author Oliver Schrenk <oliver.schrenk@gmail.com>
+ *
  * @param vertexArray
  *			each entry contains an index that points to <code>edgeArray</code>.
  *			The entry is the edge for that vertex.
  * @param edgeArray
- *			
- * @param weightArray
- * 			stores the weight for each edge
  * @param maskArray
  * @param costArray
  * @param updatingCostArray
+ * @param parentVertexArray
+ 			Stores the parent
  * @param vertexCount
  * @param edgeCount
  */
 __kernel  void dijkstra_sssp1(
 	__global uint *vertexArray,
 	__global uint *edgeArray,
-	__global uint *weightArray,
 	__global uint *maskArray,
 	__global uint *costArray,
 	__global uint *updatingCostArray,
+	__global uint *parentVertexArray,
 	const uint vertexCount,
 	const uint edgeCount
 ) {
     // access thread id
     int tid = get_global_id(0);
+	int defaultWeight = 1;
 
     if ( maskArray[tid] != 0 )
     {
@@ -201,13 +205,10 @@ __kernel  void dijkstra_sssp1(
 
 		for(int edge = edgeStart; edge < edgeEnd; edge++) {
 			int nid = edgeArray[edge];
-			
-			// One note here: whereas the paper specified weightArray[nid], I
-			//  found that the correct thing to do was weightArray[edge].  I think
-			//  this was a typo in the paper.  Either that, or I misunderstood
-			//  the data structure.
-			if (updatingCostArray[nid] > (costArray[tid] + weightArray[edge])) {
-			    updatingCostArray[nid] = (costArray[tid] + weightArray[edge]);
+		
+			if (updatingCostArray[nid] > (costArray[tid] + defaultWeight)) {
+			    updatingCostArray[nid] = (costArray[tid] + defaultWeight);
+			    parentVertexArray[nid] = tid; 
 			}
 		}
     }
@@ -222,13 +223,9 @@ __kernel  void dijkstra_sssp1(
  *
  * @author Dan Ginsburg <daniel.ginsburg@childrens.harvard.edu>
  *
- * @param vertexArray
- * @param edgeArray
- * @param weightArray
  * @param maskArray
  * @param costArray
  * @param updatingCostArray
- * @param vertexCount
  */
 __kernel  void dijkstra_sssp2(
 	__global uint *maskArray,
@@ -275,8 +272,8 @@ __kernel void dijkstra_initialize(
 	__global uint *maskArray,
 	__global uint *costArray,
 	__global uint *updatingCostArray,
-	const uint sourceVertex,
-	const uint vertexCount
+	__global uint *parentVertexArray,
+	const uint sourceVertex
 ) {
     // access thread id
     int tid = get_global_id(0);
@@ -285,9 +282,11 @@ __kernel void dijkstra_initialize(
 	    maskArray[tid] = 1;
 	    costArray[tid] = 0;
 	    updatingCostArray[tid] = 0;
+	    parentVertexArray[tid] = tid;
 	} else {
 	    maskArray[tid] = 0;
 	    costArray[tid] = INT_MAX;
 	    updatingCostArray[tid] = INT_MAX;
+	    parentVertexArray[tid] = INT_MIN;
 	}
 }
