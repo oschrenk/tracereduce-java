@@ -57,7 +57,7 @@ public class BatchIntegrationTest {
 
 	@Test
 	public void testDouglasPeuckerReference() throws IOException {
-		testAlgorithm(DOUGLAS_PEUCKER_REFERENCE, 0.000001f);
+		testAlgorithm(DOUGLAS_PEUCKER_REFERENCE, 5f);
 	}
 
 	@Test

@@ -11,7 +11,7 @@ import de.q2web.gis.core.api.Point;
  * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class SphericalDistanceTest {
+public class HaversineDistanceTest {
 
 	/**
 	 * 
@@ -89,8 +89,8 @@ public class SphericalDistanceTest {
 		// (D): N34:30 W116:30
 		Point D = new Point(116 + 30d / 60, 34 + 30d / 60);
 
-		final double distance = new SphericalDistance().distance(D, LAX, JFK);
+		final double distance = new HaversineDistance().distance(D, LAX, JFK);
 
-		assertEquals(-13810.91, distance, 0.01d);
+		assertEquals(13810.91, distance, 0.01d);
 	}
 }

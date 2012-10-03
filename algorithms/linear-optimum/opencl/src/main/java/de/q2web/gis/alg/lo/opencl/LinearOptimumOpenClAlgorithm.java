@@ -61,6 +61,7 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 
 	public static final String KERNEL_CROSSTRACK_EUCLIDEAN = "euclidean2dPointLineDistance";
 	public static final String KERNEL_CROSSTRACK_SPHERICAL = "spherical2dPointLineDistance";
+	public static final String KERNEL_CROSSTRACK_HAVERSINE = "haversine2dPointLineDistance";
 
 	private static final String KERNEL_MAXIMUM = "maximumWithPositionAndOffsetFloat";
 	private static final String DIJKSTRA_INITIALIZE = "dijkstra_initialize";

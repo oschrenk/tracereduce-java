@@ -56,6 +56,7 @@ public class DouglasPeuckerOpenClAlgorithm implements Algorithm {
 
 	public static final String KERNEL_CROSSTRACK_EUCLIDEAN = "euclidean2dPointLineDistance";
 	public static final String KERNEL_CROSSTRACK_SPHERICAL = "spherical2dPointLineDistance";
+	public static final String KERNEL_CROSSTRACK_HAVERSINE = "haversine2dPointLineDistance";
 
 	private static final String KERNEL_MAXIMUM = "maximumWithPositionAndOffsetFloat";
 
@@ -88,8 +89,7 @@ public class DouglasPeuckerOpenClAlgorithm implements Algorithm {
 	}
 
 	/*
-	 * @see de.q2web.gis.core.api.Algorithm#run(java.util.List,
-	 * double)
+	 * @see de.q2web.gis.core.api.Algorithm#run(java.util.List, double)
 	 */
 	@Override
 	public List<Point> run(final List<Point> trace, final double epsilon) {

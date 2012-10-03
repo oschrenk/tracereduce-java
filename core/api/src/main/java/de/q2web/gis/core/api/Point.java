@@ -29,13 +29,13 @@ public class Point {
 	 * 
 	 * @param time
 	 *            the time
-	 * @param x
+	 * @param longitude
 	 *            the x
-	 * @param y
+	 * @param latitude
 	 *            the y
 	 */
-	public Point(final int time, final double x, final double y) {
-		this(time, new double[] { x, y });
+	public Point(final int time, final double longitude, final double latitude) {
+		this(time, new double[] { longitude, latitude });
 	}
 
 	/**
@@ -44,8 +44,8 @@ public class Point {
 	 * @param point
 	 *            the point
 	 */
-	public Point(final double x, final double y) {
-		this(NO_TIME, new double[] { x, y });
+	public Point(final double longitude, final double latitude) {
+		this(NO_TIME, new double[] { longitude, latitude });
 	}
 
 	/**

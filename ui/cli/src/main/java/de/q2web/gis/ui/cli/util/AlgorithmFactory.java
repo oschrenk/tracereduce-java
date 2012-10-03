@@ -12,6 +12,7 @@ import de.q2web.gis.alg.lo.ref.LinearOptimumReferenceAlgorithm;
 import de.q2web.gis.core.api.Algorithm;
 import de.q2web.gis.core.api.Distance;
 import de.q2web.gis.geom.EuclideanDistance;
+import de.q2web.gis.geom.HaversineDistance;
 import de.q2web.gis.geom.SphericalDistance;
 
 /**
@@ -75,11 +76,12 @@ public class AlgorithmFactory {
 			if (distance instanceof EuclideanDistance) {
 				return new DouglasPeuckerOpenClAlgorithm(
 						DouglasPeuckerOpenClAlgorithm.KERNEL_CROSSTRACK_EUCLIDEAN);
-			} else
-
-			if (distance instanceof SphericalDistance) {
+			} else if (distance instanceof SphericalDistance) {
 				return new DouglasPeuckerOpenClAlgorithm(
 						DouglasPeuckerOpenClAlgorithm.KERNEL_CROSSTRACK_SPHERICAL);
+			} else if (distance instanceof HaversineDistance) {
+				return new DouglasPeuckerOpenClAlgorithm(
+						DouglasPeuckerOpenClAlgorithm.KERNEL_CROSSTRACK_HAVERSINE);
 			}
 
 			throw new IllegalArgumentException("Not a valid distance.");
@@ -98,11 +100,12 @@ public class AlgorithmFactory {
 			if (distance instanceof EuclideanDistance) {
 				return new LinearOptimumOpenClAlgorithm(
 						LinearOptimumOpenClAlgorithm.KERNEL_CROSSTRACK_EUCLIDEAN);
-			}
-
-			if (distance instanceof SphericalDistance) {
+			} else if (distance instanceof SphericalDistance) {
 				return new LinearOptimumOpenClAlgorithm(
 						LinearOptimumOpenClAlgorithm.KERNEL_CROSSTRACK_SPHERICAL);
+			} else if (distance instanceof HaversineDistance) {
+				return new LinearOptimumOpenClAlgorithm(
+						LinearOptimumOpenClAlgorithm.KERNEL_CROSSTRACK_HAVERSINE);
 			}
 
 			throw new IllegalArgumentException("Not a valid distance.");
