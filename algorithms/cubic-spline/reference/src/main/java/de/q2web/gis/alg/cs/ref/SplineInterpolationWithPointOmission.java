@@ -4,7 +4,15 @@ public class SplineInterpolationWithPointOmission {
 
 	/**
 	 * Algorithm with excludes.
-	 * 
+	 *
+	 * Usage:
+	 * - x, y wil store the data points
+	 * - boolean will contain all! excluded points
+	 * - length, size of x/y
+	 * - idToExclude the index of the currennlty inspected element
+	 * -
+	 *
+	 *
 	 * @param x
 	 *            the x
 	 * @param y
@@ -205,7 +213,12 @@ public class SplineInterpolationWithPointOmission {
 			fDoublePrimeRight = 2 * (2 * fPrimeRight + fPrimeLeft) / (xb - xa)
 					- 6 * (yb - ya) / (xb - xa) / (xb - xa);
 
-			// TODO check using i as index is appropiate
+			// TODO check if using i as index is appropiate
+			// it might be the case that instead of i, j and k is used
+			// it is still ok to write the results to a,b,c,d as in the next
+			// iteration the next i is tried, which in turn migth also be passed
+			// on, because it is being excluded, that is ok because it will
+			// store the same result
 			d[i] = 1f / 6f * (fDoublePrimeRight - fDoublePrimeLeft) / (xb - xa);
 			c[i] = 1f / 2f * (xb * fDoublePrimeLeft - xa * fDoublePrimeRight)
 					/ (xb - xa);
@@ -220,8 +233,11 @@ public class SplineInterpolationWithPointOmission {
 			// included
 			// we need to iterate one more time
 			if (i != j) {
+				// TODO in case of parallel execution this needs to done away with
+				// as it it might interfere with other kernels
 				i = j - 1;
 				k = i + 1;
+
 			}
 
 			// @formatter:on
@@ -237,5 +253,4 @@ public class SplineInterpolationWithPointOmission {
 		distances[idToExclude - 1] = Math.abs(y[idToExclude] - yy);
 
 	}
-
 }
