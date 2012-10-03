@@ -94,4 +94,16 @@ public class LinearOptimumOpenClAlgorithmTest {
 		assertEquals(end, reducedTrace.get(1));
 	}
 
+	@Test
+	public void testHaversine() {
+		final Algorithm algorithm = new LinearOptimumOpenClAlgorithm(
+				LinearOptimumOpenClAlgorithm.KERNEL_CROSSTRACK_HAVERSINE);
+
+		final List<Point> reducedTrace = algorithm.run(trace, epsilon);
+
+		assertTrue(reducedTrace.size() == 7);
+		assertEquals(start, reducedTrace.get(0));
+		assertEquals(end, reducedTrace.get(6));
+	}
+
 }

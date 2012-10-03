@@ -83,7 +83,10 @@ public class DouglasPeuckerOpenClAlgorithm implements Algorithm {
 
 		if (!crossTrackMetric.equals(KERNEL_CROSSTRACK_EUCLIDEAN)) {
 			if (!crossTrackMetric.equals(KERNEL_CROSSTRACK_SPHERICAL)) {
-				throw new IllegalArgumentException("No valid distance kernel");
+				if (!crossTrackMetric.equals(KERNEL_CROSSTRACK_HAVERSINE)) {
+					throw new IllegalArgumentException(
+							"No valid distance kernel");
+				}
 			}
 		}
 	}

@@ -84,6 +84,8 @@ public class Point {
 	 * Gets the coordinate for the given dimension (starting with dimension
 	 * <code>0</code>)
 	 * 
+	 * 0 is longitude or X, 1 is latitude or Y
+	 * 
 	 * @param dimension
 	 *            the dimension
 	 * @return the double

@@ -76,8 +76,8 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 	private cl_kernel sssp1Kernel = null;
 	private cl_kernel sssp2Kernel = null;
 
-	private float[] xCoordinates;
-	private float[] yCoordinates;
+	private float[] longitudeXCoordinates;
+	private float[] latitudeYCoordinates;
 	private int[] vertexArray;
 
 	private double epsilon;
@@ -91,7 +91,10 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 
 		if (!crossTrackMetric.equals(KERNEL_CROSSTRACK_EUCLIDEAN)) {
 			if (!crossTrackMetric.equals(KERNEL_CROSSTRACK_SPHERICAL)) {
-				throw new IllegalArgumentException("No valid distance kernel");
+				if (!crossTrackMetric.equals(KERNEL_CROSSTRACK_HAVERSINE)) {
+					throw new IllegalArgumentException(
+							"No valid distance kernel");
+				}
 			}
 		}
 	}
@@ -104,14 +107,14 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 
 		// init arrays
 		final int length = trace.size();
-		xCoordinates = new float[length];
-		yCoordinates = new float[length];
+		longitudeXCoordinates = new float[length];
+		latitudeYCoordinates = new float[length];
 		vertexArray = new int[length];
 
 		for (int i = 0; i < trace.size(); i++) {
 			final Point point = trace.get(i);
-			xCoordinates[i] = (float) point.get(0);
-			yCoordinates[i] = (float) point.get(1);
+			longitudeXCoordinates[i] = (float) point.get(0);
+			latitudeYCoordinates[i] = (float) point.get(1);
 		}
 
 		// get results
@@ -120,12 +123,12 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 
 	private List<Point> run() {
 
-		if (xCoordinates.length != yCoordinates.length) {
+		if (longitudeXCoordinates.length != latitudeYCoordinates.length) {
 			throw new IllegalArgumentException(
 					"Source arrays must be same length");
 		}
 
-		final int length = xCoordinates.length;
+		final int length = longitudeXCoordinates.length;
 
 		// OpenCl Preamble
 		final cl_platform_id platformId = Platforms.getPlatforms().get(0);
@@ -143,18 +146,20 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 		sssp1Kernel = Kernels.create(program, DIJKSTRA_SSSP1);
 		sssp2Kernel = Kernels.create(program, DIJKSTRA_SSSP2);
 
-		final Pointer xCoordinatesPointer = Pointer.to(xCoordinates);
-		final Pointer yCoordinatesPointer = Pointer.to(yCoordinates);
+		final Pointer longitudeXCoordinatesPointer = Pointer
+				.to(longitudeXCoordinates);
+		final Pointer latitudeYCoordinatesPointer = Pointer
+				.to(latitudeYCoordinates);
 
 		memObject = new cl_mem[3];
 		// x coordinates
 		memObject[0] = clCreateBuffer(context, CL_MEM_READ_ONLY
 				| CL_MEM_COPY_HOST_PTR, Sizeof.cl_float * length,
-				xCoordinatesPointer, null);
+				longitudeXCoordinatesPointer, null);
 		// y coordinates
 		memObject[1] = clCreateBuffer(context, CL_MEM_READ_ONLY
 				| CL_MEM_COPY_HOST_PTR, Sizeof.cl_float * length,
-				yCoordinatesPointer, null);
+				latitudeYCoordinatesPointer, null);
 		// distance
 		memObject[2] = clCreateBuffer(context, CL_MEM_READ_WRITE,
 				Sizeof.cl_float * length, null, null);
@@ -186,10 +191,10 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 				// for (int intermediatePointIndex = lineStartIndex + 1;
 				// intermediatePointIndex < lineEndIndex;
 				// intermediatePointIndex++) { //}
-				final float fromX = xCoordinates[lineStartIndex];
-				final float fromY = yCoordinates[lineStartIndex];
-				final float toX = xCoordinates[lineEndIndex];
-				final float toY = yCoordinates[lineEndIndex];
+				final float fromX = longitudeXCoordinates[lineStartIndex];
+				final float fromY = latitudeYCoordinates[lineStartIndex];
+				final float toX = longitudeXCoordinates[lineEndIndex];
+				final float toY = latitudeYCoordinates[lineEndIndex];
 
 				final boolean addEdge = isValidEdge(lineStartIndex,
 						lineEndIndex, fromX, fromY, toX, toY);
@@ -318,8 +323,10 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 		// make sure all read operations are done before rerunning
 		clEnqueueBarrier(queue);
 
+		final float maximumDistance = values[0];
+
 		// connect edge?
-		return (values[0] <= epsilon);
+		return (maximumDistance <= epsilon);
 	}
 
 	private List<Point> runDijkstra(final int vertexCount, final int edgeCount) {
