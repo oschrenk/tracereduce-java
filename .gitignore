@@ -1,6 +1,3 @@
 ui/cli/src/test/resources/osmTrace_hwy_1.00_100plus/
 ui/cli/src/test/resources/osmTrace_urb_1.00_100plus/
-ui/cli/log-20121002T235708.txt
-ui/cli/log-20121003T000608.txt
-ui/cli/log-20121003T001840.txt
-ui/cli/log-20121003T002351.txt
+ui/cli/log-*

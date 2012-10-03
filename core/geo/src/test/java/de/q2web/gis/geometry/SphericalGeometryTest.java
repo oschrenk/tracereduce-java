@@ -78,6 +78,7 @@ public class SphericalGeometryTest {
 
 	}
 
+	// @Ignore
 	@Test
 	// cross check with http://williams.best.vwh.net/avform.htm#Example
 	public void testDtoLAXtoJFK() {

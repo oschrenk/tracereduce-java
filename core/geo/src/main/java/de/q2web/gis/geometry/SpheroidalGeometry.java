@@ -3,7 +3,7 @@ package de.q2web.gis.geometry;
 import de.q2web.gis.trajectory.core.api.Point;
 
 /**
- *
+ * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class SpheroidalGeometry extends AbstractGeometry {
@@ -19,7 +19,7 @@ public class SpheroidalGeometry extends AbstractGeometry {
 
 	/**
 	 * Instantiates a new spheroidal geometry with
-	 *
+	 * 
 	 * <ul>
 	 * <li>semiMajorAxis = WGS_84_EQUATORIAL_RADIUS</li>
 	 * <li>semiMinorAxis = WGS_84_POLAR_RADIUS</li>
@@ -31,7 +31,7 @@ public class SpheroidalGeometry extends AbstractGeometry {
 
 	/**
 	 * Instantiates a new spheroidal geometry.
-	 *
+	 * 
 	 * @param semiMajorAxis
 	 *            the semi major axis
 	 * @param semiMinorAxis
@@ -68,7 +68,7 @@ public class SpheroidalGeometry extends AbstractGeometry {
 
 	/**
 	 * lat lng height.
-	 *
+	 * 
 	 * @param p
 	 *            the p
 	 * @return the point
@@ -93,7 +93,7 @@ public class SpheroidalGeometry extends AbstractGeometry {
 		final double sinPhi = Math.abs(Vector.dot(n, pPrime));
 		final double phi = Math.asin(sinPhi);
 
-		// TODO doing weird science here; I don't believe length of radius can
+		// FIXME doing weird science here; I don't believe length of radius can
 		// be applied here as in spherical geometry
 		final double height = point.getDimensions() == 3 ? point.get(2) : 0;
 		final double sinLat = Math.sin(Math.toRadians(point.get(0)));

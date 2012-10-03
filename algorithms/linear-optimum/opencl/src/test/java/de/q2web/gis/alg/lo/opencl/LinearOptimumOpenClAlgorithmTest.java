@@ -52,7 +52,8 @@ public class LinearOptimumOpenClAlgorithmTest {
 
 	@Test
 	public void test() {
-		final Algorithm algorithm = new LinearOptimumOpenClAlgorithm();
+		final Algorithm algorithm = new LinearOptimumOpenClAlgorithm(
+				LinearOptimumOpenClAlgorithm.KERNEL_CROSSTRACK_EUCLIDEAN);
 
 		final List<Point> reducedTrace = algorithm.run(trace, epsilon);
 

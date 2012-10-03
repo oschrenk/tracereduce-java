@@ -57,7 +57,9 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 			.convertStreamToString(LinearOptimumOpenClAlgorithm.class
 					.getResourceAsStream("linearOptimum.cl"));
 
-	private static final String KERNEL_DISTANCE_EUCLIDEAN_POINT_TO_LINE = "euclidean2dPointLineDistance";
+	public static final String KERNEL_CROSSTRACK_EUCLIDEAN = "euclidean2dPointLineDistance";
+	public static final String KERNEL_CROSSTRACK_SPHERICAL = "spherical2dPointLineDistance";
+
 	private static final String KERNEL_MAXIMUM = "maximumWithPositionAndOffsetFloat";
 	private static final String DIJKSTRA_INITIALIZE = "dijkstra_initialize";
 	private static final String DIJKSTRA_SSSP1 = "dijkstra_sssp1";
@@ -78,6 +80,18 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 	private final List<Integer> knots = new LinkedList<Integer>();
 
 	private double epsilon;
+
+	private final String crossTrackMetric;
+
+	public LinearOptimumOpenClAlgorithm(final String crossTrackMetric) {
+		this.crossTrackMetric = crossTrackMetric;
+
+		if (!crossTrackMetric.equals(KERNEL_CROSSTRACK_EUCLIDEAN)) {
+			if (!crossTrackMetric.equals(KERNEL_CROSSTRACK_SPHERICAL)) {
+				throw new IllegalArgumentException("No valid distance kernel");
+			}
+		}
+	}
 
 	@Override
 	public List<Point> run(final List<Point> trace, final double epsilon) {
@@ -126,8 +140,7 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 		final cl_program program = Programs.createFromSource(context, SOURCE);
 
 		// Create Kernels
-		distanceKernel = Kernels.create(program,
-				KERNEL_DISTANCE_EUCLIDEAN_POINT_TO_LINE);
+		distanceKernel = Kernels.create(program, crossTrackMetric);
 		maximumKernel = Kernels.create(program, KERNEL_MAXIMUM);
 		dijkstraInitializationKernel = Kernels.create(program,
 				DIJKSTRA_INITIALIZE);

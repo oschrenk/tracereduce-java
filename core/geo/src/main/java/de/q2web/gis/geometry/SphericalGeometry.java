@@ -2,9 +2,10 @@ package de.q2web.gis.geometry;
 
 import de.q2web.gis.trajectory.core.api.Point;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class SphericalGeometry.
- *
+ * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class SphericalGeometry extends AbstractGeometry {
@@ -16,7 +17,7 @@ public class SphericalGeometry extends AbstractGeometry {
 	private final double radius;
 
 	/**
-	 * Instantiates a new spherical geometry with EARTH_VOLUMETRIC_MEAN_RADIUS
+	 * Instantiates a new spherical geometry with EARTH_VOLUMETRIC_MEAN_RADIUS.
 	 */
 	public SphericalGeometry() {
 		this(EARTH_VOLUMETRIC_MEAN_RADIUS);
@@ -24,7 +25,7 @@ public class SphericalGeometry extends AbstractGeometry {
 
 	/**
 	 * Instantiates a new spherical geometry.
-	 *
+	 * 
 	 * @param radius
 	 *            the radius
 	 */
@@ -39,7 +40,7 @@ public class SphericalGeometry extends AbstractGeometry {
 	 */
 	/**
 	 * Lat-Lng[-Height] in spherical coordinates.
-	 *
+	 * 
 	 * @param from
 	 *            the from
 	 * @param to
@@ -54,7 +55,7 @@ public class SphericalGeometry extends AbstractGeometry {
 
 	/**
 	 * Gets the distance2d.
-	 *
+	 * 
 	 * @param radius
 	 *            the radius
 	 * @param latitudeFrom
@@ -87,14 +88,8 @@ public class SphericalGeometry extends AbstractGeometry {
 	}
 
 	/*
-	 * @see
-	 * de.q2web.gis.trajectory.core.api.Geometry#distance(de.q2web.gis.trajectory
-	 * .core.api.Point, de.q2web.gis.trajectory.core.api.Point,
-	 * de.q2web.gis.trajectory.core.api.Point)
-	 */
-	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * de.q2web.gis.trajectory.core.api.Geometry#distance(de.q2web.gis.trajectory
 	 * .core.api.Point, de.q2web.gis.trajectory.core.api.Point,
@@ -108,7 +103,7 @@ public class SphericalGeometry extends AbstractGeometry {
 
 	/**
 	 * Calculates the distance from the point X to the geodesic line AB
-	 *
+	 * 
 	 * Using longitude ($\theta$) and latitude ($\phi$), let $A=(\theta_A,
 	 * \phi_A)$, $B=(\theta_B, \phi_B)$, and $X=(\theta_X, \phi_X)$. The
 	 * direction vectors for these points are $$\hat A = (\cos \phi_A \cos
@@ -116,20 +111,20 @@ public class SphericalGeometry extends AbstractGeometry {
 	 * \phi_B \cos \theta_B, \cos \phi_B \sin \theta_B, \sin \phi_B), $$ $$\hat
 	 * X = (\cos \phi_X \cos \theta_X, \cos \phi_X \sin \theta_X, \sin
 	 * \phi_X).$$
-	 *
+	 * 
 	 * Let $\Phi$ be the distance on the unit sphere between $\hat X$ and the
 	 * geodesic line passing through $\hat A$ and $\hat B$. Imagine the plane
 	 * $\mathcal{P}$ passing through $\hat A$, $\hat B$, and the origin, which
 	 * cuts the unit sphere in half. Then the Euclidean distance of $\hat X$
 	 * from plane $\mathcal{P}$ is $\sin \Phi$. Now let $\hat n$ be a unit
 	 * normal vector for $\mathcal{P}$, and we have
-	 *
+	 * 
 	 * $$\hat n = \hat A \times \hat B$$ $$\sin \Phi = | \hat n \cdot \hat X |$$
-	 *
+	 * 
 	 * So, if the radius of the original sphere is $R$, then the surface
 	 * distance from the point $X$ to the geodesic line
 	 * $\overleftrightarrow{AB}$ is $R \Phi$.
-	 *
+	 * 
 	 * @param radius
 	 *            the radius
 	 * @param point
@@ -156,7 +151,7 @@ public class SphericalGeometry extends AbstractGeometry {
 
 	/**
 	 * * Lat-Lng[-Height] in spherical coordinates.
-	 *
+	 * 
 	 * @param p
 	 *            the p
 	 * @return the point

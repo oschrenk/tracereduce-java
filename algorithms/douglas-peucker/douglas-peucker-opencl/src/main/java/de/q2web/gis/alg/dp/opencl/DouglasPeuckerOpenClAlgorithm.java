@@ -43,7 +43,7 @@ import de.q2web.jocl.util.Resources;
 
 /**
  * The Class DouglasPeuckerAlgorithm.
- *
+ * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
 public class DouglasPeuckerOpenClAlgorithm implements Algorithm {
@@ -54,7 +54,9 @@ public class DouglasPeuckerOpenClAlgorithm implements Algorithm {
 			.convertStreamToString(DouglasPeuckerOpenClAlgorithm.class
 					.getResourceAsStream("douglasPeucker.cl"));
 
-	private static final String KERNEL_DISTANCE_EUCLIDEAN_POINT_TO_LINE = "euclidean2dPointLineDistance";
+	public static final String KERNEL_CROSSTRACK_EUCLIDEAN = "euclidean2dPointLineDistance";
+	public static final String KERNEL_CROSSTRACK_SPHERICAL = "spherical2dPointLineDistance";
+
 	private static final String KERNEL_MAXIMUM = "maximumWithPositionAndOffsetFloat";
 
 	private cl_mem memObject[];
@@ -69,11 +71,20 @@ public class DouglasPeuckerOpenClAlgorithm implements Algorithm {
 
 	private final List<Integer> knots = new LinkedList<Integer>();
 
+	private final String crossTrackMetric;
+
 	/**
 	 * Instantiates a new douglas peucker algorithm.
-	 *
+	 * 
 	 */
-	public DouglasPeuckerOpenClAlgorithm() {
+	public DouglasPeuckerOpenClAlgorithm(final String crossTrackMetric) {
+		this.crossTrackMetric = crossTrackMetric;
+
+		if (!crossTrackMetric.equals(KERNEL_CROSSTRACK_EUCLIDEAN)) {
+			if (!crossTrackMetric.equals(KERNEL_CROSSTRACK_SPHERICAL)) {
+				throw new IllegalArgumentException("No valid distance kernel");
+			}
+		}
 	}
 
 	/*
@@ -122,10 +133,8 @@ public class DouglasPeuckerOpenClAlgorithm implements Algorithm {
 		final cl_context context = Contexts.create(platformId, deviceId);
 		queue = CommandQueues.create(context, deviceId);
 		final cl_program program = Programs.createFromSource(context, SOURCE);
-		distanceKernel = Kernels.create(program,
-				KERNEL_DISTANCE_EUCLIDEAN_POINT_TO_LINE);
-		maximumKernel = Kernels.create(program,
-				KERNEL_MAXIMUM);
+		distanceKernel = Kernels.create(program, crossTrackMetric);
+		maximumKernel = Kernels.create(program, KERNEL_MAXIMUM);
 
 		final Pointer xCoordinatesPointer = Pointer.to(xCoordinates);
 		final Pointer yCoordinatesPointer = Pointer.to(yCoordinates);

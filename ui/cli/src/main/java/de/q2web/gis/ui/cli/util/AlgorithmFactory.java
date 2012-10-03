@@ -9,6 +9,8 @@ import de.q2web.gis.alg.dp.DouglasPeuckerReferenceAlgorithm;
 import de.q2web.gis.alg.dp.opencl.DouglasPeuckerOpenClAlgorithm;
 import de.q2web.gis.alg.lo.opencl.LinearOptimumOpenClAlgorithm;
 import de.q2web.gis.alg.lo.ref.LinearOptimumReferenceAlgorithm;
+import de.q2web.gis.geometry.EuclideanGeometry;
+import de.q2web.gis.geometry.SphericalGeometry;
 import de.q2web.gis.trajectory.core.api.Algorithm;
 import de.q2web.gis.trajectory.core.api.Geometry;
 
@@ -21,9 +23,9 @@ public class AlgorithmFactory {
 
 	private static final List<String> validAlgorithmTypes = new ArrayList<String>();
 
-	private static final String SPLINE = "spline";
-	private static final String IMAI = "imai";
 	private static final String DOUGLAS_PEUCKER = "douglas-peucker";
+	private static final String IMAI = "imai";
+	private static final String SPLINE = "spline";
 
 	static {
 		validAlgorithmTypes.add(DOUGLAS_PEUCKER);
@@ -69,7 +71,19 @@ public class AlgorithmFactory {
 		if (variant.equals("reference")) {
 			return new DouglasPeuckerReferenceAlgorithm(geometry);
 		} else if (variant.equals("opencl")) {
-			return new DouglasPeuckerOpenClAlgorithm();
+
+			if (geometry instanceof EuclideanGeometry) {
+				return new DouglasPeuckerOpenClAlgorithm(
+						DouglasPeuckerOpenClAlgorithm.KERNEL_CROSSTRACK_EUCLIDEAN);
+			} else
+
+			if (geometry instanceof SphericalGeometry) {
+				return new DouglasPeuckerOpenClAlgorithm(
+						DouglasPeuckerOpenClAlgorithm.KERNEL_CROSSTRACK_SPHERICAL);
+			}
+
+			throw new IllegalArgumentException("Not a valid geometry.");
+
 		}
 
 		throw new IllegalArgumentException("Not a valid variant.");
@@ -80,7 +94,18 @@ public class AlgorithmFactory {
 		if (variant.equals("reference")) {
 			return new LinearOptimumReferenceAlgorithm(geometry);
 		} else if (variant.equals("opencl")) {
-			return new LinearOptimumOpenClAlgorithm();
+
+			if (geometry instanceof EuclideanGeometry) {
+				return new LinearOptimumOpenClAlgorithm(
+						LinearOptimumOpenClAlgorithm.KERNEL_CROSSTRACK_EUCLIDEAN);
+			}
+
+			if (geometry instanceof SphericalGeometry) {
+				return new LinearOptimumOpenClAlgorithm(
+						LinearOptimumOpenClAlgorithm.KERNEL_CROSSTRACK_SPHERICAL);
+			}
+
+			throw new IllegalArgumentException("Not a valid geometry.");
 		}
 
 		throw new IllegalArgumentException("Not a valid variant.");

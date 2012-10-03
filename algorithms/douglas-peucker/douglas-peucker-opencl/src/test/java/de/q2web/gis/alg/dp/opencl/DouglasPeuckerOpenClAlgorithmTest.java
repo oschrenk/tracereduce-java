@@ -57,7 +57,8 @@ public class DouglasPeuckerOpenClAlgorithmTest {
 		final Algorithm reference = new DouglasPeuckerReferenceAlgorithm(
 				new EuclideanGeometry());
 
-		final Algorithm algorithm = new DouglasPeuckerOpenClAlgorithm();
+		final Algorithm algorithm = new DouglasPeuckerOpenClAlgorithm(
+				DouglasPeuckerOpenClAlgorithm.KERNEL_CROSSTRACK_EUCLIDEAN);
 		final List<Point> reducedTrace = algorithm.run(trace, epsilon);
 
 		assertEquals(reference.run(trace, epsilon), reducedTrace);

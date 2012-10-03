@@ -29,7 +29,7 @@ public class BatchIntegrationTest {
 	private static final String SPLINE_REFERENCE = "spline#reference";
 	private static final String SPLINE_OPENCL = "spline#opencl";
 
-	private static final String DEFAULT_EPSILON = "10";
+	private static final int DEFAULT_EPSILON = 10;
 
 	private static final String TRACES_HIGHWAY = System
 			.getProperty("user.home")
@@ -50,25 +50,26 @@ public class BatchIntegrationTest {
 
 	@Test
 	public void testDouglasPeuckerReference() throws IOException {
-		testAlgorithm(DOUGLAS_PEUCKER_REFERENCE);
+		testAlgorithm(DOUGLAS_PEUCKER_REFERENCE, DEFAULT_EPSILON);
 	}
 
 	@Test
 	public void testDouglasPeuckerOpenCL() throws IOException {
-		testAlgorithm(DOUGLAS_PEUCKER_OPENCL);
+		testAlgorithm(DOUGLAS_PEUCKER_OPENCL, DEFAULT_EPSILON);
 	}
 
 	@Test
 	public void testImaiReference() throws IOException {
-		testAlgorithm(IMAI_REFERENCE);
+		testAlgorithm(IMAI_REFERENCE, DEFAULT_EPSILON);
 	}
 
 	@Test
 	public void testImaiOpenCL() throws IOException {
-		testAlgorithm(IMAI_OPENCL);
+		testAlgorithm(IMAI_OPENCL, DEFAULT_EPSILON);
 	}
 
-	private void testAlgorithm(final String algorithm) throws IOException {
+	private void testAlgorithm(final String algorithm, final int epsilon)
+			throws IOException {
 
 		FilenameFilter filenameFilter = new FilenameFilter() {
 			@Override
@@ -84,8 +85,9 @@ public class BatchIntegrationTest {
 			File[] csvFiles = dir.listFiles(filenameFilter);
 			for (File csvFile : csvFiles) {
 				final String[] args = new String[] { "-i",
-						csvFile.getCanonicalPath(), "-e", DEFAULT_EPSILON,
-						"-a", algorithm, "-d", TWO_DIM, "-o", DEV_NULL };
+						csvFile.getCanonicalPath(), "-e",
+						Integer.toString(epsilon), "-a", algorithm, "-d",
+						TWO_DIM, "-o", DEV_NULL };
 				CommandLine.main(args, BATCH_MODE);
 				filesTested++;
 			}
