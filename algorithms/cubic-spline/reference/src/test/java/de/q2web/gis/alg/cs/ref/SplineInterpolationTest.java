@@ -5,10 +5,14 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.q2web.gis.core.api.Algorithm;
 import de.q2web.gis.core.api.Point;
 
-public class CubicSplinesReferenceAlgorithmTest {
+public class SplineInterpolationTest {
+
+	private static final float X[] = { 0, 10, 30, 50, 70, 90, 100 };
+	private static final float Y[] = { 30, 130, 150, 150, 170, 220, 320 };
+
+	private static final int LENGTH = X.length;
 
 	private static List<Point> TRACE = new ArrayList<Point>();
 
@@ -22,13 +26,12 @@ public class CubicSplinesReferenceAlgorithmTest {
 		TRACE.add(new Point(new double[] { 100, 230 }));
 	}
 
-	private static final double EPSILON = 5;
+	@SuppressWarnings("deprecation")
+	private static final SplineInterpolation SPLINE_INTERPOLATION = new SplineInterpolation();
 
+	@SuppressWarnings("deprecation")
 	@Test
-	public void testCubicSplinesReferenceAlgorithm() {
-		final Algorithm algorithm = new CubicSplinesReferenceAlgorithm();
-		final List<Point> run = algorithm.run(TRACE, EPSILON);
-		System.out.println(run);
+	public void test() {
+		SPLINE_INTERPOLATION.compute(X, Y, LENGTH);
 	}
-
 }
