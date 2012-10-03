@@ -1,14 +1,14 @@
-package de.q2web.gis.geometry;
+package de.q2web.gis.geom;
 
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Distance;
+import de.q2web.gis.core.api.Point;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class SphericalGeometry.
+ * The Class SphericalDistance.
  * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class SphericalGeometry extends AbstractGeometry {
+public class SphericalDistance implements Distance {
 
 	/** The Constant EARTH_VOLUMETRIC_MEAN_RADIUS. */
 	public static final int EARTH_VOLUMETRIC_MEAN_RADIUS = 6371000;
@@ -17,26 +17,25 @@ public class SphericalGeometry extends AbstractGeometry {
 	private final double radius;
 
 	/**
-	 * Instantiates a new spherical geometry with EARTH_VOLUMETRIC_MEAN_RADIUS.
+	 * Instantiates a new spherical distance with EARTH_VOLUMETRIC_MEAN_RADIUS.
 	 */
-	public SphericalGeometry() {
+	public SphericalDistance() {
 		this(EARTH_VOLUMETRIC_MEAN_RADIUS);
 	}
 
 	/**
-	 * Instantiates a new spherical geometry.
+	 * Instantiates a new spherical distance.
 	 * 
 	 * @param radius
 	 *            the radius
 	 */
-	public SphericalGeometry(final double radius) {
+	public SphericalDistance(final double radius) {
 		this.radius = radius;
 	}
 
 	/*
-	 * @see
-	 * de.q2web.gis.trajectory.core.api.Geometry#distance(de.q2web.gis.trajectory
-	 * .core.api.Point, de.q2web.gis.trajectory.core.api.Point)
+	 * @see de.q2web.gis.core.api.Distance#distance(de.q2web.gis.trajectory
+	 * .core.api.Point, de.q2web.gis.core.api.Point)
 	 */
 	/**
 	 * Lat-Lng[-Height] in spherical coordinates.
@@ -90,10 +89,9 @@ public class SphericalGeometry extends AbstractGeometry {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * de.q2web.gis.trajectory.core.api.Geometry#distance(de.q2web.gis.trajectory
-	 * .core.api.Point, de.q2web.gis.trajectory.core.api.Point,
-	 * de.q2web.gis.trajectory.core.api.Point)
+	 * @see de.q2web.gis.core.api.Distance#distance(de.q2web.gis.trajectory
+	 * .core.api.Point, de.q2web.gis.core.api.Point,
+	 * de.q2web.gis.core.api.Point)
 	 */
 	@Override
 	public double distance(final Point point, final Point lineStart,
@@ -140,9 +138,9 @@ public class SphericalGeometry extends AbstractGeometry {
 	 */
 	private static final double distance2d(final double radius,
 			final Point point, final Point lineStart, final Point lineEnd) {
-		final Point aPrime = SphericalGeometry.toCartesian3d(lineStart);
-		final Point bPrime = SphericalGeometry.toCartesian3d(lineEnd);
-		final Point pPrime = SphericalGeometry.toCartesian3d(point);
+		final Point aPrime = SphericalDistance.toCartesian3d(lineStart);
+		final Point bPrime = SphericalDistance.toCartesian3d(lineEnd);
+		final Point pPrime = SphericalDistance.toCartesian3d(point);
 		final Point n = Vector.cross(aPrime, bPrime);
 		final double sinPhi = Math.abs(Vector.dot(n, pPrime));
 		final double phi = Math.asin(sinPhi);

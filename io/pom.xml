@@ -130,6 +130,7 @@
 		<module>api</module>
 		<module>core</module>
 		<module>csv</module>
+		<module>kml</module>
 	</modules>
 
 </project>

@@ -23,8 +23,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Algorithm;
+import de.q2web.gis.core.api.Point;
 
 public class LinearOptimumOpenClAlgorithmTest {
 

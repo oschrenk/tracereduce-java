@@ -5,8 +5,8 @@ import java.io.Writer;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import de.q2web.gis.core.api.Point;
 import de.q2web.gis.io.api.TraceWriter;
-import de.q2web.gis.trajectory.core.api.Point;
 
 /**
  * The Class CsvDoublePointWriter.

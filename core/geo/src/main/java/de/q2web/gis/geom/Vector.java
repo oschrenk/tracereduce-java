@@ -1,6 +1,6 @@
-package de.q2web.gis.geometry;
+package de.q2web.gis.geom;
 
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Point;
 
 /**
  *
@@ -38,7 +38,7 @@ public class Vector {
 		final int dimensions = p.getDimensions();
 		double sumSquared = 0;
 		for (int i = 0; i < dimensions; i++) {
-			sumSquared = sumSquared + EuclideanGeometry.square(p.get(i));
+			sumSquared = sumSquared + EuclideanDistance.square(p.get(i));
 		}
 		return Math.sqrt(sumSquared);
 	}

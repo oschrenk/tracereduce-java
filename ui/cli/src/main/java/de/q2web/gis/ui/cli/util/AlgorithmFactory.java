@@ -9,10 +9,10 @@ import de.q2web.gis.alg.dp.DouglasPeuckerReferenceAlgorithm;
 import de.q2web.gis.alg.dp.opencl.DouglasPeuckerOpenClAlgorithm;
 import de.q2web.gis.alg.lo.opencl.LinearOptimumOpenClAlgorithm;
 import de.q2web.gis.alg.lo.ref.LinearOptimumReferenceAlgorithm;
-import de.q2web.gis.geometry.EuclideanGeometry;
-import de.q2web.gis.geometry.SphericalGeometry;
-import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.Geometry;
+import de.q2web.gis.core.api.Algorithm;
+import de.q2web.gis.core.api.Distance;
+import de.q2web.gis.geom.EuclideanDistance;
+import de.q2web.gis.geom.SphericalDistance;
 
 /**
  * A factory for creating algorithms.
@@ -40,7 +40,7 @@ public class AlgorithmFactory {
 	 *            the value
 	 * @return the algorithm template
 	 */
-	public static Algorithm build(final String name, final Geometry geometry) {
+	public static Algorithm build(final String name, final Distance distance) {
 		final String[] template = name.trim().toLowerCase().split("#");
 
 		if (template.length != 2) {
@@ -54,11 +54,11 @@ public class AlgorithmFactory {
 		}
 
 		if (type.equals(DOUGLAS_PEUCKER)) {
-			return getDouglasPeuckerAlgorithm(variant, geometry);
+			return getDouglasPeuckerAlgorithm(variant, distance);
 		} else if (type.equals(IMAI)) {
-			return getImaiAlgorithm(variant, geometry);
+			return getImaiAlgorithm(variant, distance);
 		} else if (type.equals(SPLINE)) {
-			return getCubicSplineAlgorithm(variant, geometry);
+			return getCubicSplineAlgorithm(variant, distance);
 		}
 
 		// Can't happen as we checked all types before
@@ -66,23 +66,23 @@ public class AlgorithmFactory {
 	}
 
 	private static Algorithm getDouglasPeuckerAlgorithm(final String variant,
-			final Geometry geometry) {
+			final Distance distance) {
 
 		if (variant.equals("reference")) {
-			return new DouglasPeuckerReferenceAlgorithm(geometry);
+			return new DouglasPeuckerReferenceAlgorithm(distance);
 		} else if (variant.equals("opencl")) {
 
-			if (geometry instanceof EuclideanGeometry) {
+			if (distance instanceof EuclideanDistance) {
 				return new DouglasPeuckerOpenClAlgorithm(
 						DouglasPeuckerOpenClAlgorithm.KERNEL_CROSSTRACK_EUCLIDEAN);
 			} else
 
-			if (geometry instanceof SphericalGeometry) {
+			if (distance instanceof SphericalDistance) {
 				return new DouglasPeuckerOpenClAlgorithm(
 						DouglasPeuckerOpenClAlgorithm.KERNEL_CROSSTRACK_SPHERICAL);
 			}
 
-			throw new IllegalArgumentException("Not a valid geometry.");
+			throw new IllegalArgumentException("Not a valid distance.");
 
 		}
 
@@ -90,29 +90,29 @@ public class AlgorithmFactory {
 	}
 
 	private static Algorithm getImaiAlgorithm(final String variant,
-			final Geometry geometry) {
+			final Distance distance) {
 		if (variant.equals("reference")) {
-			return new LinearOptimumReferenceAlgorithm(geometry);
+			return new LinearOptimumReferenceAlgorithm(distance);
 		} else if (variant.equals("opencl")) {
 
-			if (geometry instanceof EuclideanGeometry) {
+			if (distance instanceof EuclideanDistance) {
 				return new LinearOptimumOpenClAlgorithm(
 						LinearOptimumOpenClAlgorithm.KERNEL_CROSSTRACK_EUCLIDEAN);
 			}
 
-			if (geometry instanceof SphericalGeometry) {
+			if (distance instanceof SphericalDistance) {
 				return new LinearOptimumOpenClAlgorithm(
 						LinearOptimumOpenClAlgorithm.KERNEL_CROSSTRACK_SPHERICAL);
 			}
 
-			throw new IllegalArgumentException("Not a valid geometry.");
+			throw new IllegalArgumentException("Not a valid distance.");
 		}
 
 		throw new IllegalArgumentException("Not a valid variant.");
 	}
 
 	private static Algorithm getCubicSplineAlgorithm(final String variant,
-			final Geometry geometry) {
+			final Distance distance) {
 		if (variant.equals("reference")) {
 			return new CubicSplinesReferenceAlgorithm();
 		} else if (variant.equals("opencl")) {

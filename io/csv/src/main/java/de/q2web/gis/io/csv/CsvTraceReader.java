@@ -7,13 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
+import de.q2web.gis.core.api.Point;
 import de.q2web.gis.io.api.TraceReader;
-import de.q2web.gis.trajectory.core.api.Point;
 
 public class CsvTraceReader implements TraceReader {
 
 	/** The Constant TIME_COLUMN. */
 	private static final int TIME_COLUMN = 0;
+
+	private static final int LONGITUDE_COLUMN = 1;
+
+	private static final int LATITUDE_COLUMN = 2;
 
 	/** The dimensions. */
 	private final int dimensions;
@@ -32,7 +36,7 @@ public class CsvTraceReader implements TraceReader {
 
 	/**
 	 * Instantiates a new csv double point reader.
-	 *
+	 * 
 	 * @param dimensions
 	 *            the dimensions
 	 */
@@ -42,7 +46,7 @@ public class CsvTraceReader implements TraceReader {
 
 	/**
 	 * Instantiates a new csv float reader.
-	 *
+	 * 
 	 * @param dimensions
 	 *            the dimensions
 	 * @param points
@@ -55,7 +59,7 @@ public class CsvTraceReader implements TraceReader {
 
 	/**
 	 * Instantiates a new csv float reader.
-	 *
+	 * 
 	 * @param dimensions
 	 *            the dimensions
 	 * @param points
@@ -92,16 +96,28 @@ public class CsvTraceReader implements TraceReader {
 			final double length = dimensions + 1;
 			while ((nextLine = reader.readNext()) != null) {
 				int time = -1;
-				final double[] point = new double[dimensions];
+
+				// longitude is a geographic coordinate that specifies the
+				// east-west position
+				double longitude = 0;
+
+				// latitude is a geographic coordinate that specifies the
+				// north-south
+				double latitude = 0;
+
 				for (int i = 0; i < length; i++) {
 					if (i == TIME_COLUMN) {
 						time = Integer.parseInt(nextLine[i]);
-					} else {
-						point[i-1] = Double.parseDouble(nextLine[i]);
+					} else if (i == LONGITUDE_COLUMN) {
+						longitude = Double.parseDouble(nextLine[i]);
+					} else if (i == LATITUDE_COLUMN) {
+						latitude = Double.parseDouble(nextLine[i]);
 					}
 
 				}
-				points.add(new Point(time, point));
+				// read longitude as x
+				// read latitude as y
+				points.add(new Point(time, longitude, latitude));
 			}
 			return points;
 		} finally {

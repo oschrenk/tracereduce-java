@@ -8,9 +8,9 @@ import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import de.q2web.gis.core.api.Point;
 import de.q2web.gis.io.api.TraceReader;
 import de.q2web.gis.io.csv.CsvTraceReader;
-import de.q2web.gis.trajectory.core.api.Point;
 
 public class TracePropertiesTest {
 

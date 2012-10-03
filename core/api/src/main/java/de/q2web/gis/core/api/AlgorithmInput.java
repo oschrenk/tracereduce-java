@@ -1,4 +1,4 @@
-package de.q2web.gis.trajectory.core.api;
+package de.q2web.gis.core.api;
 
 import java.util.List;
 

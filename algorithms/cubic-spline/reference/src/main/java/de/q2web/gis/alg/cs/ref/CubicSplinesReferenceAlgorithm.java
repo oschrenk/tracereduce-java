@@ -2,8 +2,8 @@ package de.q2web.gis.alg.cs.ref;
 
 import java.util.List;
 
-import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Algorithm;
+import de.q2web.gis.core.api.Point;
 
 /**
  * The Class ReferenceCubicSplinesAlgorithm.
@@ -13,7 +13,7 @@ import de.q2web.gis.trajectory.core.api.Point;
 public class CubicSplinesReferenceAlgorithm implements Algorithm {
 
 	/*
-	 * @see de.q2web.gis.trajectory.core.api.Algorithm#run(java.util.List,
+	 * @see de.q2web.gis.core.api.Algorithm#run(java.util.List,
 	 * double)
 	 */
 	@Override

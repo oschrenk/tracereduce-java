@@ -23,9 +23,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.q2web.gis.alg.dp.DouglasPeuckerReferenceAlgorithm;
-import de.q2web.gis.geometry.EuclideanGeometry;
-import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Algorithm;
+import de.q2web.gis.core.api.Point;
+import de.q2web.gis.geom.EuclideanDistance;
 
 public class DouglasPeuckerOpenClAlgorithmTest {
 
@@ -87,7 +87,7 @@ public class DouglasPeuckerOpenClAlgorithmTest {
 	public void crossTestWithReferennce() {
 
 		final Algorithm reference = new DouglasPeuckerReferenceAlgorithm(
-				new EuclideanGeometry());
+				new EuclideanDistance());
 
 		final Algorithm algorithm = new DouglasPeuckerOpenClAlgorithm(
 				DouglasPeuckerOpenClAlgorithm.KERNEL_CROSSTRACK_EUCLIDEAN);

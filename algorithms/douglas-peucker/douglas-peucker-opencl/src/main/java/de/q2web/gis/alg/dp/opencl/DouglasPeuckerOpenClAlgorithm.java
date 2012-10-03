@@ -36,8 +36,8 @@ import org.jocl.utils.Kernels;
 import org.jocl.utils.Platforms;
 import org.jocl.utils.Programs;
 
-import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Algorithm;
+import de.q2web.gis.core.api.Point;
 import de.q2web.jocl.util.Integers;
 import de.q2web.jocl.util.Resources;
 
@@ -88,7 +88,7 @@ public class DouglasPeuckerOpenClAlgorithm implements Algorithm {
 	}
 
 	/*
-	 * @see de.q2web.gis.trajectory.core.api.Algorithm#run(java.util.List,
+	 * @see de.q2web.gis.core.api.Algorithm#run(java.util.List,
 	 * double)
 	 */
 	@Override

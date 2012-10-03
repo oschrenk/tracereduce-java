@@ -32,6 +32,11 @@
 			<artifactId>tracereduce-io-csv</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>de.q2web.gis</groupId>
+			<artifactId>tracereduce-io-kml</artifactId>
+		</dependency>
+
 	</dependencies>
 
 </project>

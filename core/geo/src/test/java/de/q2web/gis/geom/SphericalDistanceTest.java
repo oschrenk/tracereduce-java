@@ -1,17 +1,18 @@
-package de.q2web.gis.geometry;
+package de.q2web.gis.geom;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import de.q2web.gis.trajectory.core.api.Geometry;
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Distance;
+import de.q2web.gis.core.api.Point;
+import de.q2web.gis.geom.SphericalDistance;
 
 /**
  * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class SphericalGeometryTest {
+public class SphericalDistanceTest {
 
 	/**
 	 * 
@@ -23,58 +24,58 @@ public class SphericalGeometryTest {
 	public void testAntiPodal() {
 
 		final double radius = 1;
-		final Geometry geometry = new SphericalGeometry(radius);
+		final Distance distance = new SphericalDistance(radius);
 
 		final Point a = new Point(new double[] { 0d, 0d });
 		final Point b = new Point(new double[] { 0d, 180d });
 		final Point p = new Point(new double[] { 0d, 90d });
 
-		final double distance = geometry.distance(p, a, b);
+		final double d = distance.distance(p, a, b);
 
-		assertEquals(0d, distance, 0.0);
+		assertEquals(0d, d, 0.0);
 	}
 
 	@Test
 	public void testNonAntiPodal() {
 
 		final double radius = 1;
-		final Geometry geometry = new SphericalGeometry(radius);
+		final Distance distance = new SphericalDistance(radius);
 
 		// lat-lng
 		final Point a = new Point(new double[] { 0d, 0d });
 		final Point b = new Point(new double[] { 0d, 90d });
 		final Point p = new Point(new double[] { 90d, 0d });
 
-		final double distance = geometry.distance(p, a, b);
+		final double d = distance.distance(p, a, b);
 
-		assertEquals(Math.PI / 2, distance, 0.0);
+		assertEquals(Math.PI / 2, d, 0.0);
 	}
 
 	@Test
 	public void testNonAntiPodalNonNormalRadius() {
 
 		final double radius = 2;
-		final Geometry geometry = new SphericalGeometry(radius);
+		final Distance distance = new SphericalDistance(radius);
 
 		final Point a = new Point(new double[] { 0d, 0d });
 		final Point b = new Point(new double[] { 0d, 90d });
 		final Point p = new Point(new double[] { 90d, 90d });
 
-		final double distance = geometry.distance(p, a, b);
+		final double d = distance.distance(p, a, b);
 
-		assertEquals(Math.PI, distance, 0.0);
+		assertEquals(Math.PI, d, 0.0);
 	}
 
 	@Test
 	public void testRealDistances() {
-		final Geometry geometry = new SphericalGeometry();
+		final Distance distance = new SphericalDistance();
 
 		final Point a = new Point(new double[] { 0d, 0d });
 		final Point b = new Point(new double[] { 0d, 90d });
 
-		final double distance = geometry.distance(a, b);
+		final double d = distance.distance(a, b);
 
-		System.out.println(distance);
+		System.out.println(d);
 
 	}
 
@@ -89,7 +90,7 @@ public class SphericalGeometryTest {
 		// (D): N34:30 W116:30
 		Point D = new Point(34 + 30d / 60, 116 + 30d / 60);
 
-		final double distance = new SphericalGeometry().distance(D, LAX, JFK);
+		final double distance = new SphericalDistance().distance(D, LAX, JFK);
 
 		assertEquals(-13810.91, distance, 0.01d);
 	}

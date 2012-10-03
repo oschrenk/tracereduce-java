@@ -16,9 +16,9 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.simplify.DouglasPeuckerSimplifier;
 
-import de.q2web.gis.geometry.EuclideanGeometry;
-import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Algorithm;
+import de.q2web.gis.core.api.Point;
+import de.q2web.gis.geom.EuclideanDistance;
 
 public class DouglasPeuckerReferenceAlgorithmTest {
 
@@ -62,7 +62,7 @@ public class DouglasPeuckerReferenceAlgorithmTest {
 	public void crossTestWithJTS() {
 		final List<Point> trace = transform(coordinates);
 		final Algorithm algorithm = new DouglasPeuckerReferenceAlgorithm(
-				new EuclideanGeometry());
+				new EuclideanDistance());
 		final List<Point> reducedTrace = algorithm.run(trace, epsilon);
 
 		assertTrue(reducedTrace.size() == 2);

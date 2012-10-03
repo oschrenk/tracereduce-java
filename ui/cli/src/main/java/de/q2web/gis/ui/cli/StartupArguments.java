@@ -7,11 +7,11 @@ import java.io.Writer;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.converters.FileConverter;
 
-import de.q2web.gis.geometry.SphericalGeometry;
-import de.q2web.gis.trajectory.core.api.Geometry;
+import de.q2web.gis.core.api.Distance;
+import de.q2web.gis.geom.HaversineDistance;
+import de.q2web.gis.ui.cli.util.DistanceConverter;
+import de.q2web.gis.ui.cli.util.DistanceValidator;
 import de.q2web.gis.ui.cli.util.EpsilonConverter;
-import de.q2web.gis.ui.cli.util.GeometryConverter;
-import de.q2web.gis.ui.cli.util.GeometryValidator;
 import de.q2web.gis.ui.cli.util.InputValidator;
 import de.q2web.gis.ui.cli.util.TraceWriterConverter;
 
@@ -20,12 +20,8 @@ import de.q2web.gis.ui.cli.util.TraceWriterConverter;
  */
 public class StartupArguments {
 
-	/** The Constant DEFAULT_GEOMETRY. */
-	private static final Geometry DEFAULT_GEOMETRY = new SphericalGeometry();
-
-	// if spherical geometry it means meters
-	/** The Constant DEFAULT_EPSILON. */
-	private static final double DEFAULT_EPSILON = 10;
+	/** The Constant DEFAULT_DISTANCE. */
+	private static final Distance DEFAULT_DISTANCE = new HaversineDistance();
 
 	/** The Constant DEFAULT_DIMENSIONS. */
 	private static final int DEFAULT_DIMENSIONS = 2;
@@ -43,7 +39,7 @@ public class StartupArguments {
 
 	/** The epsilon. */
 	@Parameter(names = { "-e", "--epsilon" }, description = "Error tolerance level", converter = EpsilonConverter.class)
-	private final double epsilon = DEFAULT_EPSILON;
+	private double epsilon;
 
 	/** The output writer. */
 	@Parameter(names = { "-o", "--output-file" }, description = "Path to optional output file", converter = TraceWriterConverter.class)
@@ -57,9 +53,9 @@ public class StartupArguments {
 	@Parameter(names = { "-a", "--algorithm" }, description = "Algorithm for minimizing trajectory")
 	private final String algorithm = null;
 
-	/** The geometry. */
-	@Parameter(names = { "-g", "--geometry" }, description = "Geometry for metrics", validateWith = GeometryValidator.class, converter = GeometryConverter.class)
-	private final Geometry geometry = DEFAULT_GEOMETRY;
+	/** The distance. */
+	@Parameter(names = { "-g", "--distance" }, description = "Distance for metrics", validateWith = DistanceValidator.class, converter = DistanceConverter.class)
+	private final Distance distance = DEFAULT_DISTANCE;
 
 	/** The dimensions. */
 	@Parameter(names = { "-d", "--dimensions" }, description = "Number of dimensions")
@@ -93,12 +89,12 @@ public class StartupArguments {
 	}
 
 	/**
-	 * Gets the geometry.
+	 * Gets the distance.
 	 * 
-	 * @return the geometry
+	 * @return the distance
 	 */
-	public Geometry getGeometry() {
-		return geometry;
+	public Distance getDistance() {
+		return distance;
 	}
 
 	/**

@@ -41,8 +41,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.primitives.Ints;
 
-import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Algorithm;
+import de.q2web.gis.core.api.Point;
 import de.q2web.jocl.util.Integers;
 import de.q2web.jocl.util.Resources;
 

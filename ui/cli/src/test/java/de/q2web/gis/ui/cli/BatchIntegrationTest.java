@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Stopwatch;
 
@@ -14,9 +16,14 @@ import de.q2web.gis.ui.cli.util.Duration;
 
 public class BatchIntegrationTest {
 
+	private static Logger LOGGER = LoggerFactory
+			.getLogger(BatchIntegrationTest.class);
+
 	private static final boolean BATCH_MODE = true;
 
-	private static final String DEV_NULL = "/dev/null";
+	private static final File OUTPUT_DIRECTORY = new File(
+			System.getProperty("user.home") + File.separator + "data"
+					+ File.separator + "output");
 
 	private static final String TWO_DIM = "2";
 
@@ -50,25 +57,25 @@ public class BatchIntegrationTest {
 
 	@Test
 	public void testDouglasPeuckerReference() throws IOException {
-		testAlgorithm(DOUGLAS_PEUCKER_REFERENCE, DEFAULT_EPSILON);
+		testAlgorithm(DOUGLAS_PEUCKER_REFERENCE, 0.000001f);
 	}
 
 	@Test
 	public void testDouglasPeuckerOpenCL() throws IOException {
-		testAlgorithm(DOUGLAS_PEUCKER_OPENCL, DEFAULT_EPSILON);
+		testAlgorithm(DOUGLAS_PEUCKER_OPENCL, 0.001f);
 	}
 
 	@Test
 	public void testImaiReference() throws IOException {
-		testAlgorithm(IMAI_REFERENCE, DEFAULT_EPSILON);
+		testAlgorithm(IMAI_REFERENCE, 0.001f);
 	}
 
 	@Test
 	public void testImaiOpenCL() throws IOException {
-		testAlgorithm(IMAI_OPENCL, DEFAULT_EPSILON);
+		testAlgorithm(IMAI_OPENCL, 0.001f);
 	}
 
-	private void testAlgorithm(final String algorithm, final int epsilon)
+	private void testAlgorithm(final String algorithm, final float epsilon)
 			throws IOException {
 
 		FilenameFilter filenameFilter = new FilenameFilter() {
@@ -82,12 +89,21 @@ public class BatchIntegrationTest {
 		Stopwatch stopwatch = new Stopwatch();
 		stopwatch.start();
 		for (File dir : DIRECTORIES) {
+			LOGGER.info("#{}, {} with epsilon {}", dir, algorithm, epsilon);
+			LOGGER.info("#file, number of points, number of reduced points, time in ms");
+
 			File[] csvFiles = dir.listFiles(filenameFilter);
 			for (File csvFile : csvFiles) {
+
+				String base = getNameWithoutExtension(csvFile.getName());
+				String extension = ".kml";
+
+				File outputFile = new File(OUTPUT_DIRECTORY, base + extension);
+
 				final String[] args = new String[] { "-i",
 						csvFile.getCanonicalPath(), "-e",
-						Integer.toString(epsilon), "-a", algorithm, "-d",
-						TWO_DIM, "-o", DEV_NULL };
+						Float.toString(epsilon), "-a", algorithm, "-d",
+						TWO_DIM, "-o", outputFile.getAbsolutePath() };
 				CommandLine.main(args, BATCH_MODE);
 				filesTested++;
 			}
@@ -96,5 +112,11 @@ public class BatchIntegrationTest {
 		long elapsedTime = stopwatch.elapsedTime(TimeUnit.NANOSECONDS);
 		System.out.println(String.format("Tested %s files in %s", filesTested,
 				Duration.of(elapsedTime)));
+	}
+
+	public static String getNameWithoutExtension(final String file) {
+		String fileName = new File(file).getName();
+		int dotIndex = fileName.lastIndexOf('.');
+		return (dotIndex == -1) ? fileName : fileName.substring(0, dotIndex);
 	}
 }

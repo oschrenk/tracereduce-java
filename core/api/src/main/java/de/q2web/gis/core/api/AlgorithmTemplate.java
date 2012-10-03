@@ -22,7 +22,7 @@
  *
  *******************************************************************************
  */
-package de.q2web.gis.trajectory.core.api;
+package de.q2web.gis.core.api;
 
 /**
  * The Class Algorithm.
@@ -33,20 +33,20 @@ public class AlgorithmTemplate {
 
 	private final String name;
 
-	private final String geometry;
+	private final String distance;
 
-	public AlgorithmTemplate(final String name, final String geometry) {
+	public AlgorithmTemplate(final String name, final String distance) {
 		super();
 		this.name = name;
-		this.geometry = geometry;
+		this.distance = distance;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public String getGeometry() {
-		return geometry;
+	public String getDistance() {
+		return distance;
 	}
 
 }

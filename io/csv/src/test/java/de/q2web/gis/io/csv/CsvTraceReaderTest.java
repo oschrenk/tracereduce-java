@@ -9,8 +9,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.q2web.gis.core.api.Point;
 import de.q2web.gis.io.api.TraceReader;
-import de.q2web.gis.trajectory.core.api.Point;
 
 /**
  * The Class CsvFloatTraceReaderTest.

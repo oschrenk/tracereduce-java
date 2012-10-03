@@ -2,9 +2,9 @@ package de.q2web.gis.ui.cli.jobs;
 
 import java.util.List;
 
-import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.AlgorithmInput;
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Algorithm;
+import de.q2web.gis.core.api.AlgorithmInput;
+import de.q2web.gis.core.api.Point;
 import de.q2web.util.timer.TimedWorkUnit;
 import de.q2web.util.timer.WorkUnitException;
 

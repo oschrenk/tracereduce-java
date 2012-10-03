@@ -9,10 +9,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.q2web.gis.geometry.EuclideanGeometry;
-import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.Geometry;
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Algorithm;
+import de.q2web.gis.core.api.Distance;
+import de.q2web.gis.core.api.Point;
+import de.q2web.gis.geom.EuclideanDistance;
 
 public class LinearOptimumReferenceAlgorithmTest {
 
@@ -46,9 +46,9 @@ public class LinearOptimumReferenceAlgorithmTest {
 
 	@Test
 	public void test() {
-		final Geometry geometry = new EuclideanGeometry();
+		final Distance distance = new EuclideanDistance();
 		final Algorithm referenceAlgorithm = new LinearOptimumReferenceAlgorithm(
-				geometry);
+				distance);
 
 		final List<Point> reducedTrace = referenceAlgorithm.run(trace, epsilon);
 

@@ -84,7 +84,8 @@
 					</execution>
 				</executions>
 				<configuration>
-					<argLine>-Xmx1024M -Xms1024M -XX:PermSize=2048m -XX:MaxPermSize=2048m</argLine>
+					<argLine>-Xmx1024M -Xms1024M -XX:PermSize=2048m
+						-XX:MaxPermSize=2048m</argLine>
 					<includes>
 						<include>**/*IntegrationTest.java</include>
 					</includes>
@@ -175,10 +176,24 @@
 			<artifactId>cubic-splines-opencl</artifactId>
 		</dependency>
 
+		<!-- IO -->
+
 		<dependency>
 			<groupId>de.q2web.gis</groupId>
 			<artifactId>tracereduce-io-core</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>de.q2web.gis</groupId>
+			<artifactId>tracereduce-io-csv</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>de.q2web.gis</groupId>
+			<artifactId>tracereduce-io-kml</artifactId>
+		</dependency>
+
+		<!-- TIMER -->
 
 		<dependency>
 			<groupId>de.q2web.util</groupId>

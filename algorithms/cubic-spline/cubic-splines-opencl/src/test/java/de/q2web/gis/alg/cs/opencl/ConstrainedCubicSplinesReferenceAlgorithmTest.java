@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Algorithm;
+import de.q2web.gis.core.api.Point;
 import de.q2web.jocl.util.Arrays;
 
 public class ConstrainedCubicSplinesReferenceAlgorithmTest {

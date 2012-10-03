@@ -3,8 +3,8 @@ package de.q2web.gis.ui.cli.jobs;
 import java.io.IOException;
 import java.util.List;
 
+import de.q2web.gis.core.api.Point;
 import de.q2web.gis.io.api.TraceWriter;
-import de.q2web.gis.trajectory.core.api.Point;
 import de.q2web.util.timer.TimedWorkUnit;
 import de.q2web.util.timer.WorkUnitException;
 

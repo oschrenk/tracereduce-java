@@ -6,9 +6,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.Geometry;
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Algorithm;
+import de.q2web.gis.core.api.Distance;
+import de.q2web.gis.core.api.Point;
 
 /**
  * The Class DouglasPeuckerAlgorithm.
@@ -23,33 +23,32 @@ public class DouglasPeuckerReferenceAlgorithm implements Algorithm {
 	/** The epsilon. */
 	private double epsilon;
 
-	/** The geometry. */
-	private final Geometry geometry;
+	/** The distance. */
+	private final Distance distance;
 
 	/**
 	 * Instantiates a new douglas peucker algorithm.
 	 * 
-	 * @param geometry
-	 *            the geometry
+	 * @param distance
+	 *            the distance
 	 */
-	public DouglasPeuckerReferenceAlgorithm(final Geometry geometry) {
+	public DouglasPeuckerReferenceAlgorithm(final Distance distance) {
 		super();
-		this.geometry = geometry;
+		this.distance = distance;
 	}
 
 	/*
-	 * @see de.q2web.gis.trajectory.core.api.Algorithm#run(java.util.List,
-	 * double)
+	 * @see de.q2web.gis.core.api.Algorithm#run(java.util.List, double)
 	 */
 	@Override
 	public List<Point> run(final List<Point> trace, final double epsilon) {
 		this.epsilon = epsilon;
 
-		final List<Point> simplified = run(trace);
+		final List<Point> simplified = run(trace, 0);
 
 		LOGGER.trace("Trace: {}", simplified);
 
-		return run(trace);
+		return simplified;
 	}
 
 	/**
@@ -59,18 +58,20 @@ public class DouglasPeuckerReferenceAlgorithm implements Algorithm {
 	 *            the trace
 	 * @return the list
 	 */
-	public List<Point> run(final List<Point> trace) {
+	public List<Point> run(final List<Point> trace, final int depth) {
 		final int traceLength = trace.size();
 
 		// determine the node at which the trace will be separated
-		double maximumDistance = Double.NaN;
+		double maximumDistance = Double.NEGATIVE_INFINITY;
 		int maxIndex = -1;
 
+		Point first = trace.get(0);
+		Point last = trace.get(traceLength - 1);
+
 		for (int i = 1; i < traceLength - 1; i++) {
-			final double distance = geometry.distance(trace.get(i),
-					trace.get(0), trace.get(traceLength - 1));
-			if (geometry.compare(distance, maximumDistance) > 0) {
-				maximumDistance = distance;
+			final double d = distance.distance(trace.get(i), first, last);
+			if (d > maximumDistance) {
+				maximumDistance = d;
 				maxIndex = i;
 			}
 		}
@@ -78,7 +79,7 @@ public class DouglasPeuckerReferenceAlgorithm implements Algorithm {
 		final List<Point> resultList;
 
 		// if no separation needed, just return start and end
-		if (maxIndex == -1 || geometry.compare(maximumDistance, epsilon) <= 0) {
+		if (maxIndex == -1 || maximumDistance <= epsilon) {
 			resultList = new ArrayList<Point>(2);
 			resultList.add(trace.get(0));
 			resultList.add(trace.get(traceLength - 1));
@@ -89,7 +90,7 @@ public class DouglasPeuckerReferenceAlgorithm implements Algorithm {
 			for (int i = 0; i <= maxIndex; i++) {
 				lowerTrace.add(trace.get(i));
 			}
-			final List<Point> lowerTraceResults = run(lowerTrace);
+			final List<Point> lowerTraceResults = run(lowerTrace, depth + 1);
 			// remove last element, cause this is equal to the first element in
 			// the upper part result list
 			lowerTraceResults.remove(lowerTraceResults.size() - 1);
@@ -100,7 +101,7 @@ public class DouglasPeuckerReferenceAlgorithm implements Algorithm {
 			for (int i = maxIndex; i < traceLength; i++) {
 				upperTrace.add(trace.get(i));
 			}
-			final List<Point> upperTraceResults = run(upperTrace);
+			final List<Point> upperTraceResults = run(upperTrace, depth + 1);
 
 			resultList = new ArrayList<Point>(lowerTraceResults.size()
 					+ upperTraceResults.size());

@@ -107,7 +107,7 @@
 				<artifactId>linear-optimum-reference</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>de.q2web.gis.alg</groupId>
 				<artifactId>linear-optimum-opencl</artifactId>
@@ -140,10 +140,15 @@
 				<version>${project.version}</version>
 			</dependency>
 
-
 			<dependency>
 				<groupId>de.q2web.gis</groupId>
 				<artifactId>tracereduce-io-csv</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>de.q2web.gis</groupId>
+				<artifactId>tracereduce-io-kml</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

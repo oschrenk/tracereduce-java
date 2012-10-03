@@ -13,6 +13,17 @@ public class EpsilonConverter implements IStringConverter<Number> {
 	 */
 	@Override
 	public Number convert(final String value) {
+
+		if (value == null) {
+			throw new IllegalArgumentException("Invalid epsilon");
+		}
+
+		String trimmedValue = value.trim();
+
+		if (trimmedValue.isEmpty()) {
+			throw new IllegalArgumentException("Invalid epsilon");
+		}
+
 		return Double.parseDouble(value);
 	}
 

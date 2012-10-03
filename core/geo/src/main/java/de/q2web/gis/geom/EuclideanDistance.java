@@ -1,6 +1,6 @@
 /*
  *******************************************************************************
- * EuclideanGeometry.java
+ * EuclideanDistance.java
  * $Id: $
  *
  *******************************************************************************
@@ -22,17 +22,17 @@
  *
  *******************************************************************************
  */
-package de.q2web.gis.geometry;
+package de.q2web.gis.geom;
 
-import de.q2web.gis.trajectory.core.api.Geometry;
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Distance;
+import de.q2web.gis.core.api.Point;
 
 /**
- *
- *
+ * 
+ * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class EuclideanGeometry implements Geometry {
+public class EuclideanDistance implements Distance {
 
 	@Override
 	public double distance(final Point from, final Point to) {
@@ -64,11 +64,11 @@ public class EuclideanGeometry implements Geometry {
 
 	/**
 	 * is again given by projecting r onto v, giving
-	 *
+	 * 
 	 * denom = (sqrt((x_2-x_1)^2+(y_2-y_1)^2))
 	 * distance=(|(x_2-x_1)(y_1-y_0)-(x_1-x_0)(y_2-y_1)|)/
-	 *
-	 *
+	 * 
+	 * 
 	 * @return
 	 */
 	private static final double distance2d(final Point point,
@@ -90,7 +90,7 @@ public class EuclideanGeometry implements Geometry {
 
 	/**
 	 * Distance3d.
-	 *
+	 * 
 	 * @param point
 	 *            the point
 	 * @param lineStart
@@ -106,30 +106,9 @@ public class EuclideanGeometry implements Geometry {
 				/ length(lineVector);
 	}
 
-	/*
-	 * @see de.q2web.gis.trajectory.core.api.Geometry#compare(double, double)
-	 */
-	@Override
-	public int compare(final double a, final double b) {
-		if (a < b) {
-			return -1; // Neither val is NaN, thisVal is smaller
-		}
-		if (a > b) {
-			return 1; // Neither val is NaN, thisVal is larger
-		}
-
-		// Cannot use doubleToRawLongBits because of possibility of NaNs.
-		final long thisBits = Double.doubleToLongBits(a);
-		final long anotherBits = Double.doubleToLongBits(b);
-
-		return (thisBits == anotherBits ? 0 : // Values are equal
-				(thisBits < anotherBits ? -1 : // (-0.0, 0.0) or (!NaN, NaN)
-						1)); // (0.0, -0.0) or (NaN, !NaN)
-	}
-
 	/**
 	 * Square.
-	 *
+	 * 
 	 * @param f
 	 *            the f
 	 * @return the float
@@ -140,7 +119,7 @@ public class EuclideanGeometry implements Geometry {
 
 	/**
 	 * Calculates p-a.
-	 *
+	 * 
 	 * @param p
 	 *            the p
 	 * @param a
@@ -159,7 +138,7 @@ public class EuclideanGeometry implements Geometry {
 
 	/**
 	 * Cross.
-	 *
+	 * 
 	 * @param a
 	 *            the a
 	 * @param b
@@ -176,7 +155,7 @@ public class EuclideanGeometry implements Geometry {
 
 	/**
 	 * Length.
-	 *
+	 * 
 	 * @param p
 	 *            the p
 	 * @return the float

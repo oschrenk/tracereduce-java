@@ -6,11 +6,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.q2web.gis.core.api.Algorithm;
+import de.q2web.gis.core.api.AlgorithmInput;
+import de.q2web.gis.core.api.Point;
 import de.q2web.gis.io.api.TraceReader;
 import de.q2web.gis.io.api.TraceWriter;
-import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.AlgorithmInput;
-import de.q2web.gis.trajectory.core.api.Point;
 import de.q2web.gis.ui.cli.jobs.AlgorithmTimedWorkUnit;
 import de.q2web.gis.ui.cli.jobs.TraceReaderTimedWorkUnit;
 import de.q2web.gis.ui.cli.jobs.TraceWriterTimedWorkUnit;
@@ -79,29 +79,33 @@ public class TraceReduce {
 		final List<Point> trace = traceReaderWorkUnit.run(input);
 		final long traceReaderDuration = traceReaderWorkUnit.getElapsedNanos();
 
+		System.out.println(String.format("%s with %s points",
+				input.getAbsolutePath(), trace.size()));
+
 		// do the logic
 		final TimedWorkUnit<AlgorithmInput, List<Point>> algorithmWorkUnit = new AlgorithmTimedWorkUnit(
 				algorithm);
-		final List<Point> trajectory = algorithmWorkUnit
+		final List<Point> simplifiedTrace = algorithmWorkUnit
 				.run(new AlgorithmInput(trace, epsilon));
 		final long algorithmDuration = algorithmWorkUnit.getElapsedNanos();
 
 		// write output
 		final TimedWorkUnit<List<Point>, Void> traceWriterWorkUnit = new TraceWriterTimedWorkUnit(
 				traceWriter);
-		traceWriterWorkUnit.run(trajectory);
+		traceWriterWorkUnit.run(simplifiedTrace);
 		final long traceWriterDuration = traceWriterWorkUnit.getElapsedNanos();
 
 		if (isTimed) {
-			System.out.println(String.format("%s with %s points",
-					input.getAbsolutePath(), trace.size()));
+
 			System.out.println(String.format("Input read in %s",
 					Duration.of(traceReaderDuration)));
 
 			System.out.println(String.format("Algorithm took %s",
 					Duration.of(algorithmDuration)));
 
-			LOGGER.info(Long.toString(algorithmDuration));
+			LOGGER.info("{};{};{};{}", input, trace.size(),
+					simplifiedTrace.size(),
+					Long.toString(algorithmWorkUnit.getElapsedMillis()));
 
 			System.out.println(String.format("Output written in %s",
 					Duration.of(traceWriterDuration)));

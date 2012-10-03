@@ -3,7 +3,7 @@ package de.q2web.gis.io.core;
 import java.io.Writer;
 
 import de.q2web.gis.io.api.TraceWriter;
-import de.q2web.gis.io.csv.CsvTraceWriter;
+import de.q2web.gis.io.kml.KmlTraceWriter;
 
 /**
  * 
@@ -12,7 +12,7 @@ import de.q2web.gis.io.csv.CsvTraceWriter;
 public class TraceWriters {
 
 	public static TraceWriter build(final int dimensions, final Writer writer) {
-		return new CsvTraceWriter(dimensions, writer);
+		return new KmlTraceWriter(dimensions, writer);
 	}
 
 }

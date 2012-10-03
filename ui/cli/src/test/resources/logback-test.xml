@@ -14,7 +14,7 @@
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
 		<!-- use the previously created timestamp to create a uniquely named log 
 			file -->
-		<file>log-${bySecond}.txt</file>
+		<file>log-${bySecond}.csv</file>
 		<encoder>
 			<pattern>%msg%n</pattern>
 		</encoder>

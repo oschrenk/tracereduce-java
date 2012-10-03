@@ -41,12 +41,30 @@ public abstract class TimedWorkUnit<I, O> implements WorkUnit<I, O> {
 	}
 
 	/**
-	 * Gets the elapsed millis.
+	 * Gets the elapsed nanoseconds.
 	 * 
-	 * @return the elapsed millis
+	 * @return the elapsed nanoseconds
 	 */
 	public long getElapsedNanos() {
 		return stopwatch.elapsedTime(TimeUnit.NANOSECONDS);
+	}
+
+	/**
+	 * Gets the elapsed microseconds.
+	 * 
+	 * @return the elapsed microseconds
+	 */
+	public long getElapsedMicros() {
+		return stopwatch.elapsedTime(TimeUnit.MICROSECONDS);
+	}
+
+	/**
+	 * Gets the elapsed milliseconds.
+	 * 
+	 * @return the elapsed milliseconds
+	 */
+	public long getElapsedMillis() {
+		return stopwatch.elapsedTime(TimeUnit.MILLISECONDS);
 	}
 
 }

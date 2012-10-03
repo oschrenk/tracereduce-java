@@ -3,8 +3,8 @@ package de.q2web.gis.alg.cs.opencl;
 import java.util.Iterator;
 import java.util.List;
 
-import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Algorithm;
+import de.q2web.gis.core.api.Point;
 import de.q2web.jocl.util.Arrays;
 
 /**
@@ -15,7 +15,7 @@ import de.q2web.jocl.util.Arrays;
 public class ConstrainedCubicSplinesReferenceAlgorithm implements Algorithm {
 
 	/*
-	 * @see de.q2web.gis.trajectory.core.api.Algorithm#run(java.util.List,
+	 * @see de.q2web.gis.core.api.Algorithm#run(java.util.List,
 	 * double)
 	 */
 	@Override

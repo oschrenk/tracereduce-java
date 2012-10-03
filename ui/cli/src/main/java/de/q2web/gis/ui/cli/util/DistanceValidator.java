@@ -7,21 +7,21 @@ import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;
 
 /**
- *
+ * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class GeometryValidator implements IParameterValidator {
+public class DistanceValidator implements IParameterValidator {
 
-	protected static final String SPHEROIDAL = "spheroidal";
+	protected static final String HAVERSINE = "haversine";
 	protected static final String SPHERICAL = "spherical";
 	protected static final String EUCLIDEAN = "euclidean";
 
-	private static final List<String> validGeometries = new ArrayList<String>();
+	private static final List<String> validDistances = new ArrayList<String>();
 
 	static {
-		validGeometries.add(EUCLIDEAN);
-		validGeometries.add(SPHERICAL);
-		validGeometries.add(SPHEROIDAL);
+		validDistances.add(EUCLIDEAN);
+		validDistances.add(SPHERICAL);
+		validDistances.add(HAVERSINE);
 	}
 
 	/*
@@ -32,13 +32,13 @@ public class GeometryValidator implements IParameterValidator {
 	public void validate(final String name, final String value)
 			throws ParameterException {
 		if (value == null) {
-			throw new ParameterException("No valid geometry given.");
+			throw new ParameterException("No valid distance given.");
 		}
 
-		final String geometry = value.trim().toLowerCase();
+		final String distance = value.trim().toLowerCase();
 
-		if (!validGeometries.contains(geometry)) {
-			throw new ParameterException("No valid geometry given.");
+		if (!validDistances.contains(distance)) {
+			throw new ParameterException("No valid distance given.");
 		}
 	}
 }

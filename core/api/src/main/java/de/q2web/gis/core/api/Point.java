@@ -1,4 +1,4 @@
-package de.q2web.gis.trajectory.core.api;
+package de.q2web.gis.core.api;
 
 import java.util.Arrays;
 
@@ -22,6 +22,20 @@ public class Point {
 	 */
 	public int getTime() {
 		return time;
+	}
+
+	/**
+	 * Instantiates a new point.
+	 * 
+	 * @param time
+	 *            the time
+	 * @param x
+	 *            the x
+	 * @param y
+	 *            the y
+	 */
+	public Point(final int time, final double x, final double y) {
+		this(time, new double[] { x, y });
 	}
 
 	/**

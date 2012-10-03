@@ -11,9 +11,9 @@ import de.q2web.gis.alg.lo.ref.dijkstra.DijkstraAlgorithm;
 import de.q2web.gis.alg.lo.ref.dijkstra.Edge;
 import de.q2web.gis.alg.lo.ref.dijkstra.Graph;
 import de.q2web.gis.alg.lo.ref.dijkstra.Vertex;
-import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.Geometry;
-import de.q2web.gis.trajectory.core.api.Point;
+import de.q2web.gis.core.api.Algorithm;
+import de.q2web.gis.core.api.Distance;
+import de.q2web.gis.core.api.Point;
 
 /**
  * The Class LinearOptimumReferenceAlgorithm.
@@ -25,23 +25,23 @@ public class LinearOptimumReferenceAlgorithm implements Algorithm {
 
 	private static final int DEFAULT_WEIGHT = 1;
 
-	/** The geometry. */
-	private final Geometry geometry;
+	/** The distance. */
+	private final Distance distance;
 
 	/**
 	 * Instantiates a new linear optimum reference algorithm.
 	 * 
-	 * @param geometry
-	 *            the geometry
+	 * @param distance
+	 *            the distance
 	 */
-	public LinearOptimumReferenceAlgorithm(final Geometry geometry) {
-		this.geometry = geometry;
+	public LinearOptimumReferenceAlgorithm(final Distance distance) {
+		this.distance = distance;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.q2web.gis.trajectory.core.api.Algorithm#run(java.util.List,
+	 * @see de.q2web.gis.core.api.Algorithm#run(java.util.List,
 	 * double)
 	 */
 	@Override
@@ -129,16 +129,16 @@ public class LinearOptimumReferenceAlgorithm implements Algorithm {
 					Point lineStart = nodes.get(lineStartIndex).getValue();
 					Point lineEnd = nodes.get(lineEndIndex).getValue();
 
-					final double delta = geometry.distance(point, lineStart,
+					final double delta = distance.distance(point, lineStart,
 							lineEnd);
 					LOGGER.trace("Distance from {} to{},{}, is {}", point,
 							lineStart, lineEnd, delta);
-					if (geometry.compare(delta, maxDelta) > 0) {
+					if (delta > maxDelta) {
 						maxDelta = delta;
 					}
 				}
 				LOGGER.trace("Found maximum delta of {}", maxDelta);
-				if (geometry.compare(maxDelta, epsilon) <= 0) {
+				if (maxDelta <= epsilon) {
 					// final int weight = lineEndIndex - lineStartIndex - 1;
 					final int weight = DEFAULT_WEIGHT;
 					final Vertex<Point> start = nodes.get(lineStartIndex);

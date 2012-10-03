@@ -28,12 +28,12 @@ import java.io.File;
 
 import com.beust.jcommander.JCommander;
 
+import de.q2web.gis.core.api.Algorithm;
+import de.q2web.gis.core.api.Distance;
 import de.q2web.gis.io.api.TraceReader;
 import de.q2web.gis.io.api.TraceWriter;
 import de.q2web.gis.io.core.TraceReaders;
 import de.q2web.gis.io.core.TraceWriters;
-import de.q2web.gis.trajectory.core.api.Algorithm;
-import de.q2web.gis.trajectory.core.api.Geometry;
 import de.q2web.gis.ui.cli.util.AlgorithmFactory;
 import de.q2web.gis.ui.cli.util.EpsilonFactory;
 import de.q2web.gis.ui.cli.util.ExitCodes;
@@ -75,14 +75,14 @@ public class CommandLine {
 			final double epsilon = EpsilonFactory.build(startupArguments
 					.getEpsilon());
 			final String algorithmName = startupArguments.getAlgorithm();
-			final Geometry geometry = startupArguments.getGeometry();
+			final Distance distance = startupArguments.getDistance();
 
 			final int dimensions = startupArguments.getDimensions();
 			final TraceReader traceReader = TraceReaders.build(dimensions);
 			final TraceWriter traceWriter = TraceWriters.build(dimensions,
 					startupArguments.getWriter());
 			final Algorithm algorithm = AlgorithmFactory.build(algorithmName,
-					geometry);
+					distance);
 
 			// 3. run the simplification process
 			try {

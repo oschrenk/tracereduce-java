@@ -34,7 +34,7 @@ public class CommandLineIntegrationTest {
 	}
 
 	@Test(expected = ParameterException.class)
-	public void testWrongGeometry() throws IOException {
+	public void testWrongDistance() throws IOException {
 		final String[] args = new String[] { "-i",
 				traceFile.getCanonicalPath(), "-e", "10", "-a",
 				"douglas-peucker#reference", "-g", "FOO", "-d", "3" };
@@ -42,7 +42,7 @@ public class CommandLineIntegrationTest {
 	}
 
 	@Test
-	public void testEuclideanGeometry() throws IOException {
+	public void testEuclideanDistance() throws IOException {
 		final String[] args = new String[] { "-i",
 				traceFile.getCanonicalPath(), "-e", "10", "-a",
 				"douglas-peucker#reference", "-g", "euclidean", "-d", "3" };
