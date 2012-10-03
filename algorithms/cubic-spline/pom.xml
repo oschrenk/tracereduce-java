@@ -15,7 +15,7 @@
 	
 	<modules>
 		<module>reference</module>
-		<module>cubic-splines-opencl</module>
+		<module>opencl</module>
 	</modules>
 
 </project>

@@ -12,4 +12,15 @@
 
 	<name>TraceReduce, Algorithms, Cubic Splines, Reference Implementation</name>
 
+	<dependencies>
+
+		<!-- OPENCL -->
+
+		<dependency>
+			<groupId>de.q2web</groupId>
+			<artifactId>jocl-commons</artifactId>
+		</dependency>
+
+	</dependencies>
+
 </project>
