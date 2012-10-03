@@ -10,6 +10,10 @@ import de.q2web.gis.core.api.Point;
  */
 public class SphericalDistance implements Distance {
 
+	private static final int LONGITUDE = 0;
+
+	private static final int LATITUDE = 1;
+
 	/** The Constant EARTH_VOLUMETRIC_MEAN_RADIUS. */
 	public static final int EARTH_VOLUMETRIC_MEAN_RADIUS = 6371000;
 
@@ -38,7 +42,7 @@ public class SphericalDistance implements Distance {
 	 * .core.api.Point, de.q2web.gis.core.api.Point)
 	 */
 	/**
-	 * Lat-Lng[-Height] in spherical coordinates.
+	 * Lng-Lat[-Height] in spherical coordinates.
 	 * 
 	 * @param from
 	 *            the from
@@ -48,8 +52,8 @@ public class SphericalDistance implements Distance {
 	 */
 	@Override
 	public double distance(final Point from, final Point to) {
-		return getDistance2d(radius, from.get(0), from.get(1), to.get(0),
-				to.get(1));
+		return getDistance2d(radius, from.get(LATITUDE), from.get(LONGITUDE),
+				to.get(LATITUDE), to.get(LONGITUDE));
 	}
 
 	/**
@@ -132,7 +136,7 @@ public class SphericalDistance implements Distance {
 	 * @param lineEnd
 	 *            the line end
 	 * @return the double
-	 * @see <a href="http://math.stackexchange.com/posts/23612/">How to find the
+	 * @see <a href="http://math.stackexchange.com/q/23054">How to find the
 	 *      distance between a point and line joining two points on a
 	 *      sphere?</a>
 	 */
@@ -154,14 +158,13 @@ public class SphericalDistance implements Distance {
 	 *            the p
 	 * @return the point
 	 */
-
 	private static final Point toCartesian3d(final Point p) {
 		final double[] c = {
-				Math.cos(Math.toRadians(p.get(0)))
-						* Math.cos(Math.toRadians(p.get(1))),
-				Math.cos(Math.toRadians(p.get(0)))
-						* Math.sin(Math.toRadians(p.get(1))),
-				Math.sin(Math.toRadians(p.get(0))) };
+				Math.cos(Math.toRadians(p.get(LATITUDE)))
+						* Math.cos(Math.toRadians(p.get(LONGITUDE))),
+				Math.cos(Math.toRadians(p.get(LATITUDE)))
+						* Math.sin(Math.toRadians(p.get(LONGITUDE))),
+				Math.sin(Math.toRadians(p.get(LATITUDE))) };
 		return new Point(p.getTime(), c);
 	}
 

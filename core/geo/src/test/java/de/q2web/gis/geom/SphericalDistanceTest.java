@@ -78,8 +78,10 @@ public class SphericalDistanceTest {
 
 	}
 
-	// @Ignore
 	@Test
+	// FIXME the reference uses haversine distance
+	// therefore comparison not applicable
+	// find better example
 	// cross check with http://williams.best.vwh.net/avform.htm#Example
 	public void testDtoLAXtoJFK() {
 		// LAX: (33deg 57min N, 118deg 24min W)

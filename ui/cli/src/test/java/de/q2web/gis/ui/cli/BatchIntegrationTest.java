@@ -57,22 +57,22 @@ public class BatchIntegrationTest {
 
 	@Test
 	public void testDouglasPeuckerReference() throws IOException {
-		testAlgorithm(DOUGLAS_PEUCKER_REFERENCE, 5f);
+		testAlgorithm(DOUGLAS_PEUCKER_REFERENCE, DEFAULT_EPSILON);
 	}
 
 	@Test
 	public void testDouglasPeuckerOpenCL() throws IOException {
-		testAlgorithm(DOUGLAS_PEUCKER_OPENCL, 0.001f);
+		testAlgorithm(DOUGLAS_PEUCKER_OPENCL, DEFAULT_EPSILON);
 	}
 
 	@Test
 	public void testImaiReference() throws IOException {
-		testAlgorithm(IMAI_REFERENCE, 0.001f);
+		testAlgorithm(IMAI_REFERENCE, DEFAULT_EPSILON);
 	}
 
 	@Test
 	public void testImaiOpenCL() throws IOException {
-		testAlgorithm(IMAI_OPENCL, 0.001f);
+		testAlgorithm(IMAI_OPENCL, DEFAULT_EPSILON);
 	}
 
 	private void testAlgorithm(final String algorithm, final float epsilon)

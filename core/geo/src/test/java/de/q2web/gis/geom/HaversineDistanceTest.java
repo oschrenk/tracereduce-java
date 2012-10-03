@@ -78,10 +78,10 @@ public class HaversineDistanceTest {
 
 	}
 
-	// @Ignore
 	@Test
 	// cross check with http://williams.best.vwh.net/avform.htm#Example
 	public void testDtoLAXtoJFK() {
+		// lon-lat
 		// LAX: (33deg 57min N, 118deg 24min W)
 		Point LAX = new Point(118 + 24d / 60, 33 + 57d / 60);
 		// JFK: (40deg 38min N, 73deg 47min W)

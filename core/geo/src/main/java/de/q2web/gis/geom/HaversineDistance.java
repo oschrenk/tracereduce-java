@@ -10,6 +10,8 @@ import de.q2web.gis.core.api.Point;
  */
 public class HaversineDistance implements Distance {
 
+	private static final int LATITUDE = 1;
+	private static final int LONGITUDE = 0;
 	/** The Constant EARTH_VOLUMETRIC_MEAN_RADIUS. */
 	public static final int EARTH_VOLUMETRIC_MEAN_RADIUS = 6371000;
 
@@ -48,7 +50,6 @@ public class HaversineDistance implements Distance {
 			final Point lineStart, final Point lineEnd) {
 
 		final double r = EARTH_VOLUMETRIC_MEAN_RADIUS;
-
 		final double b12 = orthodromeBearing(lineStart, lineEnd);
 		final double b13 = orthodromeBearing(lineStart, point);
 		final double d13 = haversineDistance(lineStart, point);
@@ -57,7 +58,7 @@ public class HaversineDistance implements Distance {
 		final double dt = //
 		Math.asin( //
 		Math.sin(d13 / r) //
-				* Math.sin(Math.toRadians(b13 - b12)) //
+				* Math.sin(b13 - b12) //
 		) * r; //
 		// @formatter:on
 
@@ -68,11 +69,11 @@ public class HaversineDistance implements Distance {
 		// read longitude as x
 		// read latitude as y
 
-		return orthodromeBearing(from.get(1), from.get(0), to.get(1), to.get(0));
+		return orthodromeBearing(from.get(0), from.get(1), to.get(0), to.get(1));
 	}
 
-	private static double orthodromeBearing(double lat1, final double lon1,
-			double lat2, final double lon2) {
+	private static double orthodromeBearing(final double lon1, double lat1,
+			final double lon2, double lat2) {
 		lat1 = Math.toRadians(lat1);
 		lat2 = Math.toRadians(lat2);
 
@@ -82,19 +83,20 @@ public class HaversineDistance implements Distance {
 		final double x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1)
 				* Math.cos(lat2) * Math.cos(deltaLongitude);
 
-		return (Math.toDegrees(Math.atan2(y, x)) + 360) % 360;
+		return Math.atan2(y, x);
 	}
 
 	private static double haversineDistance(final Point from, final Point to) {
 		// read x longitude
 		// read y as latitude
 
-		return haversineDistance(from.get(1), from.get(0), to.get(1), to.get(0));
+		return haversineDistance(from.get(LONGITUDE), from.get(LATITUDE),
+				to.get(LONGITUDE), to.get(LATITUDE));
 	}
 
-	private static double haversineDistance(final double latitudeFrom,
-			final double longitudeFrom, final double latitudeTo,
-			final double longitudeTo) {
+	private static double haversineDistance(final double longitudeFrom,
+			final double latitudeFrom, final double longitudeTo,
+			final double latitudeTo) {
 		final double deltaLatitude = Math.toRadians(latitudeFrom - latitudeTo);
 		final double deltaLongitude = Math
 				.toRadians((longitudeFrom - longitudeTo));
