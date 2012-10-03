@@ -9,7 +9,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.q2web.gis.alg.lo.ref.LinearOptimumReferenceAlgorithm;
 import de.q2web.gis.geometry.EuclideanGeometry;
 import de.q2web.gis.trajectory.core.api.Algorithm;
 import de.q2web.gis.trajectory.core.api.Geometry;

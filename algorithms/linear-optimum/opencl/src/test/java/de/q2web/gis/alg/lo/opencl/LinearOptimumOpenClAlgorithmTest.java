@@ -1,12 +1,24 @@
 package de.q2web.gis.alg.lo.opencl;
 
+import static org.jocl.CL.CL_DEVICE_TYPE_GPU;
+import static org.jocl.CL.clBuildProgram;
+import static org.jocl.CL.clCreateProgramWithSource;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jocl.CL;
+import org.jocl.cl_context;
+import org.jocl.cl_device_id;
+import org.jocl.cl_platform_id;
+import org.jocl.cl_program;
+import org.jocl.utils.Contexts;
+import org.jocl.utils.Devices;
+import org.jocl.utils.Platforms;
+import org.jocl.utils.Programs;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -20,6 +32,26 @@ public class LinearOptimumOpenClAlgorithmTest {
 	public static void setUp() {
 		// Enable exceptions and subsequently omit error checks in this sample
 		CL.setExceptionsEnabled(true);
+	}
+
+	@Test
+	public void testBuildProgram() {
+		final cl_platform_id platformId = Platforms.getPlatforms().get(0);
+		final cl_device_id deviceId = Devices.getDevices(platformId,
+				CL_DEVICE_TYPE_GPU).get(0);
+		final cl_context context = Contexts.create(platformId, deviceId);
+
+		final cl_program program = clCreateProgramWithSource(context, 1,
+				new String[] { LinearOptimumOpenClAlgorithm.SOURCE }, null,
+				null);
+		final int returnCode = clBuildProgram(program, 0, null, null, null,
+				null);
+
+		if (returnCode != CL.CL_SUCCESS) {
+			final String buildLogs = Programs.obtainBuildLogs(program);
+			System.err.println(buildLogs);
+			fail();
+		}
 	}
 
 	private Point start;

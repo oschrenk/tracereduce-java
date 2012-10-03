@@ -53,7 +53,7 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 
 	private static final long[] DEFAULT_LOCAL_WORKSIZE = new long[] { 1 };
 
-	private static final String SOURCE = Resources
+	static final String SOURCE = Resources
 			.convertStreamToString(LinearOptimumOpenClAlgorithm.class
 					.getResourceAsStream("linearOptimum.cl"));
 

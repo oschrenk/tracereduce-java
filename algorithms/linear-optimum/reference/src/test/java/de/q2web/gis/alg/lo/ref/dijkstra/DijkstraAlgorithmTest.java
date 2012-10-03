@@ -11,11 +11,6 @@ import org.junit.Test;
 
 import com.google.common.collect.Lists;
 
-import de.q2web.gis.alg.lo.ref.dijkstra.DijkstraAlgorithm;
-import de.q2web.gis.alg.lo.ref.dijkstra.Edge;
-import de.q2web.gis.alg.lo.ref.dijkstra.Graph;
-import de.q2web.gis.alg.lo.ref.dijkstra.Vertex;
-
 public class DijkstraAlgorithmTest {
 
 	private Graph<String> graph;
@@ -79,6 +74,6 @@ public class DijkstraAlgorithmTest {
 
 		assertTrue(path.size() == 5);
 		assertEquals(path, expectedPath);
-
+		System.out.println(path);
 	}
 }
