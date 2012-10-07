@@ -1,5 +1,7 @@
 # README #
 
+**tracereduce** is a Java 1.6 project that reads (vehicular) traces based on csv files, simplifies them via a choice of algorithms (Douglas-Peucker, Linear Optimum, Constrained Cubic Spline), either Java or OpenCL, writes the result back to csv (or kml) files and times the execution.
+
 ## Development ##
 
 Needed
@@ -24,9 +26,7 @@ Finally
 	$ cd tracereduce-java
 	$ make
 
-The integration tests, test that basically run all algorithms, require a lot of resources.
-
-Because of this the `maven-failsafe-plugin` invokes a new JVM with the following properties
+The integration tests, test that basically run all algorithms, require a lot of resources. Because of this the `maven-failsafe-plugin` invokes a new JVM with the following properties
 
 	-Xmx1024M -Xms1024M -XX:PermSize=2048m -XX:MaxPermSize=2048m
 
