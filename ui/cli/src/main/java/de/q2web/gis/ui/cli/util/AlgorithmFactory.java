@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.q2web.gis.alg.cs.opencl.CubicSplinesOpenClAlgorithm;
-import de.q2web.gis.alg.cs.opencl.CubicSplinesOpenClAlgorithmTest;
 import de.q2web.gis.alg.cs.ref.CubicSplinesReferenceAlgorithm;
 import de.q2web.gis.alg.dp.DouglasPeuckerReferenceAlgorithm;
 import de.q2web.gis.alg.dp.opencl.DouglasPeuckerOpenClAlgorithm;
@@ -76,12 +75,15 @@ public class AlgorithmFactory {
 
 			if (distance instanceof EuclideanDistance) {
 				return new DouglasPeuckerOpenClAlgorithm(
+						distance,
 						DouglasPeuckerOpenClAlgorithm.KERNEL_CROSSTRACK_EUCLIDEAN);
 			} else if (distance instanceof SphericalDistance) {
 				return new DouglasPeuckerOpenClAlgorithm(
+						distance,
 						DouglasPeuckerOpenClAlgorithm.KERNEL_CROSSTRACK_SPHERICAL);
 			} else if (distance instanceof HaversineDistance) {
 				return new DouglasPeuckerOpenClAlgorithm(
+						distance,
 						DouglasPeuckerOpenClAlgorithm.KERNEL_CROSSTRACK_HAVERSINE);
 			}
 

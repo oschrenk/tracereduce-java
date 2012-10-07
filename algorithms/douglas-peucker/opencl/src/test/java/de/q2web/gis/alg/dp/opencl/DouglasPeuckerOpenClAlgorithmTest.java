@@ -49,7 +49,7 @@ public class DouglasPeuckerOpenClAlgorithmTest {
 		final cl_context context = Contexts.create(platformId, deviceId);
 
 		final cl_program program = clCreateProgramWithSource(context, 1,
-				new String[] { DouglasPeuckerOpenClAlgorithm.SOURCE }, null,
+				new String[] { OldDouglasPeuckerOpenClAlgorithm.SOURCE }, null,
 				null);
 		final int returnCode = clBuildProgram(program, 0, null, null, null,
 				null);
@@ -89,8 +89,24 @@ public class DouglasPeuckerOpenClAlgorithmTest {
 		final Algorithm reference = new DouglasPeuckerReferenceAlgorithm(
 				new EuclideanDistance());
 
+		final Algorithm algorithm = new OldDouglasPeuckerOpenClAlgorithm(
+				new EuclideanDistance(),
+				OldDouglasPeuckerOpenClAlgorithm.KERNEL_CROSSTRACK_EUCLIDEAN);
+		final List<Point> reducedTrace = algorithm.run(trace, epsilon);
+
+		assertEquals(reference.run(trace, epsilon), reducedTrace);
+
+	}
+
+	@Test
+	public void crossTestWithReferennceCopy() {
+
+		final Algorithm reference = new DouglasPeuckerReferenceAlgorithm(
+				new EuclideanDistance());
+
 		final Algorithm algorithm = new DouglasPeuckerOpenClAlgorithm(
-				DouglasPeuckerOpenClAlgorithm.KERNEL_CROSSTRACK_EUCLIDEAN);
+				new EuclideanDistance(),
+				OldDouglasPeuckerOpenClAlgorithm.KERNEL_CROSSTRACK_EUCLIDEAN);
 		final List<Point> reducedTrace = algorithm.run(trace, epsilon);
 
 		assertEquals(reference.run(trace, epsilon), reducedTrace);

@@ -57,7 +57,7 @@ public class HaversineDistanceTest {
 		final Distance distance = new SphericalDistance(radius);
 
 		final Point a = new Point(new double[] { 0d, 0d });
-		final Point b = new Point(new double[] { 0d, 90d });
+		final Point b = new Point(new double[] { 90d, 0d });
 		final Point p = new Point(new double[] { 90d, 90d });
 
 		final double d = distance.distance(p, a, b);

@@ -69,7 +69,7 @@ public class DouglasPeuckerReferenceAlgorithm implements Algorithm {
 		Point last = trace.get(traceLength - 1);
 
 		for (int i = 1; i < traceLength - 1; i++) {
-			final double d = distance.distance(trace.get(i), first, last);
+			final float d = (float)distance.distance(trace.get(i), first, last);
 			if (d > maximumDistance) {
 				maximumDistance = d;
 				maxIndex = i;

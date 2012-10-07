@@ -36,13 +36,13 @@ public class BatchIntegrationTest {
 	private static final String SPLINE_REFERENCE = "spline#reference";
 	private static final String SPLINE_OPENCL = "spline#opencl";
 
-	private static final int DEFAULT_EPSILON = 10;
+	private static final float DEFAULT_EPSILON = 0.1f;
 
 	private static final String TRACES_CURRENT = System
 			.getProperty("user.home")
 			+ File.separator
 			+ "data"
-			+ File.separator + "current";
+			+ File.separator + "highway_64kb+redux";
 	private static final File TEST_DIRECTORY_CURRENT = new File(TRACES_CURRENT);
 
 	@Test

@@ -7,13 +7,26 @@ __kernel void euclidean2dPointLineDistance(
 	__global const float *x,
 	__global const float *y,
 	__global float *distance,
-	const uint offset,
+	const uint leftOffset,
+	const uint rightOffset,
 	const float fromX,
 	const float fromY,
 	const float toX,
 	const float toY
 ) {
-	int tid = get_global_id(0) + offset;
+
+	int tid = get_global_id(0);
+
+	if (tid < leftOffset) {
+		distance[tid] = -1;
+		return;
+	}
+	
+	if (tid > rightOffset) {
+		distance[tid] = -1;
+		return;
+	}
+	
 
 	float nom = (toX-fromX)*(fromY-y[tid])-(fromX-x[tid])*(toY-fromY);
 	float denom = (toX-fromX)*(toX-fromX)+(toY-fromY)*(toY-fromY);
@@ -129,7 +142,8 @@ __kernel void haversine2dPointLineDistance(
 	__global const float *longitudeX,
 	__global const float *latitudeY,
 	__global float *distance,
-	const uint offset,
+	const uint leftOffset,
+	const uint rightOffset,
 	const float fromLongitudeX,
 	const float fromLatitudeY,
 	const float toLongitudeX,
@@ -138,7 +152,19 @@ __kernel void haversine2dPointLineDistance(
 	// earth volumetric mean radius in meter
 	float radius = 6371000;
 
-	int tid = get_global_id(0) + offset;
+	int tid = get_global_id(0);
+
+	if (tid < leftOffset) {
+		distance[tid] = -1;
+		return;
+	}
+	
+	if (tid > rightOffset) {
+		distance[tid] = -1;
+		return;
+	}
+	
+
 	
 	float b12 = orthodromeBearing(fromLongitudeX, fromLatitudeY, toLongitudeX, toLatitudeY );
 	float b13 = orthodromeBearing(fromLongitudeX, fromLatitudeY, longitudeX[tid], latitudeY[tid] );
@@ -172,16 +198,81 @@ __kernel void maximumWithPositionAndOffsetFloat(
 	const uint rightOffset,
 	const uint pass
 ) {
-	uint left = (1 << (pass + 1)) * get_global_id(0) + leftOffset; 
+	uint left = (1 << (pass + 1)) * get_global_id(0) + leftOffset;
 	uint right = left + (1 << pass);
-	uint length = rightOffset - leftOffset + 1;
-	
-	if (right < rightOffset && left < rightOffset) {
+	if (right <= rightOffset && left < rightOffset) {
+
+		// HostCode
+		// 	long globalWorkSize = Integers.nearestBinary(rightOffset - leftOffset +1 );
+		// 	for (int pass = 0; globalWorkSize > 1; pass++) {
+		// 		clSetKernelArg(kernel, 3, Sizeof.cl_uint,
+		// 				Pointer.to(new int[] { pass }));
+		// 		clEnqueueNDRangeKernel(queue, kernel, 1, null, new long[] {globalWorkSize >>= 1},
+		// 				localWorkSize, 0, null, null);
+		// 		clEnqueueBarrier(queue);
+		// 	}
+
+		// Example:
+
+		// Input:
+		//	float max = 90; leftOffset = 2, rightOffset = 3
+		//	float[] floats = { 70f, 60f, max, 40f, 50f, 80f };
+		
+		// pass = 0
+		// globalWorkSize = 2
+		// io = { 70, 60, 90, 40, 50, 80 }
+		// pass = 0, globalWorkSize = 2
+		//
+		//	left  = (1 << (pass + 1)) * globalId + leftOfsset;
+		//	              = (1 << (0 + 1)) * globalId;
+		// 	              = 2 * globalId + 2 ; with globalId in {0..1}
+		//	=> left is {2, 4}
+		//	right = left + (1 << pass);
+		//	              = {2, 4} + (1 << 0);
+		//	              = {2, 4} + 1;
+		//	=> right is {3, 5}
+		//
+		// 	left:2, right:3
+		//			=> 90 > 40
+		//			=> io[0] = io[1] = 60
+		//			   io[1] = right = 1
+		// 	left:2, right:3
+		//			=> 10 < 40
+		//			=> io[3] = left = 2
+		// 	left:4, right:5
+		//			=> 50 < 80
+		//			=> io[5] = left = 4
+		// 	left:6, right:7 is out of bound => ignore
+		//
+		// pass = 1
+		// globalWorkSize = 2
+		// io = { 60, 1, 10, 2, 50, 4 };
+		//
+		// left  = (1 << (pass + 1)) * globalId;
+		//       = 4 * globalId
+		//       = {0, 4}
+		// right = left + (2);
+		//       = 4 * globalId + 2
+		//       = {2, 6}
+		// 	left:0, right:2
+		//			=> 60 > 10
+		//			=> io[0] = 10
+		//			=> io[1]
+
+		// 	left:0, right:1
+
+		//
+		// pass = 2
+		// globalWorkSize = 1
+		// io = { 60, 1, 10, 2, 50, 4 };
+
+		//
 		if ( ((__global float*)io)[right] > ((__global float*)io)[left] ) {
 			((__global float*)io)[left] = ((__global float*)io)[right];
-			((__global float*)io)[left+1] = (pass == 0 || right == length - 1) ? right : io[right+1];
+			((__global float*)io)[left+1] = (pass == 0 || right == rightOffset - leftOffset - 1) ? right : io[right+1];
 		} else {
 			((__global float*)io)[left+1] = (pass == 0) ? left : io[left+1];
 		}
+
 	}
 }

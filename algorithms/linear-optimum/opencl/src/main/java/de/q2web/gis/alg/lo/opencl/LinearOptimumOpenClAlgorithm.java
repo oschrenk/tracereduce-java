@@ -201,6 +201,7 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 					edgeCount++;
 				}
 			}
+			System.out.println("here");
 		}
 
 		// connect the prior to last edge with last
@@ -294,7 +295,6 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 		final int length = rightOffset - leftOffset + 1;
 		clEnqueueNDRangeKernel(queue, distanceKernel, 1, null,
 				new long[] { length }, DEFAULT_LOCAL_WORKSIZE, 0, null, null);
-		clEnqueueBarrier(queue);
 
 		// 2. get maximum distance
 		clSetKernelArg(maximumKernel, 1, Sizeof.cl_uint,
@@ -309,7 +309,6 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 			clEnqueueNDRangeKernel(queue, maximumKernel, 1, null,
 					new long[] { globalWorkSize >>= 1 },
 					DEFAULT_LOCAL_WORKSIZE, 0, null, null);
-			clEnqueueBarrier(queue);
 		}
 
 		final float[] values = new float[2];
@@ -318,7 +317,6 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 				null);
 
 		// make sure all read operations are done before rerunning
-		clEnqueueBarrier(queue);
 
 		final float maximumDistance = values[0];
 

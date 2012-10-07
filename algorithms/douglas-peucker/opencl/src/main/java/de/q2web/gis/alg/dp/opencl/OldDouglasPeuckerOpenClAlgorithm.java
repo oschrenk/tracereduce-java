@@ -17,6 +17,7 @@ import static org.jocl.CL.clReleaseProgram;
 import static org.jocl.CL.clSetKernelArg;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -47,12 +48,12 @@ import de.q2web.jocl.util.Resources;
  * 
  * @author Oliver Schrenk <oliver.schrenk@q2web.de>
  */
-public class DouglasPeuckerOpenClAlgorithm implements Algorithm {
+public class OldDouglasPeuckerOpenClAlgorithm implements Algorithm {
 
 	private static final long[] DEFAULT_LOCAL_WORKSIZE = new long[] { 1 };
 
 	static final String SOURCE = Resources
-			.convertStreamToString(DouglasPeuckerOpenClAlgorithm.class
+			.convertStreamToString(OldDouglasPeuckerOpenClAlgorithm.class
 					.getResourceAsStream("douglasPeucker.cl"));
 
 	public static final String KERNEL_CROSSTRACK_EUCLIDEAN = "euclidean2dPointLineDistance";
@@ -79,10 +80,10 @@ public class DouglasPeuckerOpenClAlgorithm implements Algorithm {
 
 	/**
 	 * Instantiates a new douglas peucker algorithm.
+	 * @param distance 
 	 * 
 	 */
-	public DouglasPeuckerOpenClAlgorithm(Distance distance,
-			final String crossTrackMetric) {
+	public OldDouglasPeuckerOpenClAlgorithm(Distance distance, final String crossTrackMetric) {
 		this.distance = distance;
 		this.crossTrackMetric = crossTrackMetric;
 
@@ -201,19 +202,8 @@ public class DouglasPeuckerOpenClAlgorithm implements Algorithm {
 			final float fromX, final float fromY, final float toX,
 			final float toY) {
 
-		if (leftOffset == rightOffset) {
-			Point p = new Point(xCoordinates[leftOffset],
-					yCoordinates[leftOffset]);
-			Point a = new Point(fromX, fromY);
-			Point b = new Point(toX, toY);
-			double singleDistance = distance.distance(p, a, b);
-
-			if (singleDistance > epsilon) {
-				knots.add(leftOffset);
-			}
-			return;
-		}
-
+		//System.out.println("computing distance with " + crossTrackMetric);
+		
 		// 1. compute distances
 		clSetKernelArg(distanceKernel, 3, Sizeof.cl_uint,
 				Pointer.to(new int[] { leftOffset }));
@@ -232,49 +222,72 @@ public class DouglasPeuckerOpenClAlgorithm implements Algorithm {
 				new long[] { length }, DEFAULT_LOCAL_WORKSIZE, 0, null, null);
 		clEnqueueBarrier(queue);
 
-		// 2. get maximum distance
-		clSetKernelArg(maximumKernel, 1, Sizeof.cl_uint,
-				Pointer.to(new int[] { leftOffset }));
-		clSetKernelArg(maximumKernel, 2, Sizeof.cl_uint,
-				Pointer.to(new int[] { rightOffset }));
-
-		long globalWorkSize = Integers.nextBinary(rightOffset - leftOffset + 1);
-		for (int pass = 0; globalWorkSize > 1; pass++) {
-
-			clSetKernelArg(maximumKernel, 3, Sizeof.cl_uint,
-					Pointer.to(new int[] { pass }));
-			clEnqueueNDRangeKernel(queue, maximumKernel, 1, null,
-					new long[] { globalWorkSize }, DEFAULT_LOCAL_WORKSIZE, 0,
-					null, null);
-			clEnqueueBarrier(queue);
-			globalWorkSize = globalWorkSize >> 1;
-		}
-
-		final float[] values = new float[2];
-		clEnqueueReadBuffer(queue, memObject[2], CL_TRUE, Sizeof.cl_float
-				* leftOffset, Sizeof.cl_float * 2, Pointer.to(values), 0, null,
+		final float[] distance = new float[length];
+		clEnqueueReadBuffer(queue, memObject[2], CL_TRUE, 0,
+				Sizeof.cl_float * length, Pointer.to(distance), 0, null,
 				null);
+		int positionOfMaximum = de.q2web.jocl.util.Arrays
+				.positionOfMaximum(distance);
+		
+//		// 2. get maximum distance
+//		clSetKernelArg(maximumKernel, 1, Sizeof.cl_uint,
+//				Pointer.to(new int[] { leftOffset }));
+//		clSetKernelArg(maximumKernel, 2, Sizeof.cl_uint,
+//				Pointer.to(new int[] { rightOffset }));
 
-		// make sure all read operations are done before rerunning
-		clEnqueueBarrier(queue);
+		
+//		clEnqueueReadBuffer(queue, memObject[2], CL_TRUE, 0,
+//				Sizeof.cl_float * length, Pointer.to(distance), 0, null,
+//				null);
+//
+//		System.out.println(Arrays.toString(distance));
+//		
+//		long globalWorkSize = Integers.nextBinary(rightOffset-leftOffset +1);
+//		for (int pass = 0; globalWorkSize > 1; pass++) {
+//			
+//			clSetKernelArg(maximumKernel, 3, Sizeof.cl_uint,
+//					Pointer.to(new int[] { pass }));
+//			clEnqueueNDRangeKernel(queue, maximumKernel, 1, null,
+//					new long[] { globalWorkSize  },
+//					DEFAULT_LOCAL_WORKSIZE, 0, null, null);
+//			clEnqueueBarrier(queue);
+//			globalWorkSize = globalWorkSize >> 1;
+//			
+//			clEnqueueReadBuffer(queue, memObject[2], CL_TRUE, 0,
+//					Sizeof.cl_float * length, Pointer.to(distance), 0, null,
+//					null);
+//
+//			System.out.println(Arrays.toString(distance));
+//		}
 
-		int positionOfMaximum = (int) values[1];
+//		clEnqueueReadBuffer(queue, memObject[2], CL_TRUE, 0,
+//				Sizeof.cl_float * length, Pointer.to(distance), 0, null,
+//				null);
 
-		if (values[0] > epsilon && positionOfMaximum > 0) {
-			// final int position = (int) values[1];
+		//System.out.println(Arrays.toString(distance));
+
+		
+		
+//		final float[] values = new float[2];
+//		clEnqueueReadBuffer(queue, memObject[2], CL_TRUE, Sizeof.cl_float
+//				* leftOffset, Sizeof.cl_float * 2, Pointer.to(values), 0, null,
+//				null);
+//
+//		// make sure all read operations are done before rerunning
+//		clEnqueueBarrier(queue);
+
+		if ( positionOfMaximum > 0 && distance[positionOfMaximum] > epsilon) {
+//			final int position = (int) values[1];
 			knots.add(positionOfMaximum);
-
 			if (positionOfMaximum > leftOffset) {
 				run(leftOffset, positionOfMaximum - 1, length, fromX, fromY,
-						xCoordinates[positionOfMaximum],
-						yCoordinates[positionOfMaximum]);
+						xCoordinates[positionOfMaximum], yCoordinates[positionOfMaximum]);
 			}
 			if (positionOfMaximum < rightOffset) {
-				run(positionOfMaximum + 1, rightOffset, length,
-						xCoordinates[positionOfMaximum],
+				run(positionOfMaximum + 1, rightOffset, length, xCoordinates[positionOfMaximum],
 						yCoordinates[positionOfMaximum], toX, toY);
 			}
-
+			
 		}
 	}
 }

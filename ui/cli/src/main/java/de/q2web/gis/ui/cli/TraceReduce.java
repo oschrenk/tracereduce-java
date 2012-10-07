@@ -103,8 +103,11 @@ public class TraceReduce {
 			System.out.println(String.format("Algorithm took %s",
 					Duration.of(algorithmDuration)));
 
-			LOGGER.info("{};{};{};{}", input, trace.size(),
-					simplifiedTrace.size(),
+			float compression = simplifiedTrace.size() / trace.size();
+			float savings = 1 - compression;
+
+			LOGGER.info("{};{};{};{};{}", trace.size(), simplifiedTrace.size(),
+					compression, savings,
 					Long.toString(algorithmWorkUnit.getElapsedMicros()));
 
 			System.out.println(String.format("Output written in %s",
