@@ -103,7 +103,7 @@ public class TraceReduce {
 			System.out.println(String.format("Algorithm took %s",
 					Duration.of(algorithmDuration)));
 
-			float compression = simplifiedTrace.size() / trace.size();
+			float compression = (float)simplifiedTrace.size() / (float)trace.size();
 			float savings = 1 - compression;
 
 			LOGGER.info("{};{};{};{};{}", trace.size(), simplifiedTrace.size(),
