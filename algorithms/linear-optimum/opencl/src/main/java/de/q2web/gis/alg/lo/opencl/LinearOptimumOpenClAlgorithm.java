@@ -188,9 +188,6 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 			edgeCount++;
 
 			for (int lineEndIndex = lineStartIndex + 2; lineEndIndex < length; lineEndIndex++) {
-				// for (int intermediatePointIndex = lineStartIndex + 1;
-				// intermediatePointIndex < lineEndIndex;
-				// intermediatePointIndex++) { //}
 				final float fromX = longitudeXCoordinates[lineStartIndex];
 				final float fromY = latitudeYCoordinates[lineStartIndex];
 				final float toX = longitudeXCoordinates[lineEndIndex];
@@ -315,7 +312,7 @@ public class LinearOptimumOpenClAlgorithm implements Algorithm {
 			clEnqueueBarrier(queue);
 		}
 
-		final float[] values = new float[length];
+		final float[] values = new float[2];
 		clEnqueueReadBuffer(queue, memObject[2], CL_TRUE, Sizeof.cl_float
 				* leftOffset, Sizeof.cl_float * 2, Pointer.to(values), 0, null,
 				null);

@@ -42,7 +42,7 @@ public class StartupArguments {
 	private double epsilon;
 
 	/** The output writer. */
-	@Parameter(names = { "-o", "--output-file" }, description = "Path to optional output file", converter = TraceWriterConverter.class)
+	@Parameter(names = { "-o", "--output	" }, description = "Path to optional output file", converter = TraceWriterConverter.class)
 	private final Writer outputWriter = DEFAULT_OUTPUT_WRITER;
 
 	/** The timed. */
@@ -54,7 +54,7 @@ public class StartupArguments {
 	private final String algorithm = null;
 
 	/** The distance. */
-	@Parameter(names = { "-g", "--distance" }, description = "Distance for metrics", validateWith = DistanceValidator.class, converter = DistanceConverter.class)
+	@Parameter(names = { "-m", "--metric" }, description = "Distance metric", validateWith = DistanceValidator.class, converter = DistanceConverter.class)
 	private final Distance distance = DEFAULT_DISTANCE;
 
 	/** The dimensions. */

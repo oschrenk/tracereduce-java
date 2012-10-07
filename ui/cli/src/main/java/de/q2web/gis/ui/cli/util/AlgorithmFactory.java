@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.q2web.gis.alg.cs.opencl.CubicSplinesOpenClAlgorithm;
+import de.q2web.gis.alg.cs.opencl.CubicSplinesOpenClAlgorithmTest;
 import de.q2web.gis.alg.cs.ref.CubicSplinesReferenceAlgorithm;
 import de.q2web.gis.alg.dp.DouglasPeuckerReferenceAlgorithm;
 import de.q2web.gis.alg.dp.opencl.DouglasPeuckerOpenClAlgorithm;

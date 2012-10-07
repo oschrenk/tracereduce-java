@@ -38,22 +38,12 @@ public class BatchIntegrationTest {
 
 	private static final int DEFAULT_EPSILON = 10;
 
-	private static final String TRACES_HIGHWAY = System
+	private static final String TRACES_CURRENT = System
 			.getProperty("user.home")
 			+ File.separator
 			+ "data"
-			+ File.separator + "highway";
-	private static final String TRACES_URBAN = System.getProperty("user.home")
-			+ File.separator + "data" + File.separator + "urban";
-
-	private static final File[] DIRECTORIES = new File[2];
-
-	@Before
-	public void setUp() throws Exception {
-
-		DIRECTORIES[0] = new File(TRACES_HIGHWAY);
-		DIRECTORIES[1] = new File(TRACES_URBAN);
-	}
+			+ File.separator + "current";
+	private static final File TEST_DIRECTORY_CURRENT = new File(TRACES_CURRENT);
 
 	@Test
 	public void testDouglasPeuckerReference() throws IOException {
@@ -88,26 +78,24 @@ public class BatchIntegrationTest {
 		int filesTested = 0;
 		Stopwatch stopwatch = new Stopwatch();
 		stopwatch.start();
-		for (File dir : DIRECTORIES) {
-			LOGGER.info("#{}, {} with epsilon {}", dir, algorithm, epsilon);
-			LOGGER.info("#file, number of points, number of reduced points, time in ms");
+		LOGGER.info("#{}, {} with epsilon {}", TEST_DIRECTORY_CURRENT, algorithm, epsilon);
 
-			File[] csvFiles = dir.listFiles(filenameFilter);
-			for (File csvFile : csvFiles) {
+		File[] csvFiles = TEST_DIRECTORY_CURRENT.listFiles(filenameFilter);
+		for (File csvFile : csvFiles) {
 
-				String base = getNameWithoutExtension(csvFile.getName());
-				String extension = ".kml";
+			String base = getNameWithoutExtension(csvFile.getName());
+			String extension = ".kml";
 
-				File outputFile = new File(OUTPUT_DIRECTORY, base + extension);
+			File outputFile = new File(OUTPUT_DIRECTORY, base + extension);
 
-				final String[] args = new String[] { "-i",
-						csvFile.getCanonicalPath(), "-e",
-						Float.toString(epsilon), "-a", algorithm, "-d",
-						TWO_DIM, "-o", outputFile.getAbsolutePath() };
-				CommandLine.main(args, BATCH_MODE);
-				filesTested++;
-			}
+			final String[] args = new String[] { "-i",
+					csvFile.getCanonicalPath(), "-e", Float.toString(epsilon),
+					"-a", algorithm, "-d", TWO_DIM, "-o",
+					outputFile.getAbsolutePath() };
+			CommandLine.main(args, BATCH_MODE);
+			filesTested++;
 		}
+
 		stopwatch.stop();
 		long elapsedTime = stopwatch.elapsedTime(TimeUnit.NANOSECONDS);
 		System.out.println(String.format("Tested %s files in %s", filesTested,

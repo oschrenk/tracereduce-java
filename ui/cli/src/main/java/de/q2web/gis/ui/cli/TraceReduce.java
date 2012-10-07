@@ -105,7 +105,7 @@ public class TraceReduce {
 
 			LOGGER.info("{};{};{};{}", input, trace.size(),
 					simplifiedTrace.size(),
-					Long.toString(algorithmWorkUnit.getElapsedMillis()));
+					Long.toString(algorithmWorkUnit.getElapsedMicros()));
 
 			System.out.println(String.format("Output written in %s",
 					Duration.of(traceWriterDuration)));
