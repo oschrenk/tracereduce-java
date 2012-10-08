@@ -2,6 +2,7 @@ package de.q2web.gis.geom;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.q2web.gis.core.api.Distance;
@@ -78,6 +79,7 @@ public class SphericalDistanceTest {
 
 	}
 
+	@Ignore
 	@Test
 	// FIXME the reference uses haversine distance
 	// therefore comparison not applicable
