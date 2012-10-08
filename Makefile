@@ -1,6 +1,6 @@
 .PHONY: algorithms bom core io timer ui clean
 all: timer bom core io  algorithms  ui
-skipTests: algorithmsSkipTests coreSkipTests ioSkipTests timerSkipTests uiSkipTests
+skipTests: coreSkipTests algorithmsSkipTests  ioSkipTests timerSkipTests uiSkipTests
 
 bom:
 	cd bom && mvn clean install
