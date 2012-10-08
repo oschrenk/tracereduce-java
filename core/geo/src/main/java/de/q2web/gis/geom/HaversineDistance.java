@@ -1,4 +1,4 @@
-			package de.q2web.gis.geom;
+package de.q2web.gis.geom;
 
 import de.q2web.gis.core.api.Distance;
 import de.q2web.gis.core.api.Point;
@@ -30,7 +30,7 @@ public class HaversineDistance implements Distance {
 	 */
 	@Override
 	public double distance(final Point from, final Point to) {
-		throw new IllegalArgumentException("Not yet implemented");
+		return haversineDistance(from, to);
 	}
 
 	/*
