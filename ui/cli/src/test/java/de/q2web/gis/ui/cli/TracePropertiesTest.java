@@ -5,43 +5,27 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
+import de.q2web.gis.core.api.Distance;
 import de.q2web.gis.core.api.Point;
+import de.q2web.gis.geom.HaversineDistance;
 import de.q2web.gis.io.api.TraceReader;
 import de.q2web.gis.io.csv.CsvTraceReader;
 
 public class TracePropertiesTest {
 
 	private static final int DIM = 2;
-	private static final String TRACES_HIGHWAY = System
+	private static final String TRACES_CURRENT = System
 			.getProperty("user.home")
 			+ File.separator
 			+ "data"
-			+ File.separator + "highway";
-	private static final String TRACES_URBAN = System.getProperty("user.home")
-			+ File.separator + "data" + File.separator + "urban";
-
-	private static final File DIR_HIGHWAY = new File(TRACES_HIGHWAY);
-	private static final File DIR_URBAN = new File(TRACES_URBAN);
-
-	@Ignore
-	@Test
-	public void highwayTraces() {
-		testDirectory(DIR_HIGHWAY);
-	}
-
-	@Ignore
-	@Test
-	public void urbanTraces() {
-		testDirectory(DIR_URBAN);
-	}
+			+ File.separator + "urban_64kb+redux";
+	private static final File TEST_DIRECTORY_CURRENT = new File(TRACES_CURRENT);
 
 	@Test
-	public void testAll() {
-		testDirectory(DIR_HIGHWAY);
-		testDirectory(DIR_URBAN);
+	public void test() {
+		testDirectory(TEST_DIRECTORY_CURRENT);
 	}
 
 	public void testDirectory(final File dir) {
@@ -72,7 +56,12 @@ public class TracePropertiesTest {
 		double sumDeltaLatitude = 0;
 
 		long sumPoints = 0;
+		double minLength = Double.POSITIVE_INFINITY;
+		double maxLength = Double.NEGATIVE_INFINITY;
+		double sumLength = 0;
 		long files = 0;
+
+		Distance distance = new HaversineDistance();
 
 		File[] csvFiles = dir.listFiles(fileFilter);
 		for (File csvFile : csvFiles) {
@@ -88,6 +77,19 @@ public class TracePropertiesTest {
 				double traceMaxLatitude = Double.MIN_VALUE;
 				double traceDeltaLongitude = 0;
 				double traceDeltaLatitude = 0;
+
+				double length = distance.distance(trace.get(0),
+						trace.get(size - 1));
+				sumLength += length;
+
+				if (length < minLength) {
+					minLength = length;
+				}
+
+				if (length > maxLength) {
+					maxLength = length;
+					System.out.println(csvFile);
+				}
 
 				for (Point point : trace) {
 
@@ -155,6 +157,10 @@ public class TracePropertiesTest {
 		System.out.println("Max " + maxPoints);
 		System.out.println("Cnt " + files);
 		System.out.println("Avg " + sumPoints / files);
+
+		System.out.println("Avg Length " + sumLength / files);
+		System.out.println("Min Length " + minLength);
+		System.out.println("Max Length  " + maxLength);
 
 		System.out.println("MinLon " + minLongitude);
 		System.out.println("MaxLon " + maxLongitude);
